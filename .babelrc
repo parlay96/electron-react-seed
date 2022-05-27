@@ -1,0 +1,47 @@
+{
+  "comments": false, // 不产生注释
+  "env": {
+    "main": {
+      "presets": [
+        [
+          "@babel/preset-env",
+          {
+            "targets": {
+              "node": 7
+            }
+          }
+        ]
+      ],
+      "plugins": []
+    },
+    "renderer": {
+      "presets": [
+        "@babel/preset-react",
+        [
+          "@babel/preset-env",
+          {
+            "modules": false
+          }
+        ]
+      ],
+      "plugins": []
+    },
+    "web": {
+      "presets": [
+        "@babel/preset-react",
+        [
+          "@babel/preset-env",
+          {
+            "modules": false
+          }
+        ],
+        "@babel/preset-typescript"
+      ],
+      "plugins":[]
+    }
+  },
+  "plugins": [
+    "@babel/transform-runtime",
+    "@babel/plugin-syntax-dynamic-import"
+  ]
+}
