@@ -1,8 +1,8 @@
 /*
  * @Author: penglei
  * @Date: 2022-05-26 00:09:33
- * @LastEditors: penglei
- * @LastEditTime: 2022-05-27 11:53:10
+ * @LastEditors: pl
+ * @LastEditTime: 2022-05-27 16:23:46
  * @Description: 关于环境的配置，和主程序配置
  */
 module.exports = {
@@ -16,5 +16,5 @@ module.exports = {
   },
   UseStartupChart: false, // 是否需要启动页面
   IsUseSysTitle: true, // false代表无边框窗口
-  IsMaximize: true, // 是否需要初始化最大窗口模式
+  IsMaximize: false, // 是否需要初始化最大窗口模式
 }
