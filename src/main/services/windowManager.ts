@@ -1,8 +1,8 @@
 /*
  * @Author: penglei
  * @Date: 2022-05-26 00:09:33
- * @LastEditors: penglei
- * @LastEditTime: 2022-05-27 11:50:00
+ * @LastEditors: pl
+ * @LastEditTime: 2022-05-28 16:41:56
  * @Description: 主进程窗口
  */
 import { platform } from 'os'

@@ -2,8 +2,8 @@
 /*
  * @Author: penglei
  * @Date: 2022-05-25 20:47:23
- * @LastEditors: penglei
- * @LastEditTime: 2022-05-27 11:41:23
+ * @LastEditors: pl
+ * @LastEditTime: 2022-05-28 19:01:29
  * @Description: 本地运行脚本
  */
 
@@ -33,6 +33,23 @@ let manualRestart = false
 // 热重载
 let hotMiddleware
 
+const devServerOptions = {
+  client: {
+    logging: 'info',
+    overlay: true, // 浏览器显示错误
+    progress: true, // 浏览器显示进度
+  },
+  historyApiFallback: true,
+  hot: false, // 热更新 已经存在webpackHotMiddleware 不需要了
+  // magicHtml: true,
+  open: false, // 自动打开浏览器
+  host: config.dev.host,
+  port: config.dev.port, // 端口号
+  compress: true, // 开启gzip压缩
+  static: false, // 静态资源的本地路径
+  proxy: config.dev.proxy // 配置代理
+}
+
 // 执行渲染进程
 function startRenderer() {
   return new Promise((resolve, reject) => {
@@ -52,24 +69,18 @@ function startRenderer() {
         // https://webpack.docschina.org/api/compiler-hooks/#afteremit
         // 输出到 output 目录之后执行钩子
         compiler.hooks.afterEmit.tap('afterEmit', (stats) => {
+          logStats('渲染进程正在编译')
           // 发送通知出发webpack 热模块重新加载。
           hotMiddleware.publish({
-            action: 'reload'
+            action: 'compiling'
           })
         })
-        // compilation 创建之后执行。
-        compiler.hooks.done.tap('done', stats => {
-          logStats('渲染进程正在编译', stats)
-        })
         // 创建服务
-        const server = new WebpackDevServer(
-          { port },
-          compiler
-        )
+        const server = new WebpackDevServer(devServerOptions, compiler)
         // 挂载端口,开发环境很重要
         process.env.PORT = port
         // 启动服务
-        server.start().then(() => {
+        server.startCallback(() => {
           resolve()
         })
       }
@@ -84,7 +95,6 @@ function startMain() {
     const compiler = webpack(mainConfig)
     // watchRun在监听模式下，一个新的 compilation 触发之后，但在 compilation 实际开始之前执行
     compiler.hooks.watchRun.tapAsync('watch-run', (compilation, done) => {
-      logStats(`主进程`, chalk.white.bold(`正在处理资源文件...'`))
       // 热重载渲染进程
       hotMiddleware.publish({
         action: 'compiling'
@@ -157,9 +167,14 @@ function electronLog(data, color) {
 async function init() {
   console.log(chalk.blue.bgRed(` 准备编译...`))
   try {
-    await startRenderer()
-    await startMain()
-    startElectron()
+    // 如果是WEB，直接拍web
+    if (process.env.BUILD_TARGET === 'web') {
+      await startRenderer()
+    } else {
+      await startRenderer()
+      await startMain()
+      startElectron()
+    }
   } catch (error) {
     console.error(error)
   }

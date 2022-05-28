@@ -1,17 +1,20 @@
 /*
  * @Author: penglei
  * @Date: 2022-05-25 20:47:23
- * @LastEditors: penglei
- * @LastEditTime: 2022-05-27 11:46:27
+ * @LastEditors: pl
+ * @LastEditTime: 2022-05-28 19:01:48
  * @Description: 渲染进程配置
  */
 const path = require('path')
 const webpack = require('webpack')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const MiniCssExtractPlugin = require("mini-css-extract-plugin")
+const TerserPlugin = require('terser-webpack-plugin')
 const WebpackBar = require('webpackbar')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const { ModuleFederationPlugin } = require('webpack').container
 
+const deps = require('../package.json').dependencies
 const scssLoader = require('./scss-loader')
 const utils = require('./utils')
 
@@ -32,13 +35,11 @@ let rendererConfig = {
     alias: {
       '@': utils.resolve('src/renderer'),
     },
-    extensions: ['.tsx', ".js", '.ts', '.json', '.less', '.css', '.node']
+    extensions: ['.tsx', ".js", '.ts', '.json', '.scss', '.css']
   },
-  // https://webpack.docschina.org/configuration/target/
   target: IsWeb ? 'web' : 'electron-renderer',
   externals: [],
   module: {
-    // https://webpack.docschina.org/configuration/module/#rulegenerator
     rules: [
       ...scssLoader,
       {
@@ -76,7 +77,6 @@ let rendererConfig = {
       }
     ]
   },
-  // https://webpack.docschina.org/configuration/node/#node__filename
   node: {
     __dirname: process.env.NODE_ENV !== 'production',
     __filename: process.env.NODE_ENV !== 'production'
@@ -97,13 +97,31 @@ let rendererConfig = {
         removeComments: true,//移除注释
         collapseWhitespace: true, //合并多余空格
         removeAttributeQuotes: true//移除分号
-        // 更多选项请参见:
-        // https://github.com/kangax/html-minifier#options-quick-reference
       }
     }),
     new WebpackBar({
       name: '正在编译，请稍等...',
       color: 'red'
+    }),
+    new ModuleFederationPlugin({
+      name: 'electron',
+      filename: 'remoteEntry.js',
+      remotes: {
+        pc: `pc@http://localhost:3000/remoteEntry.js`,
+      },
+      shared: [
+        {
+          ...deps,
+          react: {
+            singleton: true,
+            requiredVersion: deps.react,
+          },
+          'react-dom': {
+            singleton: true,
+            requiredVersion: deps['react-dom'],
+          },
+        },
+      ],
     }),
     new webpack.NoEmitOnErrorsPlugin()
   ]
@@ -124,7 +142,19 @@ if (process.env.NODE_ENV === 'production') {
     }),
   )
   rendererConfig.optimization = {
-    minimizer: []
+    minimize: true, // 插件压缩
+    minimizer: [
+      new TerserPlugin({ // 压缩js
+        test: /\.js($|\?)/i,
+        terserOptions: {
+          compress: {
+            drop_console: true, // 去掉console
+            drop_debugger: true, // 去掉debugger
+          },
+        },
+        parallel:  true,
+      }),
+    ]
   }
   if (IsWeb) {
     rendererConfig.optimization.splitChunks = {
@@ -152,7 +182,12 @@ if (process.env.NODE_ENV === 'production') {
     rendererConfig.optimization.runtimeChunk = { name: 'runtime' }
   }
 } else {
-  // https://webpack.docschina.org/configuration/devtool/#root
+  rendererConfig.cache = {
+    type: 'filesystem',
+    buildDependencies: {
+      config: [__filename]
+    }
+  },
   rendererConfig.devtool = 'eval-source-map'
 }
 

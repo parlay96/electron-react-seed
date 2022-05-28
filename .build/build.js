@@ -1,8 +1,8 @@
 /*
  * @Author: penglei
  * @Date: 2022-05-25 20:47:23
- * @LastEditors: penglei
- * @LastEditTime: 2022-05-27 11:15:27
+ * @LastEditors: pl
+ * @LastEditTime: 2022-05-28 10:15:09
  * @Description: 打包脚本
  */
 // 当前环境
@@ -96,7 +96,7 @@ async function web() {
       chunks: false,
       colors: true
     }))
-    console.log(`${chalk.yellow.bgRed('---------------编译完成---------------')}\n`)
+    console.log(`${chalk.yellow.bgRed('---------------打包完成---------------')}\n`)
     process.exit()
   })
 }

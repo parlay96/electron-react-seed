@@ -1,14 +1,15 @@
 /*
  * @Author: penglei
  * @Date: 2022-05-25 20:47:23
- * @LastEditors: penglei
- * @LastEditTime: 2022-05-26 19:47:13
+ * @LastEditors: pl
+ * @LastEditTime: 2022-05-28 11:40:45
  * @Description: 主进程配置
  */
 
 const path = require('path')
 const webpack = require('webpack')
 const utils = require('./utils')
+const TerserPlugin = require('terser-webpack-plugin')
 const { dependencies } = require('../package.json')
 
 
@@ -27,9 +28,8 @@ let mainConfig = {
     alias: {
       '@config': utils.resolve('config'),
     },
-    extensions: ['.ts', '.js', '.node']
+    extensions: ['.ts', '.js']
   },
-  // https://webpack.docschina.org/configuration/target/
   target: 'electron-main',
   externals: [
     ...Object.keys(dependencies || {})
@@ -42,17 +42,27 @@ let mainConfig = {
         options: {
           loader: 'ts'
         }
-      },
-      {
-        test: /\.node$/,
-        use: 'node-loader'
       }
     ]
   },
-  // https://webpack.docschina.org/configuration/node/#node__filename
   node: {
     __dirname: process.env.NODE_ENV !== 'production',
     __filename: process.env.NODE_ENV !== 'production'
+  },
+  optimization: {
+    minimize: true, // 插件压缩
+    minimizer: [
+      new TerserPlugin({ // 压缩js
+        test: /\.js($|\?)/i,
+        terserOptions: {
+          compress: {
+            drop_console: true, // 去掉console
+            drop_debugger: true, // 去掉debugger
+          },
+        },
+        parallel:  true,
+      }),
+    ]
   },
   plugins: []
 }

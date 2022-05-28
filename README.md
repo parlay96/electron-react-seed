@@ -1,14 +1,12 @@
 <!--
  * @Author: penglei
  * @Date: 2022-05-25 20:47:23
- * @LastEditors: penglei
- * @LastEditTime: 2022-05-26 19:50:45
+ * @LastEditors: pl
+ * @LastEditTime: 2022-05-28 11:59:58
  * @Description: 
 -->
 
-# electron-react-seed
-
-## 项目路径与命名
+## 工程云electron
 
 ```
 .build  // 打包配置
@@ -21,7 +19,7 @@ src // 开发目录
 static 静态目录
 ```
 
-##  使用方法
+##  使用方法 node版本控制在不能超过16.15.0
 
 ``` bash
 npm i or yarn

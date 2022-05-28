@@ -1,8 +1,8 @@
 /*
  * @Author: penglei
  * @Date: 2022-05-26 16:21:27
- * @LastEditors: penglei
- * @LastEditTime: 2022-05-27 11:42:50
+ * @LastEditors: pl
+ * @LastEditTime: 2022-05-28 18:58:26
  * @Description:
  */
 // https://www.npmjs.com/package/cfonts
@@ -35,21 +35,24 @@ exports.greeting = async () => {
 
 exports.logStats = (proc, data) => {
   let log = ''
+  if (data) {
+      log += chalk.yellow.bold(`┏ ${proc} ${new Array((19 - proc.length) + 1).join('-')}`)
+      log += '\n\n'
 
-  log += chalk.yellow.bold(`┏ ${proc} ${new Array((19 - proc.length) + 1).join('-')}`)
-  log += '\n\n'
-
-  if (typeof data === 'object') {
-    data.toString({
-      colors: true,
-      chunks: false
-    }).split(/\r?\n/).forEach(line => {
-      log += '  ' + line + '\n'
-    })
-  } else if(data) {
-    log += `  ${data}\n`
+      if (typeof data === 'object') {
+        data.toString({
+          colors: true,
+          chunks: false
+        }).split(/\r?\n/).forEach(line => {
+          log += '  ' + line + '\n'
+        })
+      } else if(data) {
+        log += `  ${data}\n`
+      }
+      log += '\n' + chalk.yellow.bold(`┗ ${new Array(28 + 1).join('-')}`) + '\n'
+  } else {
+    log = chalk.yellow.bold(`┏ ${proc} ${new Array((19 - proc.length) + 1).join('-')}`)
+    log += '\n\n'
   }
-
-  log += '\n' + chalk.yellow.bold(`┗ ${new Array(28 + 1).join('-')}`) + '\n'
   console.log(log)
 }
