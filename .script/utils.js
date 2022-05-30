@@ -2,11 +2,12 @@
  * @Author: penglei
  * @Date: 2022-05-26 16:21:27
  * @LastEditors: pl
- * @LastEditTime: 2022-05-28 18:58:26
+ * @LastEditTime: 2022-05-30 15:59:59
  * @Description:
  */
 // https://www.npmjs.com/package/cfonts
 const { say } = require('cfonts')
+const del = require('del')
 const chalk = require('chalk')
 const path = require('path')
 const config = require('../config')
@@ -55,4 +56,15 @@ exports.logStats = (proc, data) => {
     log += '\n\n'
   }
   console.log(log)
+}
+
+// 删除文件
+exports.clean = async function (BUILD_TARGET) {
+  if (BUILD_TARGET === 'web') {
+    // 删除web目录
+    del.sync(['dist/web'])
+  } else {
+    // 除了web不删除，其他都删除
+    del.sync(['dist/*', '!dist/web'])
+  }
 }

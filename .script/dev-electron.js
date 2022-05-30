@@ -3,12 +3,9 @@
  * @Author: penglei
  * @Date: 2022-05-25 20:47:23
  * @LastEditors: pl
- * @LastEditTime: 2022-05-28 19:01:29
+ * @LastEditTime: 2022-05-30 16:58:09
  * @Description: 本地运行脚本
  */
-
-// 当前环境
-process.env.NODE_ENV = 'development'
 
 const electron = require('electron')
 const chalk = require('chalk')
@@ -17,12 +14,12 @@ const { spawn } = require('child_process')
 const webpack = require('webpack')
 const WebpackDevServer = require('webpack-dev-server')
 const webpackHotMiddleware = require('webpack-hot-middleware')
-const portFinder = require("portfinder")
+const portFinder = require('portfinder')
 
-const { logStats, greeting } = require('./utils')
+const { logStats } = require('./utils')
 const config = require('../config')
-const mainConfig = require('./webpack.main.config')
-const rendererConfig = require('./webpack.renderer.config')
+const mainConfig = require('./main/webapck.dev')
+const rendererConfig = require('./renderer/webapck.dev')
 
 // 过滤监听文件
 const ignoredCatalogue = ['**/.build/*.js', '**/config/*.js', '**/node_modules']
@@ -40,7 +37,7 @@ const devServerOptions = {
     progress: true, // 浏览器显示进度
   },
   historyApiFallback: true,
-  hot: false, // 热更新 已经存在webpackHotMiddleware 不需要了
+  hot: true,
   // magicHtml: true,
   open: false, // 自动打开浏览器
   host: config.dev.host,
@@ -53,7 +50,6 @@ const devServerOptions = {
 // 执行渲染进程
 function startRenderer() {
   return new Promise((resolve, reject) => {
-    rendererConfig.mode = 'development'
     portFinder.basePort = config.dev.port
     // 获取一个可用的端口
     portFinder.getPort((err, port) => {
@@ -91,7 +87,6 @@ function startRenderer() {
 // 主进程
 function startMain() {
   return new Promise((resolve) => {
-    mainConfig.mode = 'development'
     const compiler = webpack(mainConfig)
     // watchRun在监听模式下，一个新的 compilation 触发之后，但在 compilation 实际开始之前执行
     compiler.hooks.watchRun.tapAsync('watch-run', (compilation, done) => {
@@ -167,14 +162,9 @@ function electronLog(data, color) {
 async function init() {
   console.log(chalk.blue.bgRed(` 准备编译...`))
   try {
-    // 如果是WEB，直接拍web
-    if (process.env.BUILD_TARGET === 'web') {
-      await startRenderer()
-    } else {
-      await startRenderer()
-      await startMain()
-      startElectron()
-    }
+    await startRenderer()
+    await startMain()
+    startElectron()
   } catch (error) {
     console.error(error)
   }

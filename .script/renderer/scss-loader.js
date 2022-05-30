@@ -1,13 +1,13 @@
 /*
  * @Author: penglei
  * @Date: 2022-05-26 16:47:30
- * @LastEditors: penglei
- * @LastEditTime: 2022-05-26 19:27:09
+ * @LastEditors: pl
+ * @LastEditTime: 2022-05-30 11:57:27
  * @Description:
  */
 const path = require('path')
-const MiniCssExtractPlugin = require("mini-css-extract-plugin")
-const pathSass = '../src/renderer/assets/styles'
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const pathSass = '../../src/renderer/assets/styles'
 
 module.exports = [
   {
