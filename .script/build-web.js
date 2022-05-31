@@ -2,9 +2,9 @@
  * @Author: pl
  * @Date: 2022-05-30 15:58:45
  * @LastEditors: pl
- * @LastEditTime: 2022-05-30 16:05:25
+ * @LastEditTime: 2022-05-30 18:38:45
  * @Description: file content
- * @FilePath: \yp-electron\.build\build-web.js
+ * @FilePath: \yp-electron\.script\build-web.js
  */
 const webpack = require('webpack')
 const chalk = require('chalk')
@@ -15,7 +15,6 @@ const rendererConfig = require('./renderer/webpack.prod')
 async function web() {
   await greeting()
   await clean('web')
-  rendererConfig.mode = 'production'
   webpack(rendererConfig, (err, stats) => {
     if (err || stats.hasErrors()) console.log(err)
     console.log(stats.toString({

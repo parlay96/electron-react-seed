@@ -85,10 +85,13 @@
     }
   },
   "dependencies": {
+    "@reduxjs/toolkit": "^1.8.2",
     "axios": "^0.27.2",
     "react": "18.1.0",
     "react-dom": "18.1.0",
-    "react-router": "^6.3.0"
+    "react-redux": "^8.0.2",
+    "react-router": "^6.3.0",
+    "react-router-dom": "6"
   },
   "devDependencies": {
     "@babel/core": "^7.2.2",
@@ -111,6 +114,7 @@
     "cfonts": "^2.10.0",
     "copy-webpack-plugin": "^11.0.0",
     "cross-env": "^7.0.3",
+    "cross-spawn": "7.0.3",
     "css-loader": "^6.5.1",
     "del": "^6.1.1",
     "electron": "19.0.0",
