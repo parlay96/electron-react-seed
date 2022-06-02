@@ -1,8 +1,8 @@
 /*
  * @Author: penglei
  * @Date: 2022-05-25 20:47:23
- * @LastEditors: pl
- * @LastEditTime: 2022-05-30 17:06:38
+ * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2022-06-02 10:50:03
  * @Description: 渲染进程配置
  */
 const webpack = require('webpack')
@@ -39,21 +39,21 @@ let rendererConfig = {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
         type: "asset/resource",
         generator: {
-          filename: 'imgs/[name]--[hash].[ext]'
+          filename: utils.assetsPath('imgs/[name]--[hash].[ext]')
         }
       },
       {
         test: /\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/,
         type: "asset/resource",
         generator: {
-          filename: 'media/[name]--[hash].[ext]'
+          filename: utils.assetsPath('media/[name]--[hash].[ext]')
         }
       },
       {
         test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
         type: "asset/resource",
         generator: {
-          filename: 'fonts/[name]--[hash].[ext]'
+          filename: utils.assetsPath('fonts/[name]--[hash].[ext]')
         }
       },
       {
