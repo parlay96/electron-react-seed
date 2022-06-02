@@ -1,8 +1,8 @@
 /*
  * @Author: pl
  * @Date: 2022-05-30 11:05:10
- * @LastEditors: pl
- * @LastEditTime: 2022-05-30 17:06:41
+ * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2022-06-02 11:59:36
  * @Description: file content
  * @FilePath: \yp-electron\.script\renderer\webpack.prod.js
  */
@@ -44,6 +44,12 @@ const optimizationConfig = IsWeb ? {
 
 module.exports = merge(webpackConfig, {
   mode: 'production',
+  output: {
+    publicPath: '/', // 发布路径
+    path: IsWeb ? utils.resolve('dist/web'): utils.resolve('dist/electron'),//输出文件夹
+    filename: utils.assetsPath('js/[name].[chunkhash:8].js'),//输出文件命名规则
+    chunkFilename: utils.assetsPath('js/[id].[chunkhash:8].js'), // 此选项决定了非初始（non-initial）chunk 文件的名称。
+  },
   optimization: {
     minimize: true, // 插件压缩
     minimizer: [

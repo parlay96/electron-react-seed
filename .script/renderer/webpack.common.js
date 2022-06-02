@@ -2,7 +2,7 @@
  * @Author: penglei
  * @Date: 2022-05-25 20:47:23
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2022-06-02 10:50:03
+ * @LastEditTime: 2022-06-02 11:58:50
  * @Description: 渲染进程配置
  */
 const webpack = require('webpack')
@@ -19,11 +19,6 @@ let rendererConfig = {
   infrastructureLogging: { level: 'warn' },
   entry: {
     renderer: utils.resolve('src/renderer/index.tsx')
-  },
-  output: {
-    path: IsWeb ? utils.resolve('dist/web'): utils.resolve('dist/electron'),//输出文件夹
-    filename: utils.assetsPath('js/[name].[chunkhash:8].js'),//输出文件命名规则
-    chunkFilename: utils.assetsPath('js/[id].[chunkhash:8].js'), // 此选项决定了非初始（non-initial）chunk 文件的名称。
   },
   resolve: {
     alias: {
@@ -76,7 +71,7 @@ let rendererConfig = {
   },
   plugins: [
     new MiniCssExtractPlugin({
-      filename: utils.assetsPath('css/[name].[chunkhash:8].css'),
+      filename: 'css/[name].[chunkhash:8].css',
       chunkFilename: utils.assetsPath('css/[id].[chunkhash:8].css')
     }),
     new webpack.DefinePlugin({
