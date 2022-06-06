@@ -1,8 +1,8 @@
 /*
  * @Author: penglei
  * @Date: 2022-05-26 16:47:30
- * @LastEditors: pl
- * @LastEditTime: 2022-05-30 11:57:27
+ * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2022-06-06 14:15:37
  * @Description:
  */
 const path = require('path')
@@ -58,6 +58,7 @@ module.exports = [
         options: {
           sourceMap: true,
           modules: {
+            exportLocalsConvention: "camelCase",
             localIdentName: '[local]_[hash:base64:5]'
           }
         }
@@ -73,9 +74,5 @@ module.exports = [
         }
       }
     ]
-  },
-  {
-    test: /\.css$/,
-    use: [MiniCssExtractPlugin.loader, "css-loader"]
-  },
+  }
 ]
