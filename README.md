@@ -6,7 +6,7 @@
  * @Description: 
 -->
 
-## 工程云electron
+## electron模板
 
 ```
 .build  // 打包配置
