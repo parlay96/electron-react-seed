@@ -2,8 +2,8 @@
 /*
  * @Author: pl
  * @Date: 2022-05-30 09:55:34
- * @LastEditors: pl
- * @LastEditTime: 2022-05-31 10:25:07
+ * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2022-06-21 11:13:47
  * @Description: file content
  * @FilePath: \yp-electron\.script\index.js
  */
@@ -18,7 +18,6 @@ if (argv.includes('--dev') && argv.includes('--electron')) {
     stdio: 'inherit',
     env: {
       ...process.env,
-      BUILD_TARGET: 'electron',
       BABEL_ENV: 'electron',
       NODE_ENV: 'development'
     }
@@ -31,7 +30,6 @@ if (argv.includes('--dev') && argv.includes('--web')) {
     stdio: 'inherit',
     env: {
       ...process.env,
-      BUILD_TARGET: 'web',
       BABEL_ENV: 'web',
       NODE_ENV: 'development'
     }
@@ -48,7 +46,6 @@ if (argv.includes('--build') && argv.includes('--electron')) {
     stdio: 'inherit',
     env: {
       ...process.env,
-      BUILD_TARGET: 'electron',
       BABEL_ENV: 'electron',
       NODE_ENV: 'production'
     }
@@ -69,7 +66,6 @@ if (argv.includes('--build') && argv.includes('--web')) {
     stdio: 'inherit',
     env: {
       ...process.env,
-      BUILD_TARGET: 'web',
       BABEL_ENV: 'web',
       NODE_ENV: 'production'
     }

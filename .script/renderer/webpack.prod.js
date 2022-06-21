@@ -2,7 +2,7 @@
  * @Author: pl
  * @Date: 2022-05-30 11:05:10
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2022-06-02 11:59:36
+ * @LastEditTime: 2022-06-21 11:11:34
  * @Description: file content
  * @FilePath: \yp-electron\.script\renderer\webpack.prod.js
  */
@@ -14,7 +14,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin')
 const utils = require('../utils')
 const webpackConfig = require('./webpack.common')
 
-const IsWeb = process.env.BUILD_TARGET === 'web'
+const IsWeb = process.env.BABEL_ENV === 'web'
 
 const optimizationConfig = IsWeb ? {
   splitChunks: {

@@ -1,8 +1,8 @@
 /*
  * @Author: penglei
  * @Date: 2022-05-26 16:21:27
- * @LastEditors: pl
- * @LastEditTime: 2022-05-30 15:59:59
+ * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2022-06-21 11:13:56
  * @Description:
  */
 // https://www.npmjs.com/package/cfonts
@@ -59,8 +59,8 @@ exports.logStats = (proc, data) => {
 }
 
 // 删除文件
-exports.clean = async function (BUILD_TARGET) {
-  if (BUILD_TARGET === 'web') {
+exports.clean = async function (TARGET) {
+  if (TARGET === 'web') {
     // 删除web目录
     del.sync(['dist/web'])
   } else {

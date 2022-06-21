@@ -41,16 +41,15 @@ const { reducer, actions, name } = createSlice({
 
 // 异步方法
 const asyncFetchByIdStatus = (payload) => async (dispatch, getState) => {
-  console.log(getState())
-  console.log(payload)
+
   const { data } = await new Promise((resolve) => {
     setTimeout(() => {
       resolve({ data: 100 })
     }, 1000)
   })
-  console.log(getState())
+
   dispatch(actions.incremented())
-  console.log(data)
+
 }
 
 export const exampleName = name

@@ -1,7 +1,6 @@
 {
   "name": "@yp_cloud/electron",
   "version": "0.0.1",
-  "author": "pengLei",
   "description": "a electron-react project",
   "main": "./dist/electron/main.js",
   "private": true,
@@ -86,6 +85,7 @@
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.8.2",
+    "antd": "4.20.6",
     "axios": "^0.27.2",
     "react": "18.1.0",
     "react-dom": "18.1.0",

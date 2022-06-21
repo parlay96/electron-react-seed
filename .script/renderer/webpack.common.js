@@ -2,7 +2,7 @@
  * @Author: penglei
  * @Date: 2022-05-25 20:47:23
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2022-06-02 11:58:50
+ * @LastEditTime: 2022-06-21 11:12:07
  * @Description: 渲染进程配置
  */
 const webpack = require('webpack')
@@ -13,7 +13,7 @@ const moduleFederation = require('./module-federation')
 const scssLoader = require('./scss-loader')
 const utils = require('../utils')
 
-const IsWeb = process.env.BUILD_TARGET === 'web'
+const IsWeb = process.env.BABEL_ENV === 'web'
 
 let rendererConfig = {
   infrastructureLogging: { level: 'warn' },

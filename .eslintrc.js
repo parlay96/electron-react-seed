@@ -1,9 +1,9 @@
 /*
  * @Author: penglei
  * @Date: 2022-05-26 10:31:08
- * @LastEditors: penglei
- * @LastEditTime: 2022-05-26 10:39:55
- * @Description: 
+ * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2022-06-20 10:10:01
+ * @Description:
  */
 
 module.exports = {
@@ -46,6 +46,7 @@ module.exports = {
     "no-return-assign": "off",
     "no-inner-declarations": [1, "functions"],
     "no-multi-spaces": 0, // 连续多个不用于缩进的空格通常是错误
-    "no-multiple-empty-lines": ["error", { "max": 2, "maxBOF": 1 }]
+    "no-multiple-empty-lines": ["error", { "max": 2, "maxBOF": 1 }],
+    "@typescript-eslint/no-empty-interface": 0,
   },
 }
