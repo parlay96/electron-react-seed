@@ -3,3 +3,4 @@
  * @Description: file content
  */
 export { default as Head } from './head'
+export { default as Menu } from './menu'

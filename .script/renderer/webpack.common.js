@@ -2,7 +2,7 @@
  * @Author: penglei
  * @Date: 2022-05-25 20:47:23
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2022-06-21 11:12:07
+ * @LastEditTime: 2022-06-22 15:41:24
  * @Description: 渲染进程配置
  */
 const webpack = require('webpack')
@@ -23,6 +23,7 @@ let rendererConfig = {
   resolve: {
     alias: {
       '@': utils.resolve('src/renderer'),
+      '@config': utils.resolve('config'),
     },
     extensions: ['.tsx', ".js", '.ts', '.json', '.scss', '.css']
   },

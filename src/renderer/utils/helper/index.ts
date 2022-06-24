@@ -3,6 +3,6 @@
  * @Description: file content
  */
 export * from "./storage"
-export * from "./treeUtils"
+export * from "./tree-utils"
 export * from "./cookie"
 export * from "./util"

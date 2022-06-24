@@ -1,67 +1,99 @@
 .headBox {
-   position: fixed;
+   position: relative;
    left: 0;
    top: 0;
    width: 100%;
-   z-index: 999;
-   height: 46px;
-   padding-left: 16px;
-   background-color: white;
-   @include flex-r;
-   justify-content: space-between;
-   .navBox {
-     width: 60%;
-     @include flex-r;
-     align-items: center;
-   }
-   .logo {
+   height: 50px;
+   background-color: $primary-color;
+   font-size: 12px;
+   z-index: 10000;
+   .portrait {
       width: 32px;
       height: 32px;
+      position: absolute;
+      left: 22px;
+      top: 10px;
       overflow: hidden;
+      background-color: yellow;
+      border-radius: 50%;
       img {
         width: 100%;
         height: 100%;
+        pointer-events: none;
         object-fit: cover;
       }
    }
-   .navGroup {
+   .searchBar {
      @include flex-r;
-     padding-left: 5px;
-     height: 100%;
-   }
-   .navItem {
-     padding: 0 15px;
-     font-size: 14px;
-     cursor: pointer;
-     font-weight: 400;
-     display: flex;
      align-items: center;
-     color: #323233;
-   }
-   .navItemLine {
-     position: relative;
-     font-weight: bold;
-     color: #5290FD;
-     &::after {
-       position: absolute;
-       content: '';
-       display: block;
-       width: 80%;
-       height: 3px;
-       bottom: -7px;
-       left: 10%;
-       background: #5290FD;
-       border-radius: 2px;
-     }
+     position: absolute;
+     left: 50%;
+     top: 50%;
+     transform: translate(-50%, -50%);
+      .sbIcon {
+        color:  white;
+        cursor: pointer;
+        width: 28px;
+        height: 28px;
+        text-align: center;
+        line-height: 28px;
+        &:hover {
+          border-radius: 3px;
+          background: rgba(255, 255, 255, 0.2);
+        }
+      }
+      .searchBox {
+        width: 400px;
+        height: 32px;
+        margin: 0 20px;
+        text-align: center;
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 8px;
+        color: #FFFFFF;
+        cursor: pointer;
+        @include flex-r;
+        align-items: center;
+        justify-content: center;
+        .searchIcon {
+          margin-top: 2px;
+          margin-right: 3px;
+        }
+        &:hover{
+          background: rgba(255, 255, 255, 0.4);
+        }
+      }
    }
    .navOther {
-    @include flex-r;
-    align-items: center;
-    .otherItem {
-      color: #8A8A99;
-     }
-     .text {
-       padding-left: 5px;
-     }
+      position: absolute;
+      height: 100%;
+      right: 0;
+      top: 0;
+      @include flex-r;
+      .otherItem {
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        color: white;
+        margin-right: 40px;
+        .text {
+          padding-left: 5px;
+        }
+      }
+      .browserRibbon {
+        @include flex-r;
+        align-items: center;
+        .itemBtn {
+          cursor: pointer;
+          width: 28px;
+          height: 28px;
+          margin-right: 8px;
+          color: #fff;
+          text-align: center;
+          line-height: 28px;
+          &:hover {
+            background: rgba(255, 255, 255, 0.2);
+          }
+        }
+      }
    }
 }

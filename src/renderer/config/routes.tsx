@@ -10,7 +10,6 @@ const NoMatch = React.lazy(() => import('@/pages/404'))
 /** 首页 */
 const Home = React.lazy(() => import('@/pages/home'))
 
-
 /** 路由表 */
 const routes: RouteObject[] = [
   {

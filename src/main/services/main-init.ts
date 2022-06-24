@@ -1,16 +1,16 @@
 /*
  * @Author: penglei
  * @Date: 2022-05-26 00:09:33
- * @LastEditors: pl
- * @LastEditTime: 2022-05-28 16:41:56
+ * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2022-06-23 17:10:48
  * @Description: 主进程窗口
  */
-import { platform } from 'os'
 import { app, BrowserWindow, dialog } from 'electron'
 import config from '@config/index'
-import { winURL, loadingURL } from '../config/StaticPath'
+import { ipcWinMain } from './ipc-main'
+import { winURL, loadingURL } from '../config/static-path'
 
-class MainInit {
+export default class mainInit {
   public winURL = ''
   public shartURL = ''
   public loadWindow: BrowserWindow = null
@@ -19,20 +19,17 @@ class MainInit {
   constructor () {
     this.winURL = winURL
     this.shartURL = loadingURL
+    this.initWindow()
   }
   // 主窗口函数
   createMainWindow () {
     this.mainWindow = new BrowserWindow({
       useContentSize: true, // 将设置为 web 页面的尺寸(译注: 不包含边框), 这意味着窗口的实际
-      width: 1700,
-      height: 800,
-      minWidth: 500,
-      minHeight: 500,
+      minWidth: config.mainWindowMinWidth,
+      minHeight: config.mainWindowMinHeight,
       show: false,
-      frame: config.IsUseSysTitle, // false代表无边框窗口
-      // titleBarStyle: 'hidden', // 隐藏标题栏, 内容充满整个窗口,
-      backgroundColor: '#f7f7f7', // 窗口背景色
-      transparent: false, // 背景透明，不然拖动窗口有个黑色背景恶心
+      frame: config.IsUseFrame, // false代表无边框窗口
+      transparent: true, // 背景透明
       webPreferences: {
         contextIsolation: false,
         webviewTag: true,
@@ -51,6 +48,8 @@ class MainInit {
     }
     // 加载主窗口
     this.mainWindow.loadURL(this.winURL)
+    // 启用协议
+    ipcWinMain(this.mainWindow)
     // dom-ready之后显示界面
     this.mainWindow.webContents.once('dom-ready', () => {
       this.mainWindow.show()
@@ -190,4 +189,3 @@ class MainInit {
     }
   }
 }
-export default MainInit

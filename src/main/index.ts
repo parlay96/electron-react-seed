@@ -1,17 +1,17 @@
 /*
  * @Author: penglei
  * @Date: 2022-05-26 00:09:33
- * @LastEditors: pl
- * @LastEditTime: 2022-05-28 10:17:10
+ * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2022-06-23 17:48:40
  * @Description: 主进程入口
  */
 import { app } from 'electron'
-import initWindow from './services/windowManager'
-import DisableButton from './config/DisableButton'
-import installExtension, { REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS, MOBX_DEVTOOLS } from 'electron-devtools-installer'
+import mainInit from './services/main-init'
+import DisableButton from './config/disable-button'
+import installExtension, { REACT_DEVELOPER_TOOLS } from 'electron-devtools-installer'
 
 function onAppReady () {
-  new initWindow().initWindow()
+  new mainInit()
   DisableButton.Disablef12()
   if (process.env.NODE_ENV === 'development') {
     installExtension(REACT_DEVELOPER_TOOLS)

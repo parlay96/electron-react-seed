@@ -1,6 +1,6 @@
 @import "./default.scss";
 // @import "~antd/dist/antd.css";
-// @import "../icon/iconfont.css";
+@import "../icon/iconfont.css";
 
 /** 上面是全局的样式，组件库样式，等等的引入地 （default文件是一些公用的样式）*/
 
@@ -58,8 +58,8 @@ form {
 
 body {
   color: #666;
-  font-size: 14px;
-  background-color: $bg-color;
+  font-size: 12px;
+  // background-color: $bg-color;
   min-width: 1200px;
 }
 
@@ -74,17 +74,24 @@ body {
   height: 100%;
   //  overflow-x: hidden;
 }
+
 // 修改滚动条样式
 ::-webkit-scrollbar {
-  width: 5px;
-  height: 5px;
-  background-color: rgba(255, 255, 255, 0); /*其他样式，比如圆角等*/
+  width: 12px;
+  height: 12px;
+  background-color: rgba(255, 255, 255, 0);
 }
+
 ::-webkit-scrollbar-thumb {
-  -webkit-border-radius: 5px;
-  border-radius: 5px;
-  background-color: rgba(0, 0, 0, 0.2);
+  border: 2px solid rgba(0, 0, 0, 0);
+  box-shadow: 12px 12px 0 #b6b9bb inset;
+  border-radius: 12px;
 }
+
+::-webkit-scrollbar-thumb:hover {
+  box-shadow: 12px 12px 0 #76797d inset;
+}
+
 // 修改antd select滚动条样式
 .rc-virtual-list-scrollbar {
   width: 3px !important;
@@ -94,6 +101,7 @@ body {
   border-radius: 2px !important;
   background-color: rgba(0, 0, 0, 0.2) !important;
 }
+
 select {
   font-size: 12px;
 }

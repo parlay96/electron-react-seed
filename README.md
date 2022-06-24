@@ -1,15 +1,15 @@
 <!--
  * @Author: penglei
  * @Date: 2022-05-25 20:47:23
- * @LastEditors: pl
- * @LastEditTime: 2022-05-28 11:59:58
+ * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2022-06-08 19:40:24
  * @Description: 
 -->
 
-## electron模板
+## 工程云electron
 
 ```
-.build  // 打包配置
+.script  // 打包配置
 assets  // exe桌面项目必备的图标（不可删除）
 config  // 打包环境配置，主进程控制
 dist // 产物

@@ -1,4 +1,4 @@
-/** 
+/**
 * 这里的文件不需要引入，全局webpack引入了，这里是放全局变量，方法的地方
 */
 
@@ -183,18 +183,6 @@
   height: 0;
   overflow: hidden;
   content: ".";
-}
-
-@mixin titleLine($width: 2, $height: 100%) {
-  &::before {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: $width * 1px;
-    height: 100%;
-    background: $primary-color;
-    content: "";
-  }
 }
 
 /** 基础盒模型 */

@@ -7,3 +7,4 @@ export const REQUESTURL = "http://gcgl.superinyang.com"
 
 
 export { default as routes } from './routes'
+export * from './menu-path'
