@@ -22,7 +22,7 @@ const Layout= (props: ILayoutProps) => {
     <div className={styles.ypContainer}
       style={ypContainerStyle}>
       {/* 头部 */}
-      <Head />
+      { !process.env.IS_WEB && <Head /> }
       <div className={classNames(styles.ypMain, !props.isMaximize ? styles.shadowBox : '')}>
         {/* 左侧菜单 */}
         <Menu />

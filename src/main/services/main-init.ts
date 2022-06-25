@@ -2,7 +2,7 @@
  * @Author: penglei
  * @Date: 2022-05-26 00:09:33
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2022-06-23 17:10:48
+ * @LastEditTime: 2022-06-25 14:41:37
  * @Description: 主进程窗口
  */
 import { app, BrowserWindow, dialog } from 'electron'
@@ -35,8 +35,6 @@ export default class mainInit {
         webviewTag: true,
         nodeIntegration: true,
         webSecurity: false,
-        // 如果是开发模式可以使用devTools
-        // devTools: process.env.NODE_ENV === 'development',
         devTools: true,
         // 在macos中启用橡皮动画
         scrollBounce: process.platform === 'darwin'
@@ -171,7 +169,6 @@ export default class mainInit {
       resizable: false,
       webPreferences: { experimentalFeatures: true }
     })
-
     this.loadWindow.loadURL(loadingURL)
     this.loadWindow.show()
     this.loadWindow.setAlwaysOnTop(true)

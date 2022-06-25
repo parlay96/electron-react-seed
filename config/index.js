@@ -2,12 +2,11 @@
  * @Author: penglei
  * @Date: 2022-05-26 00:09:33
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2022-06-23 10:12:00
+ * @LastEditTime: 2022-06-25 14:03:38
  * @Description: 关于环境的配置，和主程序配置
  */
 module.exports = {
   build: {
-    DisableF12: true, // f12开控制台
     assetsSubDirectory: 'static', // 复制静态资源到目录中。地址
   },
   dev: {

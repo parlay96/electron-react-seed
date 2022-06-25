@@ -2,7 +2,7 @@
  * @Author: pl
  * @Date: 2022-05-30 11:05:10
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2022-06-21 11:11:34
+ * @LastEditTime: 2022-06-25 10:43:50
  * @Description: file content
  * @FilePath: \yp-electron\.script\renderer\webpack.prod.js
  */
@@ -42,10 +42,13 @@ const optimizationConfig = IsWeb ? {
   runtimeChunk: { name: 'runtime' }
 } : {}
 
+// 发布路径，如果是桌面端publicPath不能配置，不然路径错误，文件引入失败项目启动不了
+const output = IsWeb ? { publicPath : '/' } : {}
+
 module.exports = merge(webpackConfig, {
   mode: 'production',
   output: {
-    publicPath: '/', // 发布路径
+    ...output,
     path: IsWeb ? utils.resolve('dist/web'): utils.resolve('dist/electron'),//输出文件夹
     filename: utils.assetsPath('js/[name].[chunkhash:8].js'),//输出文件命名规则
     chunkFilename: utils.assetsPath('js/[id].[chunkhash:8].js'), // 此选项决定了非初始（non-initial）chunk 文件的名称。

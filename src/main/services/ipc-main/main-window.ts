@@ -4,7 +4,7 @@
  */
 import { ipcMain, dialog, BrowserWindow, shell } from 'electron'
 import { windowMoveIpc } from './common'
-import { setTray } from '../../utils/tray'
+import { setTray } from '../../utils'
 
 /** 主窗口的 ipc通信*/
 export const ipcWinMain = (mainWindow: BrowserWindow) => {

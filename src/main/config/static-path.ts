@@ -2,7 +2,7 @@
  * @Author: penglei
  * @Date: 2022-05-25 20:47:23
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2022-06-22 16:46:32
+ * @LastEditTime: 2022-06-25 13:47:38
  * @Description:
  */
 // 这里定义了静态文件路径的位置
@@ -17,6 +17,6 @@ if (process.env.NODE_ENV !== 'development') {
 
 export const winURL = process.env.NODE_ENV === 'development' ? `http://localhost:${process.env.PORT}` : `file://${__dirname}/index.html`
 
-export const loadingURL = process.env.NODE_ENV === 'development' ? `http://localhost:${process.env.PORT}/static/loader.html` : `file://${__static}/loader.html`
+export const loadingURL = process.env.NODE_ENV === 'development' ? `http://localhost:${process.env.PORT}/loader.html` : `file://${__static}/loader.html`
 
 export const trayIcon = `${__static}/trayIcon.png`

@@ -68,15 +68,7 @@
     },
     "win": {
       "icon": "assets/icons/icon.ico",
-      "target": [
-        {
-          "target": "nsis",
-          "arch": [
-            "x64",
-            "ia32"
-          ]
-        }
-      ]
+      "target": "nsis"
     },
     "linux": {
       "target": "deb",

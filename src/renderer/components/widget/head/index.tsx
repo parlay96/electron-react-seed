@@ -29,6 +29,12 @@ const Head = memo(() => {
     await $ipc.invoke(event)
   }
   useEffect(() => {
+    // 接受F11快捷键消息
+    $ipc.on('shortcutKeyEleven', (event, args) => {
+      setWinMax(args)
+    })
+  }, [])
+  useEffect(() => {
     // 把当前窗口状态存起来
     dispatch(actions.configActions.setMaximize(winMax))
   }, [winMax])

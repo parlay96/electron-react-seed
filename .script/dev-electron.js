@@ -2,8 +2,8 @@
 /*
  * @Author: penglei
  * @Date: 2022-05-25 20:47:23
- * @LastEditors: pl
- * @LastEditTime: 2022-05-30 16:58:09
+ * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2022-06-25 12:42:06
  * @Description: 本地运行脚本
  */
 
@@ -43,7 +43,11 @@ const devServerOptions = {
   host: config.dev.host,
   port: config.dev.port, // 端口号
   compress: true, // 开启gzip压缩
-  static: false, // 静态资源的本地路径
+  static: { // 默认是把/public目录当作web服务的根目录
+    publicPath: '/', // static.publicPath将用于确定应从何处提供捆绑包并优先
+    // 主进程：static-path.ts用到了
+    directory: path.join(__dirname, '..', 'static') // 主要能通过devServer访问静态文件
+  },
   proxy: config.dev.proxy // 配置代理
 }
 

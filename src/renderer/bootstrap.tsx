@@ -2,12 +2,12 @@
  * @Author: penglei
  * @Date: 2022-05-26 00:09:33
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2022-06-22 17:31:54
+ * @LastEditTime: 2022-06-25 10:41:00
  * @Description:
  */
 
 import React from 'react'
-import { BrowserRouter } from "react-router-dom"
+import { BrowserRouter, HashRouter } from "react-router-dom"
 import { createRoot } from 'react-dom/client'
 import { message } from 'antd'
 
@@ -27,8 +27,8 @@ message.config({
 
 root.render(
   <Provider store={store}>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
+    { process.env.IS_WEB && <BrowserRouter><App /></BrowserRouter> }
+    {/* 如果是桌面端，使用HashRouter，不然打包后页面404 */}
+    { !process.env.IS_WEB && <HashRouter><App /></HashRouter> }
   </Provider>
 )
