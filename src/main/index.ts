@@ -2,7 +2,7 @@
  * @Author: penglei
  * @Date: 2022-05-26 00:09:33
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2022-06-25 14:20:59
+ * @LastEditTime: 2022-06-25 17:32:30
  * @Description: 主进程入口
  */
 import { app, globalShortcut } from 'electron'
@@ -32,8 +32,9 @@ app.on('window-all-closed', () => {
   app.quit()
 })
 
-app.on('will-quit', () => {
-  // Unregister all shortcuts.
+// 应用程序退出时发出
+app.on('quit', () => {
+  // 取消注册所有快捷方式
   globalShortcut.unregisterAll()
 })
 

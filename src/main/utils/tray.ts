@@ -23,9 +23,9 @@ export const setTray = (window) => {
   const trayMenuTemplate = [{ // 系统托盘图标目录
     label: '退出',
     click: function () {
-      app.quit() // 点击之后退出应用
       appTray = null
       mainWindow = null
+      app.exit() // 点击之后退出应用
     }
   }]
   // 创建托盘实例

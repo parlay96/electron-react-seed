@@ -2,12 +2,13 @@
  * @Author: penglei
  * @Date: 2022-05-26 00:09:33
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2022-06-25 14:41:37
+ * @LastEditTime: 2022-06-25 17:26:36
  * @Description: 主进程窗口
  */
 import { app, BrowserWindow, dialog } from 'electron'
 import config from '@config/index'
 import { ipcWinMain } from './ipc-main'
+import { setTray } from '../utils'
 import { winURL, loadingURL } from '../config/static-path'
 
 export default class mainInit {
@@ -154,6 +155,13 @@ export default class mainInit {
         }
       })
     })
+    // 窗口关闭前,托管到托盘
+    this.mainWindow.on('close', (e) => {
+      setTray(this.mainWindow)
+      // 阻止关闭
+      e.preventDefault()
+    })
+    // 窗口被关闭时
     this.mainWindow.on('closed', () => {
       this.mainWindow = null
     })
