@@ -6,7 +6,7 @@
  * @Description: 
 -->
 
-## 工程云electron
+## react桌面端种子
 
 ```
 .script  // 打包配置
