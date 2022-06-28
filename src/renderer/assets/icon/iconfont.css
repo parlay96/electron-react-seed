@@ -1,6 +1,6 @@
 @font-face {
   font-family: "yp-font-icon"; /* Project id 3337845 */
-  src: url('iconfont.woff?t=1655881913431') format('woff');
+  src: url('iconfont.woff?t=1656316814885') format('woff');
 }
 
 .yp-font-icon {
@@ -9,6 +9,10 @@
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.yp-shuaxin:before {
+  content: "\e782";
 }
 
 .yp-zuidahua:before {

@@ -9,6 +9,8 @@ import Layout from '@/layout'
 const NoMatch = React.lazy(() => import('@/pages/404'))
 /** 首页 */
 const Home = React.lazy(() => import('@/pages/home'))
+/** 通信录 */
+const Contacts = React.lazy(() => import('@/pages/contacts'))
 
 /** 路由表 */
 const routes: RouteObject[] = [
@@ -17,6 +19,7 @@ const routes: RouteObject[] = [
     element: <Layout />,
     children: [
       { index: true, element: <Home /> },
+      { path: 'contacts', element: <Contacts /> }
     ],
   },
   { path: "*", element: <NoMatch /> },

@@ -2,7 +2,7 @@
  * @Author: penglei
  * @Date: 2022-05-26 00:09:33
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2022-06-25 17:26:36
+ * @LastEditTime: 2022-06-28 15:01:13
  * @Description: 主进程窗口
  */
 import { app, BrowserWindow, dialog } from 'electron'
@@ -56,7 +56,7 @@ export default class mainInit {
     })
     // 开发模式下自动开启devtools
     if (process.env.NODE_ENV === 'development') {
-      this.mainWindow.webContents.openDevTools({ mode: 'undocked', activate: true })
+      this.mainWindow.webContents.openDevTools({ mode: 'right', activate: true })
     }
     // 当确定渲染进程卡死时，分类型进行告警操作
     app.on('render-process-gone', (event, webContents, details) => {

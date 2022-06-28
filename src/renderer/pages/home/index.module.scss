@@ -1,4 +1,73 @@
-.bos {
+
+@mixin nav-btn-base {
+  width: 32px;
+  cursor: pointer;
+  height: 32px;
+  line-height: 32px;
+  margin-right: 10px;
+  border-radius: 5px;
+  text-align: center;
+  color: #ccc;
+}
+
+.workBench {
     width: 100%;
     height: 100%;
+    .ribbonBox {
+      width: 100%;
+      height: 50px;
+      background-color: #fff;
+      border-bottom: 1px solid #E6E6E6;
+      position: relative;
+      .btnGroup {
+        padding-left: 20px;
+        height: 100%;
+        @include flex-r;
+        align-items: center;
+        .navBtn {
+          @include nav-btn-base;
+          .leftBtn {
+            margin-left: 4px !important;
+          }
+          :global {
+            .yp-font-icon {
+              display: block;
+              margin-left: -3px;
+            }
+          }
+        }
+        .refresh {
+          @include nav-btn-base;
+        }
+        .activation {
+          color: #000 !important;
+          &:hover {
+            background-color: #c8c8c8 !important;
+          }
+        }
+      }
+      .companyBox {
+        @include flex-r;
+        align-items: center;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        cursor: pointer;
+        transform: translate(-50%, -50%);
+        p {
+          font-size: 14px;
+          font-weight: bold;
+          color: #323233;
+        }
+        :global {
+          .yp-font-icon {
+            transform: scale(0.8)
+          }
+        }
+      }
+    }
+    .webviewBox {
+      width: 100%;
+      height: calc(100% - 50px);
+    }
 }

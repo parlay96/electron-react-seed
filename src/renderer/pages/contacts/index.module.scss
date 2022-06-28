@@ -1,0 +1,27 @@
+.contactsView {
+  height: 100%;
+  @include flex-r;
+  .contactPersonBox {
+    width: 300px;
+    height: 100%;
+    border-right: 1px solid #E6E6E6;
+    @include flex-c;
+    .cpTitleBox {
+      padding: 29px 18px 0px 18px;
+    }
+    .title {
+      @include flex-r;
+      justify-content: space-between;
+      padding-bottom: 8px;
+      h2 {
+        font-size: 18px;
+        font-weight: bold;
+        color: rgba(0, 0, 0, 0.85);
+      }
+    }
+    .companyList {
+      flex: 1;
+      overflow: auto;
+    }
+  }
+}

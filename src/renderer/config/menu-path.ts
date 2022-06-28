@@ -4,10 +4,10 @@
  */
 
 const menuList = [
-  { icon: 'yp-daochubaobiao', name: '消息', url: '', type: 'msg'},
-  { icon: 'yp-daochubaobiao', name: '文档', url: ''},
-  { icon: 'yp-daochubaobiao', name: '工作台', url: '/'},
-  { icon: 'yp-daochubaobiao', name: '通讯录', url: ''}
+  { icon: 'news-icon.png', name: '消息', url: '', type: 'msg'},
+  { icon: 'doc-icon.png', name: '文档', url: ''},
+  { icon: 'work-icon.png', name: '工作台', url: '/'},
+  { icon: 'contacts-icon.png', name: '通讯录', url: '/contacts'}
 ]
 
 export {

@@ -5,7 +5,7 @@
 import React, { memo, useEffect, useState } from 'react'
 import classNames from 'classnames'
 import { useLocation, useNavigate } from 'react-router-dom'
-import { Icon } from '@/components'
+import { Icon, Image } from '@/components'
 import { actions, dispatch } from "@/store"
 import { $ipc } from '@/utils'
 import config from '@config/index'
@@ -111,7 +111,7 @@ const Head = memo(() => {
       onDoubleClick={headDoubleClick}>
       {/* 头部  */}
       <div className={classNames(styles.portrait, 'no-drag')} onClick={onPortraitClick}>
-        <img src={juese}/>
+        <Image src={juese} className={styles.aitImg}/>
       </div>
       {/* 搜索区 */}
       <div className={styles.searchBar}>

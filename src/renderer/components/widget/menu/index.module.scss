@@ -3,13 +3,10 @@
   align-items: center;
   background-color: $primary-color;
   -webkit-app-region: drag;
-  width: 74px;
   height: 100%;
   position: relative;
   z-index: 10000;
   .mitem {
-    width: 64px;
-    height: 64px;
     @include flex-c;
     -webkit-app-region: none;
     justify-content: center;
@@ -20,7 +17,6 @@
     margin-bottom: 5px;
     position: relative;
     .micon {
-      color: #FFFFFF;
       margin-bottom: 5px;
     }
     &:hover {
