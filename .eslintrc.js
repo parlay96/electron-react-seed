@@ -1,8 +1,8 @@
 /*
  * @Author: penglei
  * @Date: 2022-05-26 10:31:08
- * @LastEditors: Please set LastEditors
- * @LastEditTime: 2022-06-20 10:10:01
+ * @LastEditors: penglei
+ * @LastEditTime: 2022-07-10 21:12:49
  * @Description:
  */
 
@@ -18,6 +18,9 @@ module.exports = {
   parserOptions: {
     ecmaVersion: 7,
     sourceType: 'module',
+  },
+  globals: {
+    __static: true
   },
   rules: {
     'no-console': 'off',

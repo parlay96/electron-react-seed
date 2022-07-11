@@ -3,3 +3,4 @@
  * @Description: file content
  */
 export { default as Organization } from './organization'
+export { default as Personnel } from './personnel-list'

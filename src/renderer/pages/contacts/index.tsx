@@ -5,7 +5,7 @@
 import React, { useEffect, useState } from 'react'
 import classNames from 'classnames'
 import { Icon } from '@/components'
-import { Organization } from './components'
+import { Organization, Personnel } from './components'
 import styles from './index.module.scss'
 
 const Contacts = () => {
@@ -21,6 +21,9 @@ const Contacts = () => {
         <div className={styles.companyList}>
           <Organization />
         </div>
+      </div>
+      <div className={styles.personnelList}>
+        <Personnel />
       </div>
     </div>
   )

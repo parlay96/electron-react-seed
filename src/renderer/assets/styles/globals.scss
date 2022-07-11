@@ -1,5 +1,4 @@
-@import "./default.scss";
-// @import "~antd/dist/antd.css";
+@import "~antd/dist/antd.css";
 @import "../icon/iconfont.css";
 
 /** 上面是全局的样式，组件库样式，等等的引入地 （default文件是一些公用的样式）*/
@@ -90,16 +89,6 @@ body {
 
 ::-webkit-scrollbar-thumb:hover {
   box-shadow: 12px 12px 0 #76797d inset;
-}
-
-// 修改antd select滚动条样式
-.rc-virtual-list-scrollbar {
-  width: 3px !important;
-}
-.rc-virtual-list-scrollbar-thumb {
-  -webkit-border-radius: 2px !important;
-  border-radius: 2px !important;
-  background-color: rgba(0, 0, 0, 0.2) !important;
 }
 
 select {
@@ -194,4 +183,27 @@ textarea {
 
 input:-internal-autofill-selected {
   background: none !important;
+}
+
+/** 清除浮动 */
+.clearfix::after {
+  display: block;
+  clear: both;
+  height: 0;
+  font-size: 0;
+  line-height: 0;
+  visibility: hidden;
+  content: "";
+}
+
+.unselectable {
+  -moz-user-select: none; /*火狐*/
+  -webkit-user-select: none; /*webkit浏览器*/
+  -ms-user-select: none; /*IE10*/
+  -khtml-user-select: none; /*早期浏览器*/
+  user-select: none;
+}
+
+.cursorp {
+  cursor: pointer;
 }

@@ -1,0 +1,62 @@
+.yp-dialog {
+  &-wrap {
+    @include flex-c;
+    background-color: #FFFFFF;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  &-header {
+    display: flex;
+    align-items: center;
+    padding: 16px;
+    &-title {
+      font-weight: bold;
+      font-size: 18px;
+      color: #323233;
+    }
+  }
+  &-body {
+    background-color: #FFFFFF;
+  }
+  &-footer {
+    user-select: none;
+    text-align: right;
+    background-color: #FFFFFF;
+    padding: 16px;
+    &-cancel {
+      border-color: #d9d9d9 !important;
+      color: #606066 !important;
+    }
+    &-confim {
+      background-color: #5290FD !important;
+    }
+  }
+  &-btn {
+    padding: 6px 35px;
+    font-size: 16px;
+    color: #FFFFFF;
+    background-color: transparent;
+    cursor: pointer;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    user-select: none;
+    touch-action: manipulation;
+  }
+  &-close {
+    position: absolute;
+    top: 20px;
+    right: 16px;
+    cursor: pointer;
+    width: 24px;
+    height: 24px;
+    line-height: 24px;
+    &-icon {
+      width: 24px;
+      height: 24px;
+      color: #00000073;
+    }
+  }
+  .mr {
+    margin-right: 20px;
+  }
+}

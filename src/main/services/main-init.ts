@@ -2,7 +2,7 @@
  * @Author: penglei
  * @Date: 2022-05-26 00:09:33
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2022-06-28 15:01:13
+ * @LastEditTime: 2022-07-11 10:35:34
  * @Description: 主进程窗口
  */
 import { app, BrowserWindow, dialog } from 'electron'

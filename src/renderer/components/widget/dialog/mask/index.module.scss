@@ -1,0 +1,44 @@
+.yp-dialog-mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 999;
+  width: 100%;
+  height: 100%;
+
+  &-hidden {
+    display: none;
+  }
+
+  &-enter {
+    opacity: 0.01;
+    transform: scale(0.2);
+  }
+
+  &-enter-active {
+    opacity: 1;
+    transform: scale(1);
+    transition: transform 200ms linear, opacity 200ms linear;
+  }
+
+  &-exit {
+    display: block;
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  &-exit-active {
+    opacity: 0;
+    transform: scale(0.2);
+    transition: transform 200ms linear, opacity 200ms linear;
+  }
+
+  &-container {
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: auto;
+    height: auto;
+  }
+}

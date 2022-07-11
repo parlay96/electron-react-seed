@@ -1,14 +1,14 @@
 /*
  * @Author: penglei
  * @Date: 2022-05-25 20:47:23
- * @LastEditors: Please set LastEditors
- * @LastEditTime: 2022-06-22 15:41:24
+ * @LastEditors: penglei
+ * @LastEditTime: 2022-07-10 21:08:09
  * @Description: 渲染进程配置
  */
 const webpack = require('webpack')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-
+const path = require('path')
 const moduleFederation = require('./module-federation')
 const scssLoader = require('./scss-loader')
 const utils = require('../utils')
@@ -78,6 +78,7 @@ let rendererConfig = {
     new webpack.DefinePlugin({
       'process.env.IS_WEB': IsWeb,
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
+      '__static': `"${path.join(__dirname, '../../static').replace(/\\/g, '\\\\')}"`,
     }),
     new HtmlWebpackPlugin({
       filename: 'index.html',

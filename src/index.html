@@ -2,7 +2,7 @@
  * @Author: penglei
  * @Date: 2022-05-26 00:09:33
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2022-06-23 09:35:47
+ * @LastEditTime: 2022-07-11 12:55:49
  * @Description:
 -->
 <!DOCTYPE html>
@@ -19,6 +19,12 @@
 
 <body>
   <div id="App"></div>
+  <script>
+    // 非常重要不要删除。webview加载脚本线上路径
+    if (process.env.NODE_ENV !== 'development') {
+      window.__static = require('path').join(__dirname, '/static').replace(/\\/g, '\\\\')
+    }
+  </script>
 </body>
 
 </html>

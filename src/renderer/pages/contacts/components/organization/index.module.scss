@@ -1,23 +1,23 @@
 .organizationView {
   width: 100%;
   position: relative;
-  padding: 10px;
-  &::after {
+  padding: 10px 10px 15px 10px;
+  &::before {
     content: "";
-    position: absolute;
     display: block;
+    position: absolute;
     left: 50%;
     top: 0;
     transform: translate(-50%, -50%);
     background-color: #E6E6E6;
-    width: calc(100% - 20px);
+    width: calc(100% - 36px);
     height: 1px;
   }
   .orgInfoBox {
     @include flex-r;
     justify-content: space-between;
     align-items: center;
-    padding: 0 18px 0 18px;
+    padding: 0 8px 0 8px;
      .orgNameBox {
        flex: 1;
        height: 40px;
@@ -49,7 +49,8 @@
     padding: 0 5px;
   }
   .treeTreenode {
-   padding: 0 10px;
+    width: 100%;
+  //  padding: 0 10px;
    &:hover {
      border-radius: 5px;
      background-color: #e4e6e7;

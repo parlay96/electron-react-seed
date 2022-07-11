@@ -7,7 +7,7 @@
     border-right: 1px solid #E6E6E6;
     @include flex-c;
     .cpTitleBox {
-      padding: 29px 18px 0px 18px;
+      padding: 28px 18px 0px 18px;
     }
     .title {
       @include flex-r;
@@ -22,6 +22,10 @@
     .companyList {
       flex: 1;
       overflow: auto;
+      &::-webkit-scrollbar { width: 0 !important }
     }
+  }
+  .personnelList {
+    flex: 1;
   }
 }

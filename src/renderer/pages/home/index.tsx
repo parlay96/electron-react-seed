@@ -2,47 +2,42 @@
  * @Author: penglei
  * @Date: 2022-05-26 12:53:12
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2022-06-27 17:16:10
+ * @LastEditTime: 2022-07-11 12:35:16
  * @Description: 控制台页面
  */
-import React, { useEffect, useState } from "react"
+import React, { useState, useRef } from "react"
 import classNames from 'classnames'
-import { Icon } from "@/components"
+import { Icon, Webview, IWebviewRef} from "@/components"
 import styles from './index.module.scss'
 
-let webview = null
+// 控制台页面
 const Home = () => {
+  const webviewRef = useRef<IWebviewRef>()
+  // 是否可以返回
   const [isCanGoBack, setCanGoBack] = useState<boolean>(false)
+  // 是否可以前进
   const [isCanGoForward, setCanGoForward] = useState<boolean>(false)
-
-  useEffect(() => {
-    webview = document.querySelector('webview')
-    if (webview && !process.env.IS_WEB) {
-      // 页面路径变化时1
-      webview.addEventListener('did-navigate-in-page', onNavigateChange)
-    }
-  }, [])
 
   // 当webview页面路径方法变化
   const onNavigateChange = () => {
-    setCanGoBack(webview?.canGoBack() || false)
-    setCanGoForward(webview?.canGoForward() || false)
+    setCanGoBack(webviewRef.current?.canGoBack() || false)
+    setCanGoForward(webviewRef.current?.canGoForward() || false)
   }
 
   // 刷新页面
   const onRefresh = () => {
-    webview?.reload()
+    webviewRef.current?.reload()
   }
   // 回退页面
   const onGoBack = () => {
     if (isCanGoBack) {
-      webview?.goBack()
+      webviewRef.current?.goBack()
     }
   }
   // 前进页面
   const onGoForward = () => {
     if (isCanGoForward) {
-      webview?.goForward()
+      webviewRef.current?.goForward()
     }
   }
 
@@ -71,7 +66,7 @@ const Home = () => {
           </div>
         </div>
         <div className={styles.webviewBox}>
-          {!process.env.IS_WEB && <webview style={{ width: '100%', height: '100%' }} src="http://192.168.0.17:3000"></webview>}
+          <Webview navigateChange={onNavigateChange} ref={webviewRef}/>
         </div>
       </div>
     </>
@@ -79,3 +74,4 @@ const Home = () => {
 }
 
 export default Home
+
