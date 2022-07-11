@@ -2,11 +2,11 @@
  * @Author: penglei
  * @Date: 2022-05-25 20:47:23
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2022-06-08 19:40:24
+ * @LastEditTime: 2022-07-11 13:19:58
  * @Description: 
 -->
 
-## react桌面端种子
+## 工程electron
 
 ```
 .script  // 打包配置
@@ -24,7 +24,16 @@ static 静态目录
 ``` bash
 npm i or yarn
 
-npm run dev or yarn dev
+npm run start:pc  or yarn start:pc
 
 # build命令在不同系统环境中，需要的的不一样，需要自己根据自身环境进行配置
-npm run build
+npm run {
+  "start:pc"
+  "dev-electron
+  "dev:web"
+  "build:win32
+  "build:win64"
+  "build:mac"
+  "build:dir"
+  "build:web"
+}

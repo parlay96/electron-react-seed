@@ -4,12 +4,14 @@
  */
 import React, { useEffect, useState } from 'react'
 import classNames from 'classnames'
-import { Icon } from '@/components'
+import { Icon, permissionDialog } from '@/components'
 import { Organization, Personnel } from './components'
 import styles from './index.module.scss'
 
 const Contacts = () => {
-
+  useEffect(() => {
+    permissionDialog()
+  })
   return (
     <div className={styles.contactsView}>
       <div className={styles.contactPersonBox}>
