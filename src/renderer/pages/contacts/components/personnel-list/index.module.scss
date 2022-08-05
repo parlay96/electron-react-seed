@@ -1,9 +1,11 @@
 .personnelView {
   @include flex-c;
-  padding: 0 18px;
+  padding-left: 18px;
+  height: 100%;
   .header {
     height: 60px;
     @include flex-r;
+    padding-right: 50px;
     align-items: center;
     justify-content: space-between;
     border-bottom: 1px solid #E6E6E6;
@@ -13,10 +15,16 @@
       @include flex-r;
       align-items: center;
       .portraitBox {
-         width: 40px;
-         height: 40px;
-         border-radius: 8px;
-         overflow: hidden;
+        width: 40px;
+        height: 40px;
+        border-radius: 8px;
+        overflow: hidden;
+        color: #fff;
+        font-size: 14px;
+        background-color: #5290fd !important;
+        display: flex;
+        align-items: center;
+        justify-content: center;
       }
       .textName {
          padding-left: 10px;
@@ -43,21 +51,44 @@
       }
     }
   }
-  .breadcrumbBox {
-    width: 100%;
-    padding: 10px 0;
-    .perLink {
-      color: #5290FD;
-      cursor: pointer;
-    }
-    :global {
-      .ant-breadcrumb li:last-child {
-        color: #323233 !important;
-      }
-    }
-  }
   .userListBox {
     flex: 1;
+    width: 100%;
+    margin-left: -8px;
     overflow: auto;
+    .depaImgBox {
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #eef4ff;
+      border-radius: 4px;
+      img {
+        margin-top: -4px;
+      }
+    }
+    .userImgBox {
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 4px;
+      color: #fff;
+      font-size: 14px;
+      background-color: #5290fd;
+    }
+    .btnNode {
+      position: absolute;
+      right: 20px;
+      top: 12px;
+      font-size: 16px;
+      color: #5290FD;
+    }
+    .nodeTitle {
+      padding-left: 8px;
+      color: #323233;
+    }
   }
 }

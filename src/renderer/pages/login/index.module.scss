@@ -1,0 +1,136 @@
+.loginBox {
+  height: 100%;
+  width: 100%;
+  .logindrag {
+    width: 100%;
+    height: 50px;
+    background-color: #FFFFFF;
+  }
+}
+
+.login-panel {
+  width: 100%;
+  height: calc(100% - 50px);
+  background: #f0f0f0;
+  display: flex;
+  justify-content: flex-end;
+
+  .login-card {
+    width: 42%;
+    height: 76%;
+    min-width: 440px;
+    min-height: 500px;
+    background: #ffffff;
+    box-shadow: 0px 2px 11px 2px rgba(226, 226, 226, 0.2);
+    border-radius: 16px;
+    margin: 7% 7.4% 10% 0;
+    padding: 0 40px;
+    position: relative;
+
+    .title {
+      font-size: 26px;
+      font-weight: bold;
+      color: #323233;
+      line-height: 42px;
+    }
+
+    .center {
+      display: flex;
+      justify-content: center;
+    }
+
+    .text {
+      font-size: 20px;
+      font-weight: 400;
+      color: #606066;
+      margin-top: 16px;
+      margin-bottom: 36px;
+    }
+
+    .text-modify {
+      font-size: 18px;
+      font-weight: 400;
+      color: #606066;
+      margin-top: 8px;
+    }
+
+    .image {
+      width: 23%;
+      position: absolute;
+      right: 8px;
+      top: 8px;
+      cursor: pointer;
+
+      .icon {
+        width: 100%;
+        height: 100%;
+      }
+    }
+
+    .back {
+      margin-top: 50px;
+      cursor: pointer;
+      .back-text {
+        font-size: 18px;
+        color: #606066;
+        margin-left: 4px;
+        display: inline-block;
+        vertical-align: middle;
+      }
+      .back-img {
+        width: 20px;
+        height: 20px;
+        vertical-align: middle;
+      }
+    }
+
+    :global(input.ant-input) {
+      height: 46px !important;
+      line-height: 46px !important;
+      font-size: 16px;
+      border-radius: 4px;
+    }
+
+    :global(.ant-input-affix-wrapper) {
+      padding: 0 11px;
+      border-radius: 4px;
+    }
+
+    :global(.ant-tabs-tab) {
+      padding: 0 0 2px 0;
+      font-size: 18px;
+      line-height: 28px;
+    }
+
+    :global(.ant-tabs-nav) {
+      margin: 32px 0 30px 0;
+    }
+
+    :global(.ant-tabs-top > .ant-tabs-nav::before) {
+      border: 0;
+    }
+
+    :global(.ant-form-item) {
+      height: 70px;
+      margin-bottom: 0;
+    }
+  }
+
+  .space-forget {
+    margin-top: 40px;
+    margin-bottom: 90px;
+  }
+
+  .space-modify {
+    margin-top: 40px;
+    margin-bottom: 60px;
+  }
+
+  .marginTop100 {
+    margin-top: 100px;
+  }
+
+  .marginTop40 {
+    margin-top: 40px;
+  }
+}

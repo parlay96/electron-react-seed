@@ -7,7 +7,7 @@ import React, { CSSProperties, FC, useEffect, useState, ReactNode } from "react"
 import { createPortal } from "react-dom"
 import { CSSTransition } from "react-transition-group"
 import classNames from "classnames"
-import { GetContainer, getEleById, isIEBrowser } from "../utils"
+import { GetContainer, getEleById, isIEBrowser } from "@/utils"
 import styles from "./index.module.scss"
 
 export type MaskProps = {
@@ -114,10 +114,9 @@ const Mask: FC<MaskProps> = props => {
       style={{
         zIndex: props?.zIndex,
         backgroundColor: `rgba(0, 0, 0, ${opacity})`,
-        ...props.style,
       }}
     >
-      <div className={styles.ypDialogMaskContainer}>
+      <div className={styles.ypDialogMaskContainer} style={{...props.style}}>
         <CSSTransition
           in={props.visible}
           //nodeRef={maskRef}
@@ -149,7 +148,7 @@ const Mask: FC<MaskProps> = props => {
 Mask.defaultProps = {
   appear: true,
   exit: true,
-  zIndex: 999,
+  zIndex: 10005,
   duration: 0,
   opacity: "default",
 }

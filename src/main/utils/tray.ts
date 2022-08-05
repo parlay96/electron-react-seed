@@ -21,7 +21,7 @@ export const setTray = (window) => {
   }
   // 当托盘最小化时，右击有一个菜单显示，这里进设置一个退出的菜单
   const trayMenuTemplate = [{ // 系统托盘图标目录
-    label: '退出',
+    label: '退出鱼泡工程云',
     click: function () {
       appTray = null
       mainWindow = null

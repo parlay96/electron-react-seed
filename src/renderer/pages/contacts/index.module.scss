@@ -29,3 +29,62 @@
     flex: 1;
   }
 }
+
+.organizationView {
+  width: 100%;
+  position: relative;
+  padding: 10px 10px 15px 10px;
+  &::before {
+    content: "";
+    display: block;
+    position: absolute;
+    left: 50%;
+    top: 0;
+    transform: translate(-50%, -50%);
+    background-color: #E6E6E6;
+    width: calc(100% - 36px);
+    height: 1px;
+  }
+  .orgInfoBox {
+    @include flex-r;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 8px 0 8px;
+     .orgNameBox {
+       flex: 1;
+       height: 40px;
+       @include flex-r;
+       align-items: center;
+       .portraitBox {
+          width: 40px;
+          height: 40px;
+          border-radius: 8px;
+          overflow: hidden;
+          color: #fff;
+          font-size: 14px;
+          background-color: #5290fd !important;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+       }
+       .textName {
+          padding-left: 10px;
+          font-size: 16px;
+          color: #323233;
+       }
+     }
+     .orgBtn {
+      font-size: 16px;
+      cursor: pointer;
+      color: #5290FD;
+     }
+  }
+}
+
+.yp-tree {
+  width: 100%;
+  margin-top: 15px;
+  .treeList {
+    width: 100%;
+  }
+}

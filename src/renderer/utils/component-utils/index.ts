@@ -36,13 +36,16 @@ export function renderToContainer (getContainer: GetContainer, node: ReactElemen
   return node
 }
 
-export function renderToBody (element: ReactElement) {
+export function renderToBody (element: ReactElement, params?: {id: string, style: string}) {
   if (checkServer()) return
   const container = document.createElement("div")
+  params?.id ? container.id = params?.id : ''
+  params?.style ? container.setAttribute('style', params?.style) : ''
   const root = createRoot(container)
   document.body.appendChild(container)
   function unmount () {
     root.unmount()
+    document.body.removeChild(container)
   }
   root.render(element)
   return unmount

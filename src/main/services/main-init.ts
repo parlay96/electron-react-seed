@@ -2,7 +2,7 @@
  * @Author: penglei
  * @Date: 2022-05-26 00:09:33
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2022-07-11 10:35:34
+ * @LastEditTime: 2022-07-12 15:36:59
  * @Description: 主进程窗口
  */
 import { app, BrowserWindow, dialog } from 'electron'
@@ -33,6 +33,7 @@ export default class mainInit {
       transparent: true, // 背景透明
       webPreferences: {
         contextIsolation: false,
+        nodeIntegrationInSubFrames: true,
         webviewTag: true,
         nodeIntegration: true,
         webSecurity: false,

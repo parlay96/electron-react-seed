@@ -1,0 +1,25 @@
+.login-form {
+  .login-form-button {
+    height: 46px;
+    line-height: 46px;
+    border-radius: 6px;
+    padding: 0;
+    font-size: 16px;
+    margin-top: 12px;
+  }
+
+  .login-form-radio {
+    margin-bottom: 8px;
+  }
+
+  .first-item {
+    // margin-bottom: 22px !important;
+  }
+}
+
+.text {
+  width: 100%;
+  color: #606066;
+  text-align: right;
+  cursor: pointer;
+}

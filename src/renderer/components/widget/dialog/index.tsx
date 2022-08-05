@@ -8,7 +8,7 @@ import classNames from "classnames"
 import { Icon, Visible } from "@/components"
 import FooterButton from './footer-button'
 import Mask, { MaskProps } from "./mask"
-import { GetContainer } from "./utils"
+import { GetContainer } from "@/utils"
 import styles from "./index.module.scss"
 
 const classPrefix = `yp-dialog`
@@ -38,8 +38,8 @@ export type DialogProps = {
   bodyStyle?: React.CSSProperties
   /** 主容器class */
   bodyClassName?: string
-  /** 遮罩层样式 */
-  maskStyle?: React.CSSProperties
+  /** 弹框层样式 */
+  containerStyle?: React.CSSProperties
   /** 遮罩层class */
   maskClassName?: string
   /** 取消按钮自定义描述 */
@@ -68,7 +68,7 @@ export type DialogProps = {
   children?: ReactNode
   onClose?: (payload?: DialogCloseType) => any
   onCancel?: () => void | Promise<void>
-  onConfirm?: () => void | Promise<void>
+  onConfirm?: (v: any) => void | Promise<void>
   /** 关闭容器是否立即卸载 */
   closeUnmount?: boolean
 } & MaskProps
@@ -93,7 +93,7 @@ const Dialog = forwardRef((props: DialogProps, ref: any) => {
         appear={props?.appear}
         exit={props?.exit}
         onMaskClick={props?.maskClosable ? props.onClose : undefined}
-        style={props?.maskStyle}
+        style={props?.containerStyle}
         className={props?.maskClassName}
       >
         <div className={classNames(styles[`${classPrefix}-wrap`], props.wrapClassName)} style={wrapStyle}>

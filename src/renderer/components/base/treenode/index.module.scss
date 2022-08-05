@@ -1,0 +1,30 @@
+.treeTreenode {
+  width: 100%;
+  height: 40px;
+  padding: 0 8px;
+ &:hover {
+   border-radius: 5px;
+   background-color: rgba(126,134,142,0.12);
+ }
+ .nodeItem {
+  @include flex-r;
+  align-items: center;
+  height: 100%;
+  position: relative;
+  font-size: 16px;
+  .nodeTitle {
+    padding-left: 8px;
+    color: #323233;
+  }
+  .treeImg {
+    margin-top: -4px;
+  }
+ }
+}
+.activeTreeNode {
+  background-color: #dde6f8 !important;
+  border-radius: 5px;
+  p {
+      color: #5290FD !important;
+  }
+}

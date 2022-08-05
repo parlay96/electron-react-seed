@@ -1,0 +1,19 @@
+.breadcrumbBox {
+  width: 100%;
+  padding: 10px 0;
+  .perLink {
+    color: #5290FD;
+    cursor: pointer;
+  }
+  :global {
+    .ant-breadcrumb li:last-child {
+      color: #323233 !important;
+    }
+    .ant-breadcrumb {
+      font-size: 16px;
+    }
+    .ant-breadcrumb-separator {
+      margin: 0 3px;
+    }
+  }
+}

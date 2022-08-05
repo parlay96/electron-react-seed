@@ -2,8 +2,8 @@
  * @Date: 2022-06-23 17:07:30
  * @Description: 共有的
  */
-
 import { screen, ipcMain, dialog, BrowserWindow } from 'electron'
+import config from '@config/index'
 import { winURL } from '../../config/static-path'
 
 const commonIpc = () => {
@@ -17,11 +17,11 @@ const commonIpc = () => {
   // 创建新窗口
   ipcMain.handle('open-win', (event, arg) => {
     const ChildWin = new BrowserWindow({
-      height: 595,
+      height: config.mainWindowMinHeight,
       useContentSize: true,
-      width: 842,
+      width: config.mainWindowMinWidth,
       autoHideMenuBar: true,
-      minWidth: 842,
+      minWidth: config.mainWindowMinWidth,
       show: false,
       webPreferences: {
         nodeIntegration: true,

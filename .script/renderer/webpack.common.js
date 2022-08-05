@@ -1,8 +1,8 @@
 /*
  * @Author: penglei
  * @Date: 2022-05-25 20:47:23
- * @LastEditors: penglei
- * @LastEditTime: 2022-07-10 21:08:09
+ * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2022-07-12 15:37:32
  * @Description: 渲染进程配置
  */
 const webpack = require('webpack')

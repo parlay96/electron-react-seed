@@ -1,6 +1,6 @@
 @font-face {
   font-family: "yp-font-icon"; /* Project id 3337845 */
-  src: url('iconfont.woff?t=1656316814885') format('woff');
+  src: url('iconfont.woff?t=1659592774886') format('woff');
 }
 
 .yp-font-icon {
@@ -9,6 +9,82 @@
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.yp-zuzhijiagou:before {
+  content: "\e6a7";
+}
+
+.yp-danxuan:before {
+  content: "\e6a5";
+}
+
+.yp-yuanxingxuanzhong-fill:before {
+  content: "\e6a0";
+}
+
+.yp-duigou:before {
+  content: "\e6a4";
+}
+
+.yp-or:before {
+  content: "\e6a3";
+}
+
+.yp-forward:before {
+  content: "\e6a2";
+}
+
+.yp-gongchengkuan2:before {
+  content: "\e6a1";
+}
+
+.yp-a-cuiban1x:before {
+  content: "\e69c";
+}
+
+.yp-a-qishen1x:before {
+  content: "\e69d";
+}
+
+.yp-a-chexiao1x:before {
+  content: "\e69e";
+}
+
+.yp-a-pinglun1x:before {
+  content: "\e69f";
+}
+
+.yp-qianbao1:before {
+  content: "\e698";
+}
+
+.yp-xiangmuchengyuan1:before {
+  content: "\e699";
+}
+
+.yp-cailiaofei:before {
+  content: "\e69a";
+}
+
+.yp-gongchengkuan1:before {
+  content: "\e69b";
+}
+
+.yp-shanchu:before {
+  content: "\e695";
+}
+
+.yp-zhuanfa:before {
+  content: "\e696";
+}
+
+.yp-shanchubeifen:before {
+  content: "\e697";
+}
+
+.yp-modify:before {
+  content: "\e694";
 }
 
 .yp-shuaxin:before {

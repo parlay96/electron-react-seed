@@ -5,9 +5,9 @@
 
 const menuList = [
   { icon: 'news-icon.png', name: '消息', url: '', type: 'msg'},
-  { icon: 'doc-icon.png', name: '文档', url: ''},
-  { icon: 'work-icon.png', name: '工作台', url: '/'},
-  { icon: 'contacts-icon.png', name: '通讯录', url: '/contacts'}
+  // { icon: 'doc-icon.png', name: '文档', url: ''},
+  { icon: 'work-icon.png', name: '工作台', url: '/workbench'},
+  { icon: 'contacts-icon.png', name: '通讯录', url: '/'}
 ]
 
 export {

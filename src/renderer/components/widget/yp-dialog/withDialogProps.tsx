@@ -1,10 +1,10 @@
 /*
  * @Author: pl
- * @LastEditTime: 2022-07-05 17:40:51
+ * @LastEditTime: 2022-07-26 16:07:47
  * @Description: file content
  */
 import React, { createRef, FC, forwardRef, RefObject, useEffect, ReactNode, useImperativeHandle, useState, useCallback } from 'react'
-import { renderToBody } from '../dialog/utils'
+import { renderToBody } from '@/utils'
 import Dialog, { DialogCloseType, DialogProps } from "../dialog"
 
 export type DialogRefType = {
@@ -26,7 +26,7 @@ function withDialog<T> (Component: FC<WrapperComponentProps & T>, props?: Partia
     const Wrapper = forwardRef<DialogRefType, any>((_, ref) => {
       const [_visible, setVisibleState] = useState<boolean>(false)
       // 动态设置title
-      const [ title, setTitle ] = useState<ReactNode>(props.title)
+      const [ title, setTitle ] = useState<ReactNode>(props.title || options.title)
       const { children } = _
 
       useEffect(() => {
@@ -47,7 +47,7 @@ function withDialog<T> (Component: FC<WrapperComponentProps & T>, props?: Partia
       const onClose = useCallback(async (payload?: DialogCloseType) => {
         await options?.onClose?.(payload)
         setVisibleState(false)
-        if(props?.closeUnmount || options?.closeUnmount) unmount?.()
+        if(props?.closeUnmount || options?.closeUnmount) setTimeout(() => unmount?.(), 1000)
       }, [props?.closeUnmount, options?.closeUnmount])
 
       return (
@@ -56,6 +56,7 @@ function withDialog<T> (Component: FC<WrapperComponentProps & T>, props?: Partia
           {...options}
           title={title}
           visible={_visible}
+          containerStyle={{top: '80px'}}
           onClose={onClose}
         >
           {children}

@@ -5,15 +5,16 @@
 import React from 'react'
 import { Outlet } from 'react-router-dom'
 import classNames from 'classnames'
-import { Head, Menu, Auth } from '@/components'
+import { Head, Menu } from '@/components'
 import { connect } from "@/store"
 
 import styles from './index.module.scss'
 export interface ILayoutProps {
-  isMaximize: boolean
+  isMaximize?: boolean
 }
 
 const Layout= (props: ILayoutProps) => {
+
   // 因为如果内容超出窗口了，就会截取断，导致隐藏不可以显示。
   // 这时候就需要做一个无边框窗口。然后给最外层盒子设置一个间距。
   // props.isMaximize 如果是最大化，就不显示阴影部分
@@ -28,7 +29,7 @@ const Layout= (props: ILayoutProps) => {
         <Menu />
         {/* 页面内容部分， 是比较关注的部分 */}
         <div className={styles.pannelBox}>
-          <Auth><Outlet /></Auth>
+          <Outlet />
         </div>
       </div>
     </div>

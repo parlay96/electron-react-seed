@@ -26,9 +26,6 @@ export const getRequestHeader = (): Record<string, string> => {
   }
 }
 
-// 调试使用
-const token = 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2NTUyNzg0NTAsImV4cCI6MTY4NjgxNDQ1MCwianRpIjoiV3dTZ0RDMEQ5QVpNckJxUiIsInN1YiI6IjQ4MzAwMTU5MjM3OTkyNDQ4IiwiY2lkIjoiNDc0NTE0MzA0MTQ3MTI4MzIifQ.NKuZ8EkfdjdsIxzGFsYrlLxYVbBWbe3_Ju9pK5HSDozp0EApnyAgg4Lz2QzaJqdpeoSn42--nZ6OAT8KCFouHA'
-
 /* 基础配置 */
 axios.defaults.baseURL = '/api' // 不适用代理就直接用这个变量 REQUESTURL
 axios.defaults.timeout = 200000
@@ -42,7 +39,8 @@ axios.interceptors.request.use(async (config: any) => {
   }
 
   /** 如果是客户端直接取，如果是服务端需要token，那么自己在参数里面传递进来 */
-  config.headers['Authorization'] = token || await getStore(TOKEN)
+  config.headers['Authorization'] = await getStore(TOKEN)
+  config.headers['system_type'] = 'computer'
   return config
 }, error => {
   return Promise.reject(error)
@@ -89,7 +87,7 @@ const errorHandler = (error: any) => {
   const { pathname } = window.location
   if (code === 401) {
     // 清楚存储用户信息
-    redirectHome()
+    //  redirectHome()
   }
   /** 获取状态码信息 定位错误原因 */
   if (response && response.status) {
