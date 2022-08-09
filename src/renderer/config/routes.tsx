@@ -7,14 +7,15 @@ import type { RouteObject } from "react-router-dom"
 
 import Layout from '@/layout'
 import { RequireAuth } from "@/auth"
-const NoMatch = React.lazy(() => import('@/pages/404'))
+import NoMatch from '@/pages/404'
 
+// 不要使用React.lazy异步加载组件
 /** 首页 */
 import Workbench from '@/pages/workbench'
 /** 通信录 */
 import Contacts from '@/pages/contacts'
 /** 登录 */
-const Login = React.lazy(() => import('@/pages/login'))
+import Login from '@/pages/login'
 
 /** 路由表 */
 const routes: RouteObject[] = [

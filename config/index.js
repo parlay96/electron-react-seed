@@ -2,7 +2,7 @@
  * @Author: penglei
  * @Date: 2022-05-26 00:09:33
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2022-08-01 18:22:58
+ * @LastEditTime: 2022-08-09 17:04:25
  * @Description: 关于环境的配置，和主程序配置
  */
 const menuWidth = 70 // 菜单栏宽度
@@ -10,9 +10,9 @@ const menuWidth = 70 // 菜单栏宽度
 // 如果是开发环境还要算上调试器的宽度
 const isDev = process.env.NODE_ENV === 'development'
 // 主窗口的最小宽度。默认就是1207（7是滚动条的宽度）是工程云web网页的最小宽，menuWidth桌面端左侧菜单栏的宽度
-const mainWindowMinWidth = isDev ? 1207 + 300 : 1207 + menuWidth
+const mainWindowMinWidth = isDev ? 1207 + 300 : 975 + menuWidth
 // 主窗口的最小高度
-const mainWindowMinHeight = isDev ? 800 : 645
+const mainWindowMinHeight = isDev ? 800 : 630
 
 module.exports = {
   build: {
@@ -35,5 +35,7 @@ module.exports = {
   mainWindowMinHeight,
   UseStartupChart: false, // 是否需要启动页面
   IsUseFrame: false, // false代表无边框窗口
+  IsSingleInstances: true, // 是否单例模式
   IsMaximize: false, // 是否需要初始化最大窗口模式
+  IsInitTray: true, // 是否启动应用的时候就创建托盘
 }

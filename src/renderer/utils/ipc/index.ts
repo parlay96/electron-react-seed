@@ -10,8 +10,7 @@ export default {
   invoke (name: string, data?: any) {
     return new Promise((resolve, reject) => {
       if (process.env.IS_WEB) {
-        console.error('不支持electron')
-        resolve('不支持electron')
+        reject('不支持electron')
       } else {
         if (oldIpcRenderer) {
           oldIpcRenderer.invoke(name, data).then(res => {

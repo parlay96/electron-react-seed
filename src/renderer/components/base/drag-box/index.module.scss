@@ -4,7 +4,8 @@
   height: 50px;
   background-color: $primary-color;
   font-size: 12px;
-  z-index: 10000;
+  z-index: 999;
+  -webkit-app-region: drag; /* 让元素可拖动，设置了drag的元素不可点击 */
   .browserRibbon {
     @include flex-r;
     align-items: center;

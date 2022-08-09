@@ -2,7 +2,7 @@
  * @Author: penglei
  * @Date: 2022-05-26 12:53:12
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2022-08-05 09:57:35
+ * @LastEditTime: 2022-08-08 17:38:34
  * @Description: 工作台页面
  */
 import React, { useState, useEffect } from "react"
@@ -65,7 +65,6 @@ const Workbench = (props: IWorkbenchProps) => {
     // 创建一个webview窗口
     webviewRef = createWebViewHof({
       navigateChange: onNavigateChange,
-      isMaximize: props?.isMaximize,
       url: ifFlag ? '' : params?.state?.url
     })
   }
@@ -74,7 +73,7 @@ const Workbench = (props: IWorkbenchProps) => {
     return () => {
       webviewRef?.hide()
     }
-  }, [props?.isMaximize])
+  }, [])
 
   // 刷新页面
   const onRefresh = () => {

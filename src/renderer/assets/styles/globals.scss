@@ -208,3 +208,7 @@ input:-internal-autofill-selected {
 .cursorp {
   cursor: pointer;
 }
+
+.no-drag {
+  -webkit-app-region: no-drag;
+}

@@ -1,6 +1,6 @@
 /*
  * @Author: pl
- * @LastEditTime: 2022-07-26 16:07:47
+ * @LastEditTime: 2022-08-08 16:29:49
  * @Description: file content
  */
 import React, { createRef, FC, forwardRef, RefObject, useEffect, ReactNode, useImperativeHandle, useState, useCallback } from 'react'
@@ -45,9 +45,12 @@ function withDialog<T> (Component: FC<WrapperComponentProps & T>, props?: Partia
         })
       )
       const onClose = useCallback(async (payload?: DialogCloseType) => {
+        console.log('onClose', '关闭')
         await options?.onClose?.(payload)
         setVisibleState(false)
-        if(props?.closeUnmount || options?.closeUnmount) setTimeout(() => unmount?.(), 1000)
+        if(props?.closeUnmount || options?.closeUnmount)  {
+          setTimeout(() => unmount?.(), 1000)
+        }
       }, [props?.closeUnmount, options?.closeUnmount])
 
       return (

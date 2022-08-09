@@ -7,7 +7,6 @@ import { renderToBody, getEleById } from '@/utils'
 import signalSdk from './signal'
 
 interface IWebviewProps {
-  isMaximize: boolean
   url?: string
   top?: number // webview盒子定位距离顶部
   left?: number // webview盒子定位距离左侧
@@ -28,7 +27,7 @@ export type IWebviewRef = {
 let webview = null
 let unmount = null // 卸载
 let openDevToolsNum = null
-const webviewSrc = 'http://127.0.0.1:3000'
+const webviewSrc = process.env.NODE_ENV !== 'development' ? 'http://pc-cloud-test.cdqlkj.cn' : 'http://127.0.0.1:3000'
 
 const WebView = (props: Partial<IWebviewProps>) => {
   // preload脚本路径1
@@ -67,16 +66,15 @@ const WebView = (props: Partial<IWebviewProps>) => {
  * @name 自定义WebView高阶函数(Hof)
  */
 const createWebViewHof = (props: IWebviewProps): IWebviewRef => {
-  const {top = 100, left = 70, navigateChange, isMaximize, url} = props
+  const {top = 100, left = 70, navigateChange, url} = props
   let webViewBox = null
   // webViewBox盒子的行内样式
-  const pNum = isMaximize ? 0 : 6
   const style =
   `position: fixed;
    top: ${top}px;
    left: ${left}px;
-   width: calc(100% - ${left + pNum}px);
-   height: calc(100% - ${top + pNum}px);
+   width: calc(100% - ${left}px);
+   height: calc(100% - ${top}px);
    display: block
   `
   // 显示webView 就动态显示，隐藏webViewBox外层节点

@@ -2,14 +2,13 @@
  * @Date: 2022-06-23 17:06:22
  * @Description: 主窗口的ipc通信
  */
-import { ipcMain, dialog, BrowserWindow, shell } from 'electron'
+import { ipcMain, dialog, BrowserWindow, shell, app } from 'electron'
 import { windowMoveIpc } from './common'
-import { setTray } from '../../utils'
 
 /** 主窗口的 ipc通信*/
 export const ipcWinMain = (mainWindow: BrowserWindow) => {
   // 窗口拖动时
-  windowMoveIpc(mainWindow, 'main-window-move')
+  windowMoveIpc(mainWindow, 'main-window-moving')
   // 最小化
   ipcMain.handle('windows-mini', () => {
     mainWindow.minimize()
@@ -17,14 +16,10 @@ export const ipcWinMain = (mainWindow: BrowserWindow) => {
   // 取消最大化窗口
   ipcMain.handle('window-mix', async () => {
     mainWindow.unmaximize()
-    // 不是最大化时，才可以手动调整窗口大小
-    mainWindow.setResizable(true)
   })
   // 最大化窗口。如果尚未显示该窗口，它还将显示（但不聚焦）该窗口。
   ipcMain.handle('window-max', async () => {
     mainWindow.maximize()
-    // 是最大化时，不才可以手动调整窗口大小
-    mainWindow.setResizable(false)
   })
   // 关闭窗口
   ipcMain.handle('window-close', () => {
@@ -34,13 +29,14 @@ export const ipcWinMain = (mainWindow: BrowserWindow) => {
   ipcMain.handle('open-external', (event, arg) => {
     shell.openExternal(arg)
   })
-  // 主进程监听打开托盘事件
-  ipcMain.handle('open-tray', ()=>{
-    return setTray(mainWindow)
+  // 隐藏窗口
+  ipcMain.handle('window-hide', async () => {
+    mainWindow.hide()
   })
-  // 设置窗口的位置
-  ipcMain.handle('main-set-position', (event, arg)=>{
-    mainWindow.setPosition(arg.x, arg.y, true)
+  // 退出应用
+  ipcMain.handle('quit-app', (event, arg)=>{
+    // 所有窗口都将立即被关闭，而不询问用户
+    app.exit() // 点击之后退出应用
   })
   // 消息弹窗
   ipcMain.handle('open-messagebox', async (event, arg) => {
@@ -52,5 +48,13 @@ export const ipcWinMain = (mainWindow: BrowserWindow) => {
       noLink: arg.noLink || true
     })
     return res
+  })
+  // 当窗口从最大化状态退出时触发
+  mainWindow.on('unmaximize', (e) => {
+    mainWindow.webContents.send('on-unmaximize', false)
+  })
+  // 窗口最大化时触发
+  mainWindow.on('maximize', (e) => {
+    mainWindow.webContents.send('on-maximize', true)
   })
 }

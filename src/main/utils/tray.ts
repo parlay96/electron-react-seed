@@ -25,6 +25,7 @@ export const setTray = (window) => {
     click: function () {
       appTray = null
       mainWindow = null
+      // 所有窗口都将立即被关闭，而不询问用户
       app.exit() // 点击之后退出应用
     }
   }]
@@ -32,8 +33,6 @@ export const setTray = (window) => {
   appTray = new Tray(trayIcon)
   // 图标的上下文菜单
   const contextMenu = Menu.buildFromTemplate(trayMenuTemplate)
-  // 隐藏主窗口
-  mainWindow.hide()
   // 启动或停止闪烁窗口, 以吸引用户的注意。
   mainWindow.flashFrame(true)
   // 设置托盘悬浮提示

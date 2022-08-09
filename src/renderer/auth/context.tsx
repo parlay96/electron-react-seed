@@ -11,7 +11,7 @@ import { Modal } from 'antd'
 
 interface AuthContextType {
   user: any;
-  signIn: (callback) => void;
+  signIn: (callback, fail?) => void;
   signOut: (callback) => void;
   setAutoLogin: (autoLogin: boolean) => void;
 }
@@ -24,12 +24,15 @@ function AuthProvider ({ children }: {children: React.ReactNode}) {
   const location = useLocation() as any
   const from = location.state?.from?.pathname || "/"
 
-  const signIn = (callback) => {
+  const signIn = (callback, fail?) => {
     callback().then(data => {
       if (!data.user?.cid) {
         Modal.warning({
           title: '提示',
           content: '您尚未创建或加入企业。 请先在移动端创建或加入企业后，方可使用电脑端。',
+          onOk: () => {
+            fail && fail()
+          }
         })
         return
       }

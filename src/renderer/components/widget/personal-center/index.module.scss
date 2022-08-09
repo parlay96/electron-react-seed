@@ -1,0 +1,61 @@
+.personalCenterBox {
+  position: fixed;
+  background-color: white;
+  width: 245px;
+  box-shadow: 0px 2px 4px 0px rgba(0,0,0,0.0800);
+  border-radius: 8px;
+  top: 50px;
+  left: 20px;
+  z-index: 1000;
+  .headBox {
+    @include flex-r;
+    position: relative;
+    padding: 16px;
+    .headImg  {
+      width: 48px;
+      height: 48px;
+      @include flex-r;
+      align-items: center;
+      justify-content: center;
+      background: #5290FD;
+      border-radius: 4px;
+      overflow: hidden;
+      font-size: 16px;
+      font-weight: bold;
+      color: #FFFFFF;
+    }
+    .info {
+      height: 48px;
+      overflow: hidden;
+      margin-left: 8px;
+      .name {
+        font-size: 16px;
+        font-weight: bold;
+        color: #323233;
+      }
+      .phone {
+        font-size: 14px;
+        font-weight: 400;
+        color: #606066;
+        margin-top: 3px;
+      }
+    }
+  }
+  .featureMenu {
+    width: 100%;
+    padding: 0 10px 10px 10px;
+    .featureItem {
+      cursor: pointer;
+      padding: 0px 6px;
+      font-size: 14px;
+      font-weight: 400;
+      color: #323233;
+      height: 38px;
+      line-height: 38px;
+      &:hover {
+        border-radius: 5px;
+        background-color: #ededee;
+      }
+    }
+  }
+}

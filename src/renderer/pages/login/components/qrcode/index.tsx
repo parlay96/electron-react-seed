@@ -56,10 +56,12 @@ export default function Qrcode (props: IQrcodeProps) {
         checkQrCodeLogin()
       }, 1500)
     } else if (data.qrcode_img_status == 'logged') {
-      clearTimeout(timer)
       auth.signIn(async () => {
         /** 设置自动登录 */
         return isAuto.current ? {...data.user_data, autoLogin: true} : data.user_data
+      }, () => {
+        setQrCodeStatus('waiting')
+        initQrCode()
       })
     } else if (data.qrcode_img_status == 'failed') {
       clearTimeout(timer)

@@ -38,7 +38,7 @@ const Phone = (props: IAppProps) => {
           rules={[{ required: true, message: '请输入你的手机号' }]}
           className={styles['first-item']}
         >
-          <Input placeholder="请输入你的手机号" onChange={(e) => setPhone(e.target.value)} />
+          <Input maxLength={11} placeholder="请输入你的手机号" onChange={(e) => setPhone(e.target.value)} />
         </Form.Item>
         <Form.Item
           name="code"

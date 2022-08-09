@@ -2,13 +2,13 @@
  * @Author: penglei
  * @Date: 2022-05-26 00:09:33
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2022-07-12 15:36:59
+ * @LastEditTime: 2022-08-09 11:09:59
  * @Description: 主进程窗口
  */
 import { app, BrowserWindow, dialog } from 'electron'
 import config from '@config/index'
+import {setTray} from '../utils'
 import { ipcWinMain } from './ipc-main'
-import { setTray } from '../utils'
 import { winURL, loadingURL } from '../config/static-path'
 
 export default class mainInit {
@@ -26,11 +26,13 @@ export default class mainInit {
   createMainWindow () {
     this.mainWindow = new BrowserWindow({
       useContentSize: true, // 将设置为 web 页面的尺寸(译注: 不包含边框), 这意味着窗口的实际
+      width: config.mainWindowMinWidth,
+      height: config.mainWindowMinHeight,
       minWidth: config.mainWindowMinWidth,
       minHeight: config.mainWindowMinHeight,
       show: false,
       frame: config.IsUseFrame, // false代表无边框窗口
-      transparent: true, // 背景透明
+      // transparent: true, // 背景透明，会导致拖动问题
       webPreferences: {
         contextIsolation: false,
         nodeIntegrationInSubFrames: true,
@@ -46,6 +48,10 @@ export default class mainInit {
     if (config.IsMaximize) {
       this.mainWindow.maximize()
     }
+    // 是否创建托盘
+    if (config.IsInitTray) {
+      setTray(this.mainWindow)
+    }
     // 加载主窗口
     this.mainWindow.loadURL(this.winURL)
     // 启用协议
@@ -55,8 +61,8 @@ export default class mainInit {
       this.mainWindow.show()
       if (config.UseStartupChart) this.loadWindow.destroy()
     })
-    // 开发模式下自动开启devtools
     if (process.env.NODE_ENV === 'development') {
+      // 开发模式下自动开启devtools
       this.mainWindow.webContents.openDevTools({ mode: 'right', activate: true })
     }
     // 当确定渲染进程卡死时，分类型进行告警操作
@@ -156,14 +162,19 @@ export default class mainInit {
         }
       })
     })
-    // 窗口关闭前,托管到托盘
+    // 窗口关闭前, 隐藏窗口: https://www.electronjs.org/zh/docs/latest/api/browser-window#%E4%BA%8B%E4%BB%B6-close
     this.mainWindow.on('close', (e) => {
-      setTray(this.mainWindow)
-      // 阻止关闭
-      e.preventDefault()
+      if (process.platform == 'darwin'){
+        console.log('这是mac系统')
+      }
+      if (process.platform == 'win32' || process.platform == 'linux'){
+        this.mainWindow.hide()
+        e.preventDefault()
+      }
     })
-    // 窗口被关闭时
+    // 窗口被关闭时 : https://www.electronjs.org/zh/docs/latest/api/browser-window#%E4%BA%8B%E4%BB%B6-closed
     this.mainWindow.on('closed', () => {
+      // 在窗口关闭时触发 当你接收到这个事件的时候, 你应当移除相应窗口的引用对象，避免再次使用它
       this.mainWindow = null
     })
   }

@@ -1,21 +1,21 @@
 .card {
   margin: 0 auto;
-  width: 300px;
-  height: 300px;
+  width: 260px;
+  height: 260px;
   background-color: #fff;
   box-shadow: 0 0 8px #ddd;
   position: relative;
 }
 
 .img {
-  width: 300px;
-  height: 300px;
+  width: 260px;
+  height: 260px;
 }
 
 .fail-card {
   position: absolute;
-  width: 300px;
-  height: 300px;
+  width: 260px;
+  height: 260px;
   left: 0;
   z-index: 10;
   top: 0;
@@ -45,12 +45,16 @@
 
 .fail-mask {
   position: absolute;
-  width: 300px;
+  width: 260px;
+  height: 260px;
   background: #000;
   filter: alpha(opacity=60);
   opacity: 0.6;
-  height: 300px;
   left: 0;
   z-index: 9;
   top: 0;
+}
+
+.login-form-radio {
+  margin-top: 15px;
 }

@@ -105,7 +105,7 @@ const Login = (props: ILoginProps) => {
 
   return (
     <div className={styles.loginBox}>
-      <DragBox className={styles.logindrag}/>
+      <DragBox className={styles.logindrag} btnStyle={{color: '#606066'}}/>
       <div className={styles["login-panel"]}>
         <div className={styles["login-card"]}>
           <div className={styles.image} onClick={onChangeImg}>
