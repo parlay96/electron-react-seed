@@ -1,6 +1,6 @@
 /*
  * @Author: pl
- * @LastEditTime: 2022-08-08 16:29:49
+ * @LastEditTime: 2022-08-11 17:40:10
  * @Description: file content
  */
 import React, { createRef, FC, forwardRef, RefObject, useEffect, ReactNode, useImperativeHandle, useState, useCallback } from 'react'
@@ -59,7 +59,6 @@ function withDialog<T> (Component: FC<WrapperComponentProps & T>, props?: Partia
           {...options}
           title={title}
           visible={_visible}
-          containerStyle={{top: '80px'}}
           onClose={onClose}
         >
           {children}

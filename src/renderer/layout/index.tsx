@@ -2,29 +2,77 @@
  * @Date: 2022-05-30 10:55:45
  * @Description:
  */
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Outlet } from 'react-router-dom'
-import classNames from 'classnames'
+import { Modal, Progress, message } from 'antd'
 import { Head, Menu } from '@/components'
-import { connect } from "@/store"
+import { $ipc } from '@/utils'
 
 import styles from './index.module.scss'
-export interface ILayoutProps {
-  isMaximize?: boolean
-}
 
-const Layout= (props: ILayoutProps) => {
+const { confirm } = Modal
 
-  // 因为如果内容超出窗口了，就会截取断，导致隐藏不可以显示。
-  // 这时候就需要做一个无边框窗口。然后给最外层盒子设置一个间距。
-  // props.isMaximize 如果是最大化，就不显示阴影部分
-  // const ypContainerStyle = props.isMaximize ? {} : { paddingRight: '6px',paddingBottom: '6px' }
-  const ypContainerStyle = props.isMaximize ? {} : {}
+const Layout= () => {
+  const [isModalVisible, setModalVisible] = useState<boolean>(false)
+  const [percentage, setPercentage] = useState<number>(0)
+  useEffect(() => {
+    // 自动检测更新
+    $ipc.invoke("check-update")
+    // 监听更新
+    $ipc.on('update-msg', (event, arg) => {
+      switch (arg.state) {
+      case -1:
+        message.error(arg.msg, 3000)
+        setModalVisible(false)
+        break
+      case 1:
+        confirm({
+          title: '提示',
+          content: '检查到有新版本，是否更新?',
+          centered: true,
+          cancelText: '取消',
+          okText: '确认',
+          onOk () {
+            setModalVisible(true)
+            $ipc.invoke("confirm-downloadUpdate")
+          },
+          onCancel () {
+            // 点击取消就记住选择，下次不在自动检查更新
+            console.log('Cancel')
+          },
+        })
+        break
+      case 3:
+        setPercentage(arg.msg.percent.toFixed(1))
+        break
+      case 4:
+        setTimeout(() => {
+          setModalVisible(false)
+          confirm({
+            title: '提示',
+            content: '下载完成，是否安装',
+            cancelText: '取消',
+            okText: '确认',
+            centered: true,
+            onOk () {
+              $ipc.invoke("confirm-update")
+            },
+            onCancel () {
+              console.log('Cancel')
+            },
+          })
+        }, 500)
+        break
+      default:
+        break
+      }
+    })
+  }, [])
   return (
-    <div className={styles.ypContainer} style={ypContainerStyle}>
+    <div className={styles.ypContainer}>
       {/* 头部 */}
       { !process.env.IS_WEB && <Head /> }
-      <div className={classNames(styles.ypMain, !props.isMaximize ? styles.shadowBox : '')}>
+      <div className={styles.ypMain}>
         {/* 左侧菜单 */}
         <Menu />
         {/* 页面内容部分， 是比较关注的部分 */}
@@ -32,10 +80,17 @@ const Layout= (props: ILayoutProps) => {
           <Outlet />
         </div>
       </div>
+      {/* 更新应用弹窗 */}
+      <Modal
+        title="下载进度"
+        visible={isModalVisible}
+        centered
+        closable={false}
+        footer={null}>
+        <Progress percent={percentage} status="active" />
+      </Modal>
     </div>
   )
 }
 
-export default connect((state) => {
-  return {isMaximize: state.config.isMaximize}
-})(Layout)
+export default Layout

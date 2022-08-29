@@ -16,12 +16,15 @@ export interface IAppProps {
 const Phone = (props: IAppProps) => {
   const auth = useAuth()
   const [phone, setPhone] = useState('')
-  const onFinish = (values) => {
+  const onFinish = async (values) => {
     console.log('Received values of form: ', values)
     // auth.signIn(async () => {
     //   const { data } = await request["POST/auth/code-login"](values)
     //   return data
     // })
+    const params = {...values, code_type: 'forget'}
+    console.log('忘记密码', params)
+    await request["POST/home/sms-check-code"](params)
     props.next({tel: phone})
   }
 
@@ -46,12 +49,12 @@ const Phone = (props: IAppProps) => {
         >
           <Input
             type="code"
-            maxLength={6}
+            maxLength={4}
             placeholder="请输入验证码"
             suffix={<VerificationCode tel={phone} />}
           />
         </Form.Item>
-        <Form.Item>
+        <Form.Item className={styles.submit}>
           <Button type="primary" htmlType="submit" block className={styles['login-form-button']}>
             下一步
           </Button>

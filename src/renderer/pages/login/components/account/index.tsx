@@ -52,14 +52,20 @@ const Phone = (props: IAppProps) => {
         </Form.Item>
         <Form.Item
           name="password"
-          rules={[{ required: true, message: '请输入密码' }]}
+          rules={[
+            { required: true, message: '请输入密码'},
+            {
+              validator: (_, value) =>
+                value.test(/^(?=.*[0-9].*)(?=.*[A-Z].*)(?=.*[a-z].*).{8,}$/) ? Promise.resolve() : Promise.reject(new Error('密码至少8个字符，不能全是字母和数字')),
+            },
+          ]}
         >
           <Input
             type="password"
             placeholder="请输入密码"
           />
         </Form.Item>
-        <Form.Item>
+        <Form.Item className={styles.submit}>
           <Button type="primary" htmlType="submit" block className={styles['login-form-button']}>
           登录
           </Button>

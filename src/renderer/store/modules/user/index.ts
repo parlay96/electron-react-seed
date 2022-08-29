@@ -20,7 +20,6 @@ const { reducer, actions, name } = createSlice({
   name: 'user',
   initialState: {
     userInfo: {} as UserInfo,
-    isLogin: false,
   },
   reducers: {
     setState (state, { payload }: PayloadAction<Record<string, any>>) {

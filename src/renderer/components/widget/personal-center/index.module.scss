@@ -1,12 +1,9 @@
 .personalCenterBox {
-  position: fixed;
   background-color: white;
   width: 245px;
   box-shadow: 0px 2px 4px 0px rgba(0,0,0,0.0800);
   border-radius: 8px;
-  top: 50px;
-  left: 20px;
-  z-index: 1000;
+
   .headBox {
     @include flex-r;
     position: relative;
@@ -41,9 +38,20 @@
       }
     }
   }
+  .afterLine {
+      &::after {
+      content: "";
+      width: calc(100% - 32px);
+      left: 16px;
+      position: absolute;
+      bottom: 4px;
+      border-bottom: 1px solid #E6E6E6;
+    }
+  }
   .featureMenu {
     width: 100%;
     padding: 0 10px 10px 10px;
+    position: relative;
     .featureItem {
       cursor: pointer;
       padding: 0px 6px;
@@ -58,4 +66,18 @@
       }
     }
   }
+}
+
+.personalWindow {
+  position: fixed;
+  top: 50px;
+  left: 20px;
+  z-index: 1000;
+}
+
+.personalMac {
+  position: fixed;
+  top: 50px;
+  right: 20px;
+  z-index: 1000;
 }

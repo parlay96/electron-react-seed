@@ -13,25 +13,45 @@
   height: calc(100% - 50px);
   background: #f0f0f0;
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
+  align-items: center;
+
+  .login-bg {
+    width: 400px;
+    height: 540px;
+    margin-right: 60px;
+
+    .bg-img {
+      margin-top: 48px;
+      margin-left: 38px;
+      width: 335px;
+      height: 319px;
+    }
+
+    .bg-title {
+      margin-top: 21px;
+      font-size: 28px;
+      color: #323233;
+      line-height: 40px;
+      font-weight: 500;
+      text-align: center;
+    }
+  }
 
   .login-card {
-    width: 42%;
-    height: 76%;
-    min-width: 440px;
-    min-height: 500px;
+    width: 400px;
+    height: 540px;
     background: #ffffff;
-    box-shadow: 0px 2px 11px 2px rgba(226, 226, 226, 0.2);
+    box-shadow: 0px 6px 12px 0px rgba(115,121,139,0.1000);
     border-radius: 16px;
-    margin: 7% 7.4% 10% 0;
-    padding: 0 40px;
+    padding: 0 24px;
     position: relative;
 
     .title {
-      font-size: 26px;
+      font-size: 24px;
       font-weight: bold;
       color: #323233;
-      line-height: 42px;
+      line-height: 32px;
     }
 
     .center {
@@ -43,8 +63,17 @@
       font-size: 20px;
       font-weight: 400;
       color: #606066;
-      margin-top: 16px;
-      margin-bottom: 36px;
+      margin-top: 10px;
+      margin-bottom: 50px;
+    }
+
+    .text-forget {
+      font-size: 16px;
+      color: #606066;
+      font-weight: 400;
+      line-height: 22px;
+      margin-top: 8px;
+      margin-bottom: 57px;
     }
 
     .text-modify {
@@ -55,7 +84,8 @@
     }
 
     .image {
-      width: 23%;
+      width: 70px;
+      height: 70px;
       position: absolute;
       right: 8px;
       top: 8px;
@@ -68,7 +98,7 @@
     }
 
     .back {
-      margin-top: 50px;
+      margin-top: 24px;
       cursor: pointer;
       .back-text {
         font-size: 18px;
@@ -85,8 +115,8 @@
     }
 
     :global(input.ant-input) {
-      height: 46px !important;
-      line-height: 46px !important;
+      height: 48px !important;
+      line-height: 48px !important;
       font-size: 16px;
       border-radius: 4px;
     }
@@ -98,12 +128,12 @@
 
     :global(.ant-tabs-tab) {
       padding: 0 0 2px 0;
-      font-size: 18px;
+      font-size: 20px;
       line-height: 28px;
     }
 
     :global(.ant-tabs-nav) {
-      margin: 32px 0 30px 0;
+      margin: 38px 0 34px 0;
     }
 
     :global(.ant-tabs-top > .ant-tabs-nav::before) {
@@ -111,26 +141,34 @@
     }
 
     :global(.ant-form-item) {
-      height: 70px;
-      margin-bottom: 0;
+      height: 48px;
+      margin-bottom: 24px;
+    }
+
+    :global(.ant-checkbox-group) {
+      text-align: center;
+    }
+
+    :global(.ant-checkbox-group span) {
+      color: #606066;
+      font-size: 16px;
     }
   }
 
   .space-forget {
     margin-top: 40px;
-    margin-bottom: 90px;
   }
+
 
   .space-modify {
-    margin-top: 40px;
-    margin-bottom: 60px;
+    margin-top: 52px;
   }
 
-  .marginTop100 {
-    margin-top: 100px;
+  .marginTop85 {
+    margin-top: 85px;
   }
 
-  .marginTop40 {
-    margin-top: 40px;
+  .marginTop42 {
+    margin-top: 42px;
   }
 }

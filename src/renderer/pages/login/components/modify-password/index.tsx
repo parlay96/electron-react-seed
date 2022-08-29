@@ -4,6 +4,7 @@
  */
 import React, { useRef, useState } from 'react'
 import { Button, Form, Input, Checkbox, Col, Row } from 'antd'
+import { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons'
 import { useAuth } from '@/auth'
 import { request } from '@/utils'
 import styles from './index.module.scss'
@@ -17,7 +18,6 @@ const Phone = (props: IAppProps) => {
   /** 是否自动登录 */
   const isAuto = useRef(true)
   const onFinish = (values) => {
-    console.log('Received values of form: ', values)
     const params = {...values, tel: props.tel}
     auth.signIn(async () => {
       const { data } = await request["POST/auth/change-pwd-login"](params)
@@ -41,21 +41,40 @@ const Phone = (props: IAppProps) => {
       >
         <Form.Item
           name="password"
-          rules={[{ required: true, message: '请输入密码' }]}
+          rules={[
+            { required: true, message: '请输入密码' },
+            {
+              validator: (_, value) =>
+                !value ||  /^(?![\d\W]+$)(?![a-zA-Z]+$)\S{8,}$/.test(value) ? Promise.resolve() : Promise.reject(new Error('密码至少8个字符，不能全是字母或数字')),
+            },
+          ]}
           className={styles['first-item']}
         >
-          <Input type="password" placeholder="请输入密码" />
+          <Input.Password
+            placeholder="请输入密码"
+            iconRender={visible => visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />}
+          />
         </Form.Item>
         <Form.Item
           name="repeat_password"
-          rules={[{ required: true, message: '请再次输入密码' }]}
+          rules={[
+            { required: true, message: '请再次输入密码' },
+            ({ getFieldValue }) => ({
+              validator (_, value) {
+                if (!value || getFieldValue('password') === value) {
+                  return Promise.resolve()
+                }
+                return Promise.reject(new Error('两次输入的密码不一致!'))
+              },
+            }),
+          ]}
         >
-          <Input
-            type="password"
+          <Input.Password
             placeholder="请再次输入密码"
+            iconRender={visible => visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />}
           />
         </Form.Item>
-        <Form.Item>
+        <Form.Item className={styles.submit}>
           <Button type="primary" htmlType="submit" block className={styles['login-form-button']}>
           登录
           </Button>

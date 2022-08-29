@@ -2,15 +2,17 @@
  * @Date: 2022-06-21 14:52:22
  * @Description: 托盘实例
  */
-import { trayIcon } from '../config/static-path'
-import { Menu, Tray, app } from 'electron'
+import { trayIcon, trayMac } from '../config/static-path'
+import { Menu, Tray, app, nativeImage } from 'electron'
 
 let mainWindow = null
 let appTray = null // 托盘实例
+let _trayIcon = trayIcon as any // 托盘图标
 
 // 隐藏主窗口，并创建托盘
 export const setTray = (window) => {
   if (!mainWindow) { mainWindow = window }
+
   // 判断是否存在托盘
   if (appTray && !appTray.isDestroyed()) {
     // 隐藏主窗口
@@ -23,6 +25,7 @@ export const setTray = (window) => {
   const trayMenuTemplate = [{ // 系统托盘图标目录
     label: '退出鱼泡工程云',
     click: function () {
+      console.log('退出鱼泡工程云')
       appTray = null
       mainWindow = null
       // 所有窗口都将立即被关闭，而不询问用户
@@ -30,7 +33,11 @@ export const setTray = (window) => {
     }
   }]
   // 创建托盘实例
-  appTray = new Tray(trayIcon)
+  if (process.platform == 'darwin'){
+    _trayIcon = nativeImage.createFromPath(trayMac)
+    _trayIcon.setTemplateImage(true)
+  }
+  appTray = new Tray(_trayIcon)
   // 图标的上下文菜单
   const contextMenu = Menu.buildFromTemplate(trayMenuTemplate)
   // 启动或停止闪烁窗口, 以吸引用户的注意。

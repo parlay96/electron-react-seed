@@ -56,7 +56,7 @@ const Phone = (props: IAppProps) => {
             suffix={<VerificationCode tel={phone} />}
           />
         </Form.Item>
-        <Form.Item>
+        <Form.Item className={styles.submit}>
           <Button type="primary" htmlType="submit" block className={styles['login-form-button']}>
           登录
           </Button>

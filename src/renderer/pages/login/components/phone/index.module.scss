@@ -1,18 +1,22 @@
 .login-form {
   .login-form-button {
-    height: 46px;
-    line-height: 46px;
+    height: 48px;
+    line-height: 48px;
     border-radius: 6px;
     padding: 0;
-    font-size: 16px;
-    margin-top: 12px;
+    font-size: 20px;
   }
 
   .login-form-radio {
-    margin-bottom: 8px;
+    margin-bottom: 12px;
   }
 
   .first-item {
     // margin-bottom: 22px !important;
+  }
+
+  .submit {
+    margin-top: 40px;
+    margin-bottom: 24px;
   }
 }

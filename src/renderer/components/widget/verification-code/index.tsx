@@ -5,6 +5,8 @@
 import { isPhone, request } from '@/utils'
 import { message } from 'antd'
 import React, {useEffect, useState} from 'react'
+import styles from './index.module.scss'
+import classNames from "classnames"
 
 export interface ICodeProps {
   tel: string;
@@ -47,9 +49,9 @@ export default function Code (props: ICodeProps) {
     <>
       {
         time ?
-          <div className="disable">{time}s后重新获取</div> :
+          <div className={classNames(styles.disable, styles.font)}>{time}s后重新获取</div> :
           <a onClick={onClick}>
-            <span className="">{text}</span>
+            <span className={styles.font}>{text}</span>
           </a>
       }
     </>

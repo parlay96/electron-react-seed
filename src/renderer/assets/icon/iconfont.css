@@ -1,6 +1,6 @@
 @font-face {
   font-family: "yp-font-icon"; /* Project id 3337845 */
-  src: url('iconfont.woff?t=1659592774886') format('woff');
+  src: url('iconfont.woff?t=1660803189411') format('woff');
 }
 
 .yp-font-icon {
@@ -9,6 +9,34 @@
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.yp-iPhone:before {
+  content: "\eaae";
+}
+
+.yp-diannao:before {
+  content: "\e6a9";
+}
+
+.yp-yinsibaohu:before {
+  content: "\e6af";
+}
+
+.yp-a-xiuding1:before {
+  content: "\e6a8";
+}
+
+.yp-zhifu:before {
+  content: "\e6a6";
+}
+
+.yp-yinzhangleixing:before {
+  content: "\e72f";
+}
+
+.yp-baozhengjin:before {
+  content: "\e72e";
 }
 
 .yp-zuzhijiagou:before {

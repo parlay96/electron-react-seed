@@ -14,6 +14,7 @@ import Forget from "./components/forget"
 import styles from "./index.module.scss"
 import qrCodeIcon from "@/assets/imgs/qrcode.png"
 import accountIcon from "@/assets/imgs/account.png"
+import bgImage from "@/assets/imgs/login-bg.png"
 
 const { TabPane } = Tabs
 export interface ILoginProps {}
@@ -55,7 +56,7 @@ const Login = (props: ILoginProps) => {
 
   const normalLogin = () =>
     cardType.current === 1 ? <>
-      <div className={classNames(styles.title, styles.marginTop100)}>欢迎使用工程云</div>
+      <div className={classNames(styles.title, styles.marginTop42)}>欢迎使用工程云</div>
       <Tabs defaultActiveKey={tab} onChange={onChange}>
         <TabPane tab="手机号" key="1">
           <Phone />
@@ -65,8 +66,8 @@ const Login = (props: ILoginProps) => {
         </TabPane>
       </Tabs>
     </> : <>
-      <div className={classNames(styles.title, styles.center, styles.marginTop100)}>
-        欢迎使用工程云
+      <div className={classNames(styles.title, styles.center, styles.marginTop85)}>
+        扫码登录
       </div>
       <div className={classNames(styles.text, styles.center)}>
         请使用鱼泡工程云移动端扫描二维码
@@ -86,6 +87,7 @@ const Login = (props: ILoginProps) => {
       <div className={classNames(styles.title, styles.center, styles['space-forget'])}>
         忘记密码
       </div>
+      <div className={classNames(styles['text-forget'], styles.center)}>通过关联的手机号找回密码</div>
       <Forget next={onModify} />
     </> : <>
       <div className={styles.back} onClick={onBack}>
@@ -94,11 +96,11 @@ const Login = (props: ILoginProps) => {
           返回
         </span>
       </div>
-      <div className={classNames(styles.title, styles.center, styles.marginTop40)}>
+      <div className={classNames(styles.title, styles.center, styles['space-forget'])}>
         重置密码
       </div>
-      <div className={classNames(styles['text-modify'], styles.center, styles['space-modify'])}>
-        至少8个字符，不能全是字母和数字
+      <div className={classNames(styles['text-forget'], styles.center)}>
+        至少8个字符，不能全是字母或数字
       </div>
       <ModifyPassword tel={forgetTel} />
     </>
@@ -107,6 +109,13 @@ const Login = (props: ILoginProps) => {
     <div className={styles.loginBox}>
       <DragBox className={styles.logindrag} btnStyle={{color: '#606066'}}/>
       <div className={styles["login-panel"]}>
+        <div className={styles['login-bg']}>
+          <img src={bgImage} className={styles['bg-img']}  alt="" />
+          <div className={styles['bg-title']}>
+            <p>建筑工程企业</p>
+            <p>管理与协作平台</p>
+          </div>
+        </div>
         <div className={styles["login-card"]}>
           <div className={styles.image} onClick={onChangeImg}>
             <img className={styles.icon} src={img} />

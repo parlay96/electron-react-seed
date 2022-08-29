@@ -6,7 +6,6 @@ import React, { useEffect, useState } from 'react'
 import type { CSSProperties, ReactNode } from "react"
 import classNames from 'classnames'
 import { Icon } from '@/components'
-import { actions, dispatch } from "@/store"
 import { $ipc } from '@/utils'
 import config from '@config/index'
 import styles from './index.module.scss'
@@ -52,11 +51,6 @@ const DragBox = (props: IDragBoxProps) => {
       setWinMax(args)
     })
   }, [])
-
-  useEffect(() => {
-    // 把当前窗口状态存起来
-    dispatch(actions.configActions.setMaximize(winMax))
-  }, [winMax])
 
   // 双击时
   const headDoubleClick = (e) => {
@@ -129,7 +123,7 @@ const DragBox = (props: IDragBoxProps) => {
       </>
       {/* 功能区 */}
       {
-        !hideControlBar &&
+        !hideControlBar && process.platform !== 'darwin' &&
         <div className={styles.browserRibbon}>
           <div
             className={classNames(styles.itemBtn ,'no-drag')}

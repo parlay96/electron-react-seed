@@ -6,8 +6,7 @@
 import Qs from "qs"
 import axios from 'axios'
 import { message } from 'antd'
-import { deleteStore, TOKEN, USERINFO, getStore, setStore, request } from '@/utils'
-import { actions, dispatch } from "@/store"
+import { TOKEN, USERINFO, getStore, setStore, request, logOut } from '@/utils'
 import { REQUESTURL } from "@/config"
 
 /** 获取请求header信息 */
@@ -137,7 +136,7 @@ const errorHandler = (error: any) => {
   const { response, code } = error
   if (code === 401) {
     // 清楚存储用户信息
-    redirectHome()
+    logOut()
   } else if (code && code !== 402) {
     message.error(error.msg)
   }
@@ -149,16 +148,4 @@ const errorHandler = (error: any) => {
   }
   /** 抛出错位 */
   throw error
-}
-
-/** @name 登录失效重定向首页 */
-export const redirectHome = () => {
-  /** 删除用户信息 */
-  deleteStore(USERINFO)
-  /** 删除token */
-  deleteStore(TOKEN)
-  // 设置登录状态
-  dispatch(actions.userActions.setState({isLogin: false}))
-  const href = location.origin + '/#/login'
-  location.href = href
 }

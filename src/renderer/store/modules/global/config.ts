@@ -7,16 +7,11 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 const { reducer, actions, name } = createSlice({
   name: 'config',
   initialState: {
-    // 窗口最大化
-    isMaximize: false,
   },
   reducers: {
     setState (state, { payload }: PayloadAction<Record<string, any>>) {
       Object.assign(state, payload)
-    },
-    setMaximize (state, { payload }: PayloadAction<boolean>) {
-      state.isMaximize = payload
-    },
+    }
   },
 })
 

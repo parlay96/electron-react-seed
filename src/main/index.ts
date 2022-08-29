@@ -1,17 +1,19 @@
 /*
  * @Author: penglei
  * @Date: 2022-05-26 00:09:33
- * @LastEditors: Please set LastEditors
- * @LastEditTime: 2022-08-09 10:44:52
+ * @LastEditors: penglei
+ * @LastEditTime: 2022-08-23 14:24:28
  * @Description: 主进程入口
  */
-import { app, globalShortcut } from 'electron'
+import { app, globalShortcut, ipcMain } from 'electron'
 import mainInit from './services/main-init'
 import {shortcutKry} from './utils'
 import config from '@config/index'
 import installExtension, { REACT_DEVELOPER_TOOLS } from 'electron-devtools-installer'
 
 let myWindow = null
+// 获取可执行文件位置
+const ex = process.execPath
 
 // 是否单例模式
 if (config.IsSingleInstances) {
@@ -38,7 +40,6 @@ if (config.IsSingleInstances) {
   // 第一次打开的进程实例的window对象，如你在上面存储window上面的localStorage，会是你下次创建第一个进程实例的window
   // 上面的话不好理解?意思就是你第一次创建的进程window上存的值，如果后面再次创建第一个进程，
   // 那么那个进程的window对象上的值，会是你第一次创建应用的值！
-
   // 当Electron 初始化完成。 可用作检查 app.isReady() 的方便选择
   // 创建 myWindow, 加载应用的其余部分, etc...
   app.isReady() ? onAppReady() : app.on('ready', onAppReady)
@@ -80,6 +81,24 @@ app.on('quit', () => {
 // 在创建新的 browserWindow 时触发
 app.on('browser-window-created', () => {
   console.log('window-created')
+})
+
+// 开启 开机自启动
+ipcMain.on('openAutoStart', () => {
+  app.setLoginItemSettings({
+    openAtLogin: true,
+    path: ex,
+    args: []
+  })
+})
+
+// 关闭 开机自启动
+ipcMain.on('closeAutoStart', ()=>{
+  app.setLoginItemSettings({
+    openAtLogin: false,
+    path: ex,
+    args: []
+  })
 })
 
 if (process.defaultApp) {

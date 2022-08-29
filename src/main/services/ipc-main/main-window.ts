@@ -3,6 +3,9 @@
  * @Description: 主窗口的ipc通信
  */
 import { ipcMain, dialog, BrowserWindow, shell, app } from 'electron'
+import url from 'url'
+import { basePath } from '../../config'
+import { formatParams } from '../../utils'
 import { windowMoveIpc } from './common'
 
 /** 主窗口的 ipc通信*/
@@ -30,7 +33,7 @@ export const ipcWinMain = (mainWindow: BrowserWindow) => {
     shell.openExternal(arg)
   })
   // 隐藏窗口
-  ipcMain.handle('window-hide', async () => {
+  ipcMain.handle('window-hide', async (event) => {
     mainWindow.hide()
   })
   // 退出应用
@@ -48,6 +51,21 @@ export const ipcWinMain = (mainWindow: BrowserWindow) => {
       noLink: arg.noLink || true
     })
     return res
+  })
+  // 切换主进程的路由
+  ipcMain.on('router-navigat', (event, arg: {path: string, params: {[key: string]: any}}) => {
+    const isDev = process.env.NODE_ENV === 'development'
+    const urlstr = url.format({
+      pathname: basePath + (isDev ? '/' : ''),
+      protocol: isDev ? 'http' : 'file',
+      slashes: true,
+      hash: arg.path + (arg?.params ? '?' + formatParams(arg?.params) : ''),
+    })
+    mainWindow?.loadURL(urlstr)
+  })
+  // 监听webview被点击
+  ipcMain.on('web-view-click', (event) => {
+    mainWindow.webContents.send('on-webview-click', false)
   })
   // 当窗口从最大化状态退出时触发
   mainWindow.on('unmaximize', (e) => {

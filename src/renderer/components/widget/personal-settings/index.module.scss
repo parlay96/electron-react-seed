@@ -1,0 +1,68 @@
+.personalSettingBox {
+  position: fixed;
+  top: 50px;
+  left: 70px;
+  width: calc(100% - 70px);
+  height: calc(100% - 50px);
+  display: block;
+  border-top-left-radius: 8px;
+  background-color: white;
+  overflow: hidden;
+  z-index: 99;
+  .title {
+    width: 100%;
+    height: 60px;
+    line-height: 60px;
+    padding-left: 23px;
+    font-size: 18px;
+    font-weight: bold;
+    color: rgba(0, 0, 0, 0.85);
+    position: relative;
+    border-bottom: 1px solid #E6E6E6;
+    .close {
+       position: absolute;
+       width: 18px;
+       height: 18px;
+       line-height: 18px;
+       top: 21px;
+       right: 12px;
+       cursor: pointer;
+    }
+  }
+  .listBox {
+    width: 100%;
+    height: calc(100% - 60px);
+    @include flex-r
+  }
+  .sideBox {
+    width: 200px;
+    height: 100%;
+    border-right: 1px solid #E6E6E6;
+    padding: 10px;
+    .itemMenu {
+      width: 100%;
+      height: 36px;
+      @include flex-r;
+      align-items: center;
+      padding: 0 8px;
+      font-size: 14px;
+      color: #606066;
+      border-radius: 5px;
+      .name {
+        margin-left: 8px;
+      }
+      &:hover {
+        background-color: rgba(126, 134, 142, 0.12);
+      }
+    }
+    .active {
+      background-color: #EDF3FE !important;
+      color: #5290FD !important;
+    }
+  }
+  .layoutBox {
+    flex: 1;
+    width: 100%;
+    height: 100%;
+  }
+}

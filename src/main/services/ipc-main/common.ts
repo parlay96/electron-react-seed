@@ -4,7 +4,7 @@
  */
 import { screen, ipcMain, dialog, BrowserWindow } from 'electron'
 import config from '@config/index'
-import { winURL } from '../../config/static-path'
+import { winURL } from '../../config'
 
 const commonIpc = () => {
 // 错误弹窗

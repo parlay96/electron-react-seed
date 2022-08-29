@@ -6,7 +6,7 @@
 /** 下面全是初始化样式，基本不怎么改变 */
 /** 参考阿里云默认字体配置 */
 body {
-  font-family: pingfang SC, helvetica neue, arial,hiragino sans gb,microsoft yahei ui, microsoft yahei, simsun, sans-serif !important;
+  font-family: PingFangSC-Regular, PingFang SC, helvetica neue, arial,hiragino sans gb,microsoft yahei ui, microsoft yahei, simsun, sans-serif !important;
 }
 
 body,
@@ -210,5 +210,10 @@ input:-internal-autofill-selected {
 }
 
 .no-drag {
+  -webkit-app-region: no-drag;
+}
+
+// 预览antd图片组件的全局样式修改
+.ant-image-preview-mask, .ant-image-preview-wrap, .ant-image-preview-operations, .ant-modal-mask {
   -webkit-app-region: no-drag;
 }

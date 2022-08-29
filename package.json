@@ -1,5 +1,5 @@
 {
-  "name": "@yp_cloud/electron",
+  "name": "ypgcy",
   "version": "0.0.1",
   "description": "a electron-react project",
   "main": "./dist/electron/main.js",
@@ -14,23 +14,24 @@
     "build:dir": "node .script/index --build --electron --dir",
     "build:web": "node .script/index --build --web",
     "lint": "eslint --ext src",
-    "lint-fix": "eslint --fix --ext .js,.jsx,.ts,.tsx src"
+    "lint-fix": "eslint --fix --ext .js,.jsx,.ts,.tsx src",
+    "update:serve": "node server/index.js"
   },
   "build": {
     "extraFiles": [
       "lib"
     ],
-    "publish": [
-      {
-        "provider": "generic",
-        "url": "http://127.0.0.1:25565/"
-      }
-    ],
-    "productName": "yupao",
-    "appId": "org.simulatedgreg.electron-react",
+    "publish": [{
+      "provider": "generic",
+      "url": "http://192.168.28.28:8000"
+    }],
+    "productName": "鱼泡工程云",
+    "appId": "com.yupao.cloud",
     "directories": {
       "output": "dist"
     },
+    "asar": true,
+    "asarUnpack": "**\\*.{node,dll}",
     "nsis": {
       "oneClick": false,
       "perMachine": true,
@@ -42,7 +43,7 @@
       "createDesktopShortcut": true,
       "createStartMenuShortcut": true,
       "deleteAppDataOnUninstall": true,
-      "artifactName": "${productName}${version}.${ext}",
+      "artifactName": "ypgcy${version}.${ext}",
       "shortcutName": "鱼泡工程云"
     },
     "files": [
@@ -63,8 +64,21 @@
         }
       ]
     },
+    "afterSign": ".script/notarize.js",
     "mac": {
-      "icon": "assets/icons/icon.icns"
+      "target": {
+        "target": "default",
+        "arch": [
+          "arm64",
+          "x64"
+        ]
+      },
+      "icon": "assets/icons/icon.icns",
+      "type": "distribution",
+      "hardenedRuntime": true,
+      "entitlements": "assets/entitlements.mac.plist",
+      "entitlementsInherit": "assets/entitlements.mac.plist",
+      "gatekeeperAssess": false
     },
     "win": {
       "icon": "assets/icons/icon.ico",
@@ -81,7 +95,6 @@
     "antd": "4.20.6",
     "axios": "^0.27.2",
     "js-cookie": "^3.0.1",
-    "node-machine-id": "^1.1.12",
     "react": "18.1.0",
     "react-dom": "18.1.0",
     "react-redux": "^8.0.2",
@@ -116,6 +129,7 @@
     "electron": "19.0.0",
     "electron-builder": "^23.0.3",
     "electron-devtools-installer": "^3.2.0",
+    "electron-notarize": "^1.2.1",
     "electron-updater": "^5.0.1",
     "esbuild-loader": "^2.19.0",
     "eslint": "7.19.0",
