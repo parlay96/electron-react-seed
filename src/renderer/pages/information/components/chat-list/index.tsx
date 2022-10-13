@@ -21,6 +21,7 @@ export interface IChatListRef {
 let pages = 1 // 页码
 const pageSize = 20 // 条数
 let timer = null // 定时器
+let isUpdateFlag = false // 是否收到消息
 let lastHeight = 0 // 当前聊天内容的高度，用来做加载下页，需要滚动到的位置
 
 // 聊天列表
@@ -65,11 +66,13 @@ const ChatList = forwardRef<IChatListRef, IChatList>((props, ref) => {
       // 当前滚动内容的高度
       const scrollHeight = current.scrollHeight - current.clientHeight
       // 当前为第一也时：随便给个最大高度。否侧： 当前位置高度 - 上次的内容高值，做到很好的链接性
-      current.scrollTop = pages == 1 ? 10000 : scrollHeight - lastHeight
+      current.scrollTop = pages == 1 || isUpdateFlag ? 1000000 : scrollHeight - lastHeight
       // 页面叠加
       pages = pages + 1
       // 记录这次的值
       lastHeight = scrollHeight
+      // 更改收到消息标识状态
+      isUpdateFlag = false
       // 等待滚动完毕
       setLoad(true)
     }
@@ -106,7 +109,8 @@ const ChatList = forwardRef<IChatListRef, IChatList>((props, ref) => {
         const newChatData = await filterChatData([msg])
         // 设置数据
         setChatList([ ...chatListData, ...newChatData ])
-
+        // 标记下收到了信息
+        isUpdateFlag = true
         clearTimeout(timer)
         // 延迟清空下，给人感觉到有新消息出现
         timer = setTimeout(() => {
