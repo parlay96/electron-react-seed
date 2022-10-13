@@ -6,6 +6,12 @@ export const isObj = (obj) => {
   return Object.prototype.toString.call(obj) === '[object Object]'
 }
 
+// 空对象
+export const isEmptyObj = (obj) => {
+  if (!obj) return false
+  return JSON.stringify(obj) === '{}'
+}
+
 // 清除字符串所有的空格
 export const clearSpace = (str) => {
   const newStr = str || ''

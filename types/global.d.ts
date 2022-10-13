@@ -1,8 +1,8 @@
 /*
  * @Author: penglei
  * @Date: 2022-05-26 12:03:14
- * @LastEditors: penglei
- * @LastEditTime: 2022-07-10 22:07:58
+ * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2022-09-12 20:22:15
  * @Description:
  */
 declare module '*.png'
@@ -17,4 +17,5 @@ declare module '*.sass'
 declare let __static: string
 interface Window {
   __static: string;
+  WebIM: any;
 }

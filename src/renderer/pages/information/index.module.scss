@@ -1,0 +1,296 @@
+.informationBox {
+  @include flex-r;
+  flex-flow: row nowrap;
+  height: 100%;
+  .contactList {
+     width: 290px;
+     height: 100%;
+     flex: 0 1 auto;
+    .titleBox {
+        height: 50px;
+        width: 100%;
+        padding: 0 10px;
+        font-size: 16px;
+        @include flex-r;
+        align-items: center;
+        padding-left: 30px;
+        // border-bottom: 1px solid #E6E6E6;
+     }
+     .convList {
+        width: 100%;
+        height: calc(100% - 50px);
+        overflow-y: overlay;
+        padding: 0 8px;
+        background-size: cover;
+        // border-right: 1px solid #E6E6E6;
+        .convItem {
+           padding: 10px 8px;
+           border-radius: 5px;
+           margin-bottom: 3px;
+           display: flex;
+           flex-flow: row nowrap;
+           align-items: center;
+           transition: .3s ease-out;
+           position: relative;
+           cursor: pointer;
+           &:hover {
+             background-color: #ededee;
+             :global {
+              .show-remove {
+                display: block !important;
+              }
+              .hide-time {
+                display: none;
+              }
+             }
+           }
+           .imageBox {
+             position: relative;
+             flex: 0 0 40px;
+             margin-right: 10px;
+             height: 40px;
+              .portraitBox {
+                width: 40px;
+                height: 40px;
+                overflow: hidden;
+                color: #fff;
+                font-size: 14px;
+                background-color: #5290fd;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              }
+              .logoAvatar {
+                overflow: hidden;
+                border-radius: 50%;
+              }
+              .unreadNum {
+                position: absolute;
+                top: -3px;
+                right: -2px;
+                background-color: #f54a45;
+                color: #fff;
+                font-size: 11px;
+                padding: 0 3px;
+                border-radius: 50%;
+                min-width: 14px;
+                height: 14px;
+                line-height: 14px;
+                text-align: center;
+              }
+           }
+           .content {
+            flex: 1 1 auto;
+            min-width: 0;
+             .titleWrap {
+                display: flex;
+                margin-bottom: 4px;
+                .nameWrap {
+                  flex: 1 1 auto;
+                  min-width: 0;
+                  display: flex;
+                  align-items: center;
+                  .name {
+                    font-size: 13px;
+                    color: #222;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                    word-wrap: normal;
+                    flex: 0 0 auto;
+                    max-width: 100%;
+                  }
+                }
+                .time {
+                  flex: 0 0 auto;
+                  color: #bdbebf;
+                  font-size: 12px;
+                  padding-left: 8px;
+                }
+             }
+             .latestMsgInfo{
+                display: flex;
+                align-items: center;
+                font-size: 12px;
+                line-height: 16px;
+                height: 16px;
+                min-width: 10px;
+                color: #7d7d7e;
+                padding-right: 38px;
+                p {
+                  flex: 1 1 auto;
+                  min-width: 0;
+                  overflow: hidden;
+                  text-overflow: ellipsis;
+                  white-space: nowrap;
+                  word-wrap: normal;
+                  height: 16px;
+                }
+             }
+           }
+           .removeBtn {
+             position: absolute;
+             display: none;
+             top: 15px;
+             right: 5px;
+             width: 30px;
+             height: 30px;
+             text-align: center;
+             line-height: 30px;
+             &:hover {
+               color: #5290FD;
+             }
+           }
+        }
+        .active {
+          background-color: #e6f0ff !important;
+        }
+     }
+  }
+  .messageList {
+     flex: 1 0 290px;
+     height: 100%;
+     overflow: hidden;
+    .conv-detail-pannel {
+      display: flex;
+      flex-flow: column wrap;
+      height: 100%;
+      background-color: #fafbfc;
+      // 头部
+      .content-pannel-head {
+        position: relative;
+        height: 50px;
+        border-bottom: 1px solid #e6e5e6;
+        display: flex;
+        width: 100%;
+        align-items: center;
+        .logoAvatar{
+          width: 38px;
+          height: 38px;
+          flex: 0 0 38px;
+          margin-left: 16px;
+          overflow: hidden;
+          border-radius: 50%;
+        }
+        .portraitBox {
+          color: #fff;
+          font-size: 14px;
+          background-color: #5290fd;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        .conv-title {
+          flex: 1 1 auto;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          overflow: hidden;
+          display: flex;
+          flex-direction: column;
+          margin-left: 9px;
+          .title {
+            display: flex;
+            align-items: center;
+            .name {
+              align-items: center;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              white-space: nowrap;
+              word-wrap: normal;
+              display: inline-block;
+              color: #222;
+              font-size: 15px;
+              font-weight: bold;
+            }
+          }
+          .desc {
+            color: #a0a0a0;
+            font-size: 12px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            word-wrap: normal;
+          }
+        }
+        .conv-operations {
+          width: 193px;
+          flex: 1 0 auto;
+          display: flex;
+          padding-right: 18px;
+          padding-left: 18px;
+          justify-content: end;
+          align-items: center;
+        }
+      }
+      // 底部输入框
+      .send-msg-box-wrapper {
+        box-sizing: border-box;
+        width: 100%;
+        border-top: 1px solid #e6e5e6;
+        display: flex;
+        .input-area {
+          flex: 1;
+          flex-flow: column nowrap;
+          display: flex;
+          .tool-bar {
+            padding: 7px 7px 7px 13px;
+            width: 100%;
+            .tool-item {
+              display: inline-block;
+              position: relative;
+              width: 24px;
+              height: 24px;
+              text-align: center;
+              cursor: pointer;
+              &:hover {
+                border-radius: 4px;
+                background-color: #d8dbdd !important;
+              }
+            }
+          }
+          .edit-box {
+            flex: 1;
+            padding: 0 10px 7px 12px;
+            max-height: 65px;
+            overflow-y: auto;
+            .input-msg-box {
+              width: 100%;
+              min-height: 58px;
+              overflow-x: hidden;
+              border: none;
+              outline: none;
+              background-color: transparent;
+              line-height: 18px;
+              color: #222;
+              font-size: 14px;
+              white-space: pre-wrap;
+              // 解决输入英文 数字换行问题
+              word-break: break-all;
+              // -div 可编辑时按回车键会出现<div><br></div>的问题。解决：让 contenteditable 元素粘贴时自动过滤样式：
+              // 给div的css添加 （这行代码还可以使得该contenteditable的div获取innerText时保留换行），但该方法只适用于webkit内核浏览器，比如chrome浏览器
+              -webkit-user-modify: read-write-plaintext-only;
+            }
+          }
+        }
+        .action-area {
+          position: relative;
+          width: 78px;
+          border-left: 1px solid #e6e5e6;
+          .send-message-button {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 78px;
+            height: 100%;
+            background-color: #fff;
+            font-size: 13px;
+          }
+        }
+      }
+    }
+    .no-chat-box {
+      flex: 1;
+    }
+  }
+}

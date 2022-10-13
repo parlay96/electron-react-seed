@@ -1,15 +1,16 @@
 /*
  * @Author: penglei
  * @Date: 2022-05-26 00:09:33
- * @LastEditors: penglei
- * @LastEditTime: 2022-08-23 14:24:28
+ * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2022-09-23 10:23:03
  * @Description: 主进程入口
  */
 import { app, globalShortcut, ipcMain } from 'electron'
+import installExtension, { REACT_DEVELOPER_TOOLS } from 'electron-devtools-installer'
+import config from '@config/index'
+import store from './store'
 import mainInit from './services/main-init'
 import {shortcutKry} from './utils'
-import config from '@config/index'
-import installExtension, { REACT_DEVELOPER_TOOLS } from 'electron-devtools-installer'
 
 let myWindow = null
 // 获取可执行文件位置
@@ -74,6 +75,8 @@ app.on('window-all-closed', () => {
 
 // 应用程序退出时发出
 app.on('quit', () => {
+  // 清除所有缓存数据
+  store.clear()
   // 取消注册所有快捷方式
   globalShortcut.unregisterAll()
 })

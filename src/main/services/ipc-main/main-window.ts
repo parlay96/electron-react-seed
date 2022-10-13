@@ -5,6 +5,7 @@
 import { ipcMain, dialog, BrowserWindow, shell, app } from 'electron'
 import url from 'url'
 import { basePath } from '../../config'
+import store from '../../store'
 import { formatParams } from '../../utils'
 import { windowMoveIpc } from './common'
 
@@ -74,5 +75,20 @@ export const ipcWinMain = (mainWindow: BrowserWindow) => {
   // 窗口最大化时触发
   mainWindow.on('maximize', (e) => {
     mainWindow.webContents.send('on-maximize', true)
+  })
+  // 获取本地磁盘的数据
+  ipcMain.handle('getStoreValue', (event, key) => {
+    return store.get(key)
+  })
+  // 设置数据到本地磁盘
+  ipcMain.handle('setStoreValue', (event, arg) => {
+    return store.set(arg.key, arg.data)
+  })
+  // 删除某个数据 || 删除全部数据
+  ipcMain.handle('deleteStoreKey', (event, key) => {
+    if (key) {
+      return store.delete(key)
+    }
+    store.clear()
   })
 }

@@ -9,7 +9,8 @@ export const switchEnterprise = async (cid: string) => {
   const userInfo = getStore(USERINFO)
   // 表示目前企业跟切换企业是一致的，就不需要切换
   if (userInfo && userInfo.user?.cid == cid) return false
-  const { data } = await request['POST/auth/change-corp-login']({ login_cid: cid })
+  const account_id = userInfo.user?.account_id
+  const { data } = await request['POST/auth/change-corp-login']({ login_cid: cid, login_account_id: account_id })
   setStore(USERINFO, data)
   setStore(TOKEN, data.token)
   return true

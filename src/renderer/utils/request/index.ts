@@ -34,7 +34,6 @@ const request = new Proxy(
         // eslint-disable-next-line no-extra-parens
         const [method, ...urlArr] = (p as string).split('/')
         const url = `/${urlArr.join('/')}`
-        // console.log('url----', url, method)
         return ajax({ url, method: method.toLocaleLowerCase(), data, config: options })
       }
     },

@@ -13,12 +13,12 @@ import styles from './index.module.scss'
 const { confirm } = Modal
 
 const Layout= () => {
-  const [isModalVisible, setModalVisible] = useState<boolean>(false)
-  const [percentage, setPercentage] = useState<number>(0)
+  const [isModalVisible, setModalVisible] = useState(false)
+  const [percentage, setPercentage] = useState(0)
   useEffect(() => {
     // 自动检测更新
     $ipc.invoke("check-update")
-    // 监听更新
+    // 监听更新1
     $ipc.on('update-msg', (event, arg) => {
       switch (arg.state) {
       case -1:

@@ -17,7 +17,6 @@ const Phone = (props: IAppProps) => {
   /** 是否自动登录 */
   const isAuto = useRef(true)
   const onFinish = (values) => {
-    console.log('Received values of form: ', values)
     auth.signIn(async () => {
       const { data } = await request["POST/auth/pwd-login"](values)
       /** 设置自动登录 */

@@ -5,7 +5,7 @@
   -webkit-app-region: drag;
   height: 100%;
   position: relative;
-  z-index: 998;
+  z-index: 900;
   .mitem {
     @include flex-c;
     -webkit-app-region: none;
@@ -35,12 +35,11 @@
     position: absolute;
     top: 4px;
     right: 6px;
-    width: 15px;
-    line-height: 15px;
+    min-width: 14px;
+    line-height: 14px;
     text-align: center;
     background: #FF4D4F;
     border-radius: 10px;
-    border: 1px solid #FFFFFF;
     color: #fff;
     font-size: 12px;
   }

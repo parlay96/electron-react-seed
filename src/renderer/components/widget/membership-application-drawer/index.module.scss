@@ -1,0 +1,129 @@
+.membershipDrawer {
+   background-color: #F2F2F2;
+   width: 100%;
+   height: calc(100% - 50px);
+   position: relative;
+  .headBox {
+    height: 44px;
+    background-color: #fff;
+    position: relative;
+    text-align: center;
+    line-height: 44px;
+    border-bottom: 1px solid #E6E6E6;
+    span {
+      font-weight: bold;
+      color: #323233;
+      font-size: 16px;
+    }
+    .back {
+      position: absolute;
+      top: 10px;
+      cursor: pointer;
+      left: 16px;
+      height: 24px;
+      line-height: 24px;
+      width: 24px;
+    }
+   }
+   .conBox{
+    width: 100%;
+    height: calc(100% - 105px);
+    overflow-y: auto;
+    background-color: white;
+    padding: 0 16px;
+    .memberItem {
+      padding: 16px 0;
+      @include flex-r;
+      border-bottom: 1px solid #E6E6E6;
+      .boxc {
+        @include flex-r;
+        align-items: center;
+        height: 44px;
+      }
+      .check {
+        width: 20px;
+        height: 20px;
+        line-height: 20px;
+        text-align: center;
+        cursor: pointer;
+      }
+      .head {
+        width: 44px;
+        height: 44px;
+        line-height: 44px;
+        margin-left: 12px;
+        overflow: hidden;
+        border-radius: 4px;
+        color: #fff;
+        font-size: 14px;
+        text-align: center;
+        background-color: #5290fd;
+      }
+      .info {
+        margin-left: 12px;
+        margin-top: -5px;
+        .name {
+          color: #323233;
+          font-size: 17px;
+        }
+        .text {
+          margin-top: 5px;
+        }
+        .title {
+          color: #9D9DB3;
+          margin-top: 3px;
+        }
+        p {
+          font-size: 13px;
+          color: #323233;
+        }
+      }
+    }
+    .noData{
+      line-height: 200px;
+      text-align: center;
+    }
+   }
+   .btnBox {
+    width: 100%;
+    height: 60px;
+    @include flex-r;
+    background-color: #fff;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 16px;
+    border-top: 1px solid #E6E6E6;
+    .checkAll {
+      height: 24px;
+      cursor: pointer;
+      @include flex-r;
+      align-items: center;
+      .allText {
+        color: #323233;
+        font-size: 17px;
+        margin-top: -2px;
+        margin-left: 4px;
+      }
+    }
+    .itemBtn {
+      width: 80px;
+      height: 38px;
+      line-height: 38px;
+      text-align: center;
+      color: #F0322B;
+      cursor: pointer;
+      border-radius: 4px;
+      font-size: 16px;
+      border: 1px solid #F0322B;
+    }
+    .agree {
+      background: #477EFF;
+      border: none !important;
+      color: #fff;
+      margin-left: 10px
+    }
+    .btns {
+      @include flex-r;
+    }
+   }
+}

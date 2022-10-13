@@ -25,7 +25,6 @@ export const setTray = (window) => {
   const trayMenuTemplate = [{ // 系统托盘图标目录
     label: '退出鱼泡工程云',
     click: function () {
-      console.log('退出鱼泡工程云')
       appTray = null
       mainWindow = null
       // 所有窗口都将立即被关闭，而不询问用户

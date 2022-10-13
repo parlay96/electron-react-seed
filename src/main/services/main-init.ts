@@ -2,7 +2,7 @@
  * @Author: penglei
  * @Date: 2022-05-26 00:09:33
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2022-08-29 16:47:12
+ * @LastEditTime: 2022-09-23 10:15:41
  * @Description: 主进程窗口
  */
 import { app, BrowserWindow, dialog, Menu } from 'electron'
@@ -208,7 +208,7 @@ export default class mainInit {
     })
     // 窗口被关闭时 : https://www.electronjs.org/zh/docs/latest/api/browser-window#%E4%BA%8B%E4%BB%B6-closed
     this.mainWindow.on('closed', () => {
-      console.log('关闭')
+      console.log('窗口被关闭')
       // 在窗口关闭时触发 当你接收到这个事件的时候, 你应当移除相应窗口的引用对象，避免再次使用它
       this.mainWindow = null
     })

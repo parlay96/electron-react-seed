@@ -33,7 +33,6 @@ export const updateApp = (mainWindow: BrowserWindow) => {
   })
   // 当开始检查更新的时候触发
   autoUpdater.on('checking-for-update', () => {
-    console.log(212121)
     Message(mainWindow, 0)
   })
   // 发现可更新数据时

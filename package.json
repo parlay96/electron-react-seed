@@ -15,16 +15,19 @@
     "build:web": "node .script/index --build --web",
     "lint": "eslint --ext src",
     "lint-fix": "eslint --fix --ext .js,.jsx,.ts,.tsx src",
-    "update:serve": "node server/index.js"
+    "update:serve": "node server/index.js",
+    "s": "electron-builder --mac"
   },
   "build": {
     "extraFiles": [
       "lib"
     ],
-    "publish": [{
-      "provider": "generic",
-      "url": "http://192.168.28.28:8000"
-    }],
+    "publish": [
+      {
+        "provider": "generic",
+        "url": "http://192.168.28.28:8000"
+      }
+    ],
     "productName": "鱼泡工程云",
     "appId": "com.yupao.cloud",
     "directories": {
@@ -94,7 +97,11 @@
     "@yp_cloud/common": "^0.0.1",
     "antd": "4.20.6",
     "axios": "^0.27.2",
+    "easemob-websdk": "^4.1.0-beta",
+    "electron-store": "^8.1.0",
     "js-cookie": "^3.0.1",
+    "loglevel": "^1.8.0",
+    "loglevel-plugin-prefix": "^0.8.4",
     "react": "18.1.0",
     "react-dom": "18.1.0",
     "react-redux": "^8.0.2",
@@ -130,6 +137,7 @@
     "electron-builder": "^23.0.3",
     "electron-devtools-installer": "^3.2.0",
     "electron-notarize": "^1.2.1",
+    "electron-store": "8.1.0",
     "electron-updater": "^5.0.1",
     "esbuild-loader": "^2.19.0",
     "eslint": "7.19.0",

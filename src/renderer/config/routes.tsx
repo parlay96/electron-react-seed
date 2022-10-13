@@ -10,6 +10,8 @@ import { RequireAuth } from "@/auth"
 import NoMatch from '@/pages/404'
 
 // 不要使用React.lazy异步加载组件
+/** 消息 */
+import Information from '@/pages/information'
 /** 首页 */
 import Workbench from '@/pages/workbench'
 /** 通信录 */
@@ -23,7 +25,8 @@ const routes: RouteObject[] = [
     path: "/",
     element: <RequireAuth><Layout /></RequireAuth>,
     children: [
-      { index: true,  element: <Contacts /> },
+      { index: true, element: <Information /> },
+      { path: 'contacts',  element: <Contacts /> },
       { path: 'workbench', element: <Workbench /> },
     ],
   },
