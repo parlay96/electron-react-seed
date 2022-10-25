@@ -1,0 +1,133 @@
+// 富文本样式
+.editor-box {
+  flex-flow: column nowrap;
+  display: flex;
+  padding: 0 10px 0 13px;
+  .tool-bar {
+    padding: 7px 0;
+    width: 100%;
+    position: relative;
+    .tool-item {
+      display: inline-block;
+      width: 24px;
+      height: 24px;
+      line-height: 24px;
+      text-align: center;
+      cursor: default;
+      .emote {
+        font-weight: bold;
+      }
+      &:hover {
+        border-radius: 4px;
+        background-color: #d8dbdd !important;
+      }
+    }
+  }
+}
+
+// 表情弹窗样式
+.emote-box {
+  position: absolute;
+  bottom: 50px;
+  left: 14px;
+  width: 422px;
+  height: 283px;
+  border-radius: 5px;
+  overflow: visible;
+  background-color: #fff;
+  box-shadow: 0 3px 16px 0 rgba(31,35,41,.12);
+  font-size: 20px;
+  cursor: default;
+  z-index: 10;
+  .emoji-panel-scroller {
+    width: 100%;
+    height: 243px;
+    box-sizing: border-box;
+    overflow-y: overlay;
+    overflow-x: hidden;
+    .emoji-container-new {
+      user-select: none;
+      width: 100%;
+      box-sizing: border-box;
+      padding: 13px;
+      display: flex;
+      flex-wrap: wrap;
+      .emoji-item {
+        cursor: pointer;
+        width: 44px;
+        height: 22px;
+        margin-bottom: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: transform .3s;
+        transform: scale(1);
+        text-align: center;
+        .emoji-panel {
+          margin-top: -10px;
+        }
+        &:hover {
+          transform: scale(1.4);
+        }
+      }
+    }
+  }
+  .sticker-set-toolbar {
+    position: relative;
+    width: 100%;
+    height: 40px;
+    line-height: 40px;
+    overflow: visible;
+    background-color: #f2f3f5;
+    .scroller-item {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 46px;
+      height: 40px;
+      color: transparent;
+      flex-shrink: 0;
+      cursor: pointer;
+      background: #fff;
+      .emoji-img {
+         margin-top: -24px;
+      }
+    }
+  }
+}
+
+// 输入框样式
+.edit-box {
+  width: 100%;
+  max-height: 110px;
+  overflow-y: auto;
+  .input-msg-box:empty::before {
+    content: attr(placeholder);
+    color: #8f959e;
+  }
+  .input-msg-box {
+    width: 100%;
+    min-height: 58px;
+    overflow-x: hidden;
+    border: none;
+    outline: none;
+    background-color: transparent;
+    line-height: 18px;
+    color: #222;
+    font-size: 14px;
+    white-space: pre-wrap;
+    // 解决输入英文 数字换行问题
+    word-break: break-all;
+    // -div 可编辑时按回车键会出现<div><br></div>的问题。解决：让 contenteditable 元素粘贴时自动过滤样式：
+    // 给div的css添加 （这行代码还可以使得该contenteditable的div获取innerText时保留换行），但该方法只适用于webkit内核浏览器，比如chrome浏览器
+    // -webkit-user-modify: read-write-plaintext-only;
+  }
+}
+
+:global {
+  .emote-tip {
+    .ant-tooltip-inner {
+      border-radius: 5px !important;
+    }
+  }
+}

@@ -61,7 +61,6 @@ export const filterConvData = async (data: any): Promise<IconvType[]> => {
 export const filterChatData = async (data: any): Promise<IChatType[]> => {
   const userInfo = getStore(USERINFO)
   const copyData = JSON.parse(JSON.stringify(data))
-  // console.log(data)
   const chatData = []
   copyData?.forEach(item => {
     const isGroup = item.type == 'groupchat' // 是否群聊
@@ -134,7 +133,7 @@ export const removeConv = async (info: IconvType) => {
   api.message.deleteSession({
     channel: info.id,
     chatType: info.type == 'account' ? 'singleChat' : 'groupChat',
-    deleteRoam: false
+    deleteRoam: true // deleteRoam: true, // 是否同时删除服务端漫游消息。
   })
   // 更新对话
   publicPublish.publish('update-conv-list')

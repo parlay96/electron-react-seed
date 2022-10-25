@@ -87,6 +87,12 @@
               width: 100%;
               cursor: text;
               overflow: hidden;
+              pre {
+                overflow:initial !important;
+                white-space: pre-wrap;
+                // 解决输入英文 数字换行问题
+                word-break: break-all;
+              }
             }
           }
           .message-img-box {

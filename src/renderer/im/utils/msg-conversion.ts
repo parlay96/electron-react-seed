@@ -3,10 +3,10 @@
  * @Description: 处理接受的消息
  */
 import dayjs from 'dayjs'
+import { isEmptyObj, getStore, CONVID, ACTIVECHAT } from '@/utils'
 import { publicPublish } from '@/dep'
 import { convTypeTf, getUserProfile, getOldConvData, setOldConvData, msgTypeDict } from '.'
 import { IconvType } from '../type'
-import { isEmptyObj, getStore, CONVID, ACTIVECHAT } from '@/utils'
 
 /**
  * 组装会话列表的数据

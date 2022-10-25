@@ -118,7 +118,7 @@
                 min-width: 10px;
                 color: #7d7d7e;
                 padding-right: 38px;
-                p {
+                pre {
                   flex: 1 1 auto;
                   min-width: 0;
                   overflow: hidden;
@@ -229,68 +229,35 @@
         width: 100%;
         border-top: 1px solid #e6e5e6;
         display: flex;
-        .input-area {
-          flex: 1;
-          flex-flow: column nowrap;
-          display: flex;
-          .tool-bar {
-            padding: 7px 7px 7px 13px;
-            width: 100%;
-            .tool-item {
-              display: inline-block;
-              position: relative;
-              width: 24px;
-              height: 24px;
-              text-align: center;
-              cursor: pointer;
-              &:hover {
-                border-radius: 4px;
-                background-color: #d8dbdd !important;
-              }
-            }
-          }
-          .edit-box {
-            flex: 1;
-            padding: 0 10px 7px 12px;
-            max-height: 65px;
-            overflow-y: auto;
-            .input-msg-box {
-              width: 100%;
-              min-height: 58px;
-              overflow-x: hidden;
-              border: none;
-              outline: none;
-              background-color: transparent;
-              line-height: 18px;
-              color: #222;
-              font-size: 14px;
-              white-space: pre-wrap;
-              // 解决输入英文 数字换行问题
-              word-break: break-all;
-              // -div 可编辑时按回车键会出现<div><br></div>的问题。解决：让 contenteditable 元素粘贴时自动过滤样式：
-              // 给div的css添加 （这行代码还可以使得该contenteditable的div获取innerText时保留换行），但该方法只适用于webkit内核浏览器，比如chrome浏览器
-              -webkit-user-modify: read-write-plaintext-only;
-            }
-          }
-        }
+        flex-direction: column;
         .action-area {
           position: relative;
-          width: 78px;
-          border-left: 1px solid #e6e5e6;
+          padding: 0 10px 0 13px;
+          width: 100%;
+          height: 60px;
+          display: flex;
+          justify-content: end;
+          align-items: center;
+          .tipText {
+            color: #8f959e;
+            font-size: 12px;
+            padding-right: 30px;
+          }
           .send-message-button {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 78px;
-            height: 100%;
-            background-color: #fff;
             font-size: 13px;
+            border-radius: 6px;
           }
         }
       }
     }
-    .no-chat-box {
-      flex: 1;
+    .noConv {
+      display: flex;
+      flex-flow: column wrap;
+      height: 100%;
+      background-color: #fafbfc;
+      font-size: 14px;
+      line-height: 200px;
+      text-align: center;
     }
   }
 }

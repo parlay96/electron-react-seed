@@ -45,7 +45,7 @@ const emoji: {[key: string]: string} = {
   '[愉快]': '[愉快].png',
   '[眨眼]': '[眨眼].png',
   '[眨眼笑]': '[眨眼笑].png',
-  '[ok]': '[ok].png'
+  '[ok]': '[ok].png',
 }
 
 export default emoji

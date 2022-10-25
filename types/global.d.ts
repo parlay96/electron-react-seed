@@ -2,7 +2,7 @@
  * @Author: penglei
  * @Date: 2022-05-26 12:03:14
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2022-09-12 20:22:15
+ * @LastEditTime: 2022-10-21 14:51:14
  * @Description:
  */
 declare module '*.png'
@@ -18,4 +18,5 @@ declare let __static: string
 interface Window {
   __static: string;
   WebIM: any;
+  clipboardData: any
 }

@@ -122,13 +122,18 @@ const ChatList = forwardRef<IChatListRef, IChatList>((props, ref) => {
   )
 
   useEffect(() => {
-    if (!convId) return
+    if (!convId) {
+      // 置空聊天列表信息
+      setChatList([])
+      setLoad(true)
+      return
+    }
     // 切换聊天时初始化
     pages = 1
     lastHeight = 0
     setLoad(false)
     setNoMore(false)
-    // 置空聊天信息
+    // 置空聊天列表信息
     setChatList([])
 
     getConvRecord()
@@ -142,7 +147,7 @@ const ChatList = forwardRef<IChatListRef, IChatList>((props, ref) => {
     if (item?.contentsType == 'text') {
       return (
         <div className={styles['message-text-box']}>
-          <div className={styles['message-text']} dangerouslySetInnerHTML={{__html: item.msg}} />
+          <div className={styles['message-text']}><pre dangerouslySetInnerHTML={{__html: item.msg}} /></div>
         </div>
       )
     }
@@ -155,7 +160,7 @@ const ChatList = forwardRef<IChatListRef, IChatList>((props, ref) => {
     }
     return (
       <div className={styles['message-text-box']}>
-        <div className={styles['message-text']} dangerouslySetInnerHTML={{__html: item.msg}} />
+        <div className={styles['message-text']}><pre dangerouslySetInnerHTML={{__html: item.msg}} /></div>
       </div>
     )
   }
@@ -230,7 +235,7 @@ const ChatList = forwardRef<IChatListRef, IChatList>((props, ref) => {
       <div
         className={styles['content-pannel-body']}
         ref={chatListBoxRef}
-        onScrollCapture={(e) => handleOnScroll(e)}
+        onScrollCapture={(e) => handleOnScroll()}
         style={{
           // 如果在加载就隐藏掉，为啥不是display？ visibility有利于滚动条回滚时，页面处于看不见状态。也就是节点存在。
           // 如果我正在加载，那么我就让节点隐藏掉，这样有利于我们在滚动到对应位置是，让用户无感知。
@@ -239,7 +244,7 @@ const ChatList = forwardRef<IChatListRef, IChatList>((props, ref) => {
           // 加上视觉效果
           opacity: isLoad ? 1 :  0
         }}>
-        { chatListData.length == 0 && <div>无数据</div> }
+        { chatListData.length == 0 && isLoad && <div>无数据</div> }
         { chatListData?.map(item =>
           <Fragment key={item.meta_id + item.timeStamp}>
             {messageItemWrapper(item)}

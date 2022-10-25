@@ -27,7 +27,7 @@ export const getRequestHeader = (): Record<string, string> => {
 
 /* 基础配置 */
 axios.defaults.baseURL = process.env.NODE_ENV !== 'development' ? REQUESTURL : '/api' // 不适用代理就直接用这个变量 REQUESTURL
-axios.defaults.timeout = 200000
+axios.defaults.timeout = 5000
 axios.defaults.headers = { ...axios.defaults.headers, ...getRequestHeader() }
 
 /** 请求拦截 */

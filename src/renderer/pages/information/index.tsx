@@ -2,34 +2,35 @@
  * @Author: penglei
  * @Date: 2022-09-09 14:54:35
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2022-10-13 16:53:04
+ * @LastEditTime: 2022-10-25 20:35:57
  * @Description: 消息聊天页面
  */
-import React, { useState, useEffect, useRef } from "react"
+import React, { useState, useEffect, useRef, useCallback } from "react"
 import classNames from 'classnames'
+import { Button } from 'antd'
 import { api, ImUtils } from '@/im'
 import type { IconvType } from '@/im/type'
 import { publicSubscribe, publicPublish } from '@/dep'
 import { Image, Icon } from '@/components'
+import Editor, { IEditRef } from '@/editor'
 import { setStore, getStore, CONVID, ACTIVECHAT, deleteStore } from '@/utils'
 import { ChatList, IChatListRef } from './components'
 import { filterConvData, removeConv, sendTextMsg } from './utils'
+
 import styles from './index.module.scss'
 
 // 消息聊天页面
 const Information = () => {
-  // 用于操作聊天输入框元素
-  const editRef = useRef(null)
   // 聊天列表控制器
   const chatListRef = useRef<IChatListRef>(null)
+  // 富文本控制器
+  const editorRef = useRef<IEditRef>(null)
   // 会话列表数据
   const [data, setData] = useState<IconvType[]>([])
   // 默认选择会话的ID
   const [convId, setConvId] = useState<string>('')
   // 当前会话人|群的信息
   const [convInfo, setConvInfo] = useState<Partial<IconvType>>(null)
-  // 输入的信息值
-  const [msgValue, setValue] = useState<string>('')
 
   // 获取会话列表
   const getConvList = async () => {
@@ -109,12 +110,15 @@ const Information = () => {
 
   useEffect(() => {
     if (!convId) return
-    if (editRef.current) {
-      editRef.current.innerHTML = ''
-    }
-    // 清空
-    setValue('')
-    getConvInfo()
+    // 设置富文本placeholder
+    getConvInfo().then(data => {
+      const headInfo = ImUtils.getImUserInfo(data)
+      const tip = '发生给 ' + headInfo?.userName
+      // 切换会话设置tip
+      editorRef?.current?.setPlaceholder(tip)
+      // 切换会话先去获取焦点
+      editorRef?.current?.focus()
+    })
   }, [convId])
 
   // 获取当前会话信息
@@ -126,6 +130,7 @@ const Information = () => {
     const info = oldData?.find(item => item.id == oldConvId)
     // 设置当前会话信息
     setConvInfo(info)
+    return info
   }
 
   // 渲染头部
@@ -164,22 +169,16 @@ const Information = () => {
   }
 
   // 发送消息
-  const onMsgSubmit = async () => {
-    // 如果输入的内容去除所有空格，还是个空，代表没输入东西
-    const reg = /\s+/g
-    const isFlags = msgValue.replace(reg,'') == ''
-    if(isFlags || !convInfo) return
+  const onMsgSubmit = useCallback(async () => {
+    // 获取输入框的值
+    const msgValue = await editorRef.current.getValue()
+    // 没有输入值，没有会话信息
+    if(!msgValue || !convInfo) return
     // 发送消息
     await sendTextMsg(convInfo, msgValue)
-    // 发送完毕后，清空
-    setValue('')
-    editRef.current.innerHTML = ''
-  }
-
-  // 输入框输入事件
-  const onChange = () => {
-    setValue(editRef.current.innerHTML)
-  }
+    // 发送完了获取焦点
+    await editorRef?.current?.focus()
+  }, [convInfo])
 
   return (
     <div className={styles.informationBox}>
@@ -232,7 +231,7 @@ const Information = () => {
                     <span className={classNames(styles.time, 'hide-time')}>{item.time}</span>
                   </div>
                   <div className={styles.latestMsgInfo}>
-                    <p dangerouslySetInnerHTML={{__html: isGroup ? `${chatFromUserNickname}: ${item.msg}` : item.msg}} />
+                    <pre dangerouslySetInnerHTML={{__html: isGroup ? `${chatFromUserNickname}: ${item.msg}` : item.msg}} />
                   </div>
                 </div>
                 {/* 移除会话 */}
@@ -251,31 +250,22 @@ const Information = () => {
       </div>
       {/* 聊天列表 */}
       <div className={styles.messageList}>
-        <div className={styles.convDetailPannel}>
+        <div className={styles.convDetailPannel} style={{visibility: convId ? 'visible' : 'hidden'}}>
           {/* 头部 */}
           { headRender() }
           {/* 消息列表 */}
           <ChatList convId={convId} ref={chatListRef}/>
           {/* 输入消息区 */}
           <div className={styles['send-msg-box-wrapper']}>
-            <div className={styles['input-area']}>
-              <ul className={styles['tool-bar']}>
-                <li className={styles['tool-item']}>
-                  <Icon type='yp-diannao' size={16}/>
-                </li>
-              </ul>
-              <div className={styles['edit-box']}>
-                <pre className={styles['input-msg-box']}
-                  ref={editRef}
-                  onKeyUp={onChange}
-                  contentEditable>
-                </pre>
-              </div>
-            </div>
-            <div className={styles['action-area']} onClick={onMsgSubmit}>
-              <a className={styles['send-message-button']}>发送</a>
+            <Editor ref={editorRef} enterDown={onMsgSubmit}/>
+            <div className={styles['action-area']}>
+              <span className={styles['tipText']}>Enter发送，Ctrl+Enter换行</span>
+              <Button type="primary" className={styles['send-message-button']} onClick={onMsgSubmit}>发送</Button>
             </div>
           </div>
+        </div>
+        <div className={styles['noConv']} style={{display: !convId ? 'block' : 'none'}}>
+           无会话
         </div>
       </div>
     </div>
