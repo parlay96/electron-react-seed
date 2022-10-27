@@ -4,7 +4,6 @@
     flex: 1;
     overflow-y: overlay;
     overflow-x: hidden;
-    transition: .2s ease-out;
     .msgItemBox {
       display: flex;
       position: relative;
@@ -151,4 +150,7 @@
         }
       }
     }
+  }
+  .show-box {
+    transition: .1s ease-out;
   }

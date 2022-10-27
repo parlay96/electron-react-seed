@@ -2,7 +2,7 @@
  * @Author: penglei
  * @Date: 2022-09-09 14:54:35
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2022-10-25 20:58:24
+ * @LastEditTime: 2022-10-26 15:22:20
  * @Description: 富文本组件
  */
 import React, { useState, useRef, useCallback, forwardRef, useImperativeHandle } from "react"
@@ -18,7 +18,10 @@ import styles from './index.module.scss'
 
 
 export interface IEditorProps {
-  enterDown: () => void
+  // 键盘回车事件
+  enterDown?: () => void
+  // 输入框内容变化时的回调
+  onChange?: (val: string) => void
   /** 扩展类名 */
   className?: string
 }
@@ -48,6 +51,7 @@ const data = getEmojiData()
 
 // 富文本组件
 const Editor = forwardRef<IEditRef, IEditorProps>((props, ref) => {
+  // 解析值
   const {className: _className} = props
   // 输入框控制器
   const editInputRef = useRef<IEditInputRef>(null)
@@ -60,14 +64,19 @@ const Editor = forwardRef<IEditRef, IEditorProps>((props, ref) => {
       ...editInputRef.current
     })
   )
+
   // 点击回车事件，暴露给外面
   const enterDownClick = useCallback(() => {
-    props?.enterDown()
+    props?.enterDown?.()
   }, [props?.enterDown])
 
   const editInputClick = useCallback(() => {
     setOpen(false)
   }, [])
+
+  const editChange = useCallback((v) => {
+    props?.onChange?.(v)
+  }, [props?.onChange])
 
   return (
     <div className={classNames(styles['editor-box'], _className)}>
@@ -104,7 +113,11 @@ const Editor = forwardRef<IEditRef, IEditorProps>((props, ref) => {
         </div>
       </ul>
       {/* 编辑框 */}
-      <EditInput ref={editInputRef} enterDown={enterDownClick} click={editInputClick}/>
+      <EditInput
+        ref={editInputRef}
+        onChange={editChange}
+        enterDown={enterDownClick}
+        click={editInputClick}/>
     </div>
   )
 })

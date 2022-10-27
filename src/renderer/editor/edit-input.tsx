@@ -2,7 +2,7 @@
  * @Author: penglei
  * @Date: 2022-09-09 14:54:35
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2022-10-25 21:04:49
+ * @LastEditTime: 2022-10-26 21:36:35
  * @Description: 输入框
  */
 import React, { useEffect, useRef, forwardRef, useImperativeHandle, useState } from "react"
@@ -16,6 +16,8 @@ interface IEditInputType {
   click?: () => void
   // 键盘回车事件
   enterDown?: () => void
+  // 输入框内容变化时的回调
+  onChange?: (val: string) => void
 }
 
 let currentSelection: {startContainer?: any, startOffset: number, endContainer?: any, endOffset: number} = {
@@ -25,10 +27,14 @@ let currentSelection: {startContainer?: any, startOffset: number, endContainer?:
   endOffset: 0
 }
 
+let isFlag = false // 输入框输入时的标志，用来判断的
+
 // 消息输入框
 const EditInput = forwardRef<IEditInputRef, IEditInputType>((props, ref) => {
   // 用于操作聊天输入框元素
   const editRef = useRef(null)
+  // 最后一次输入框的内容
+  const lastHtml = useRef<string>('')
   // 提示文本
   const [tipHolder, setTipHolder] = useState<string>('请输入发送的消息')
 
@@ -114,13 +120,38 @@ const EditInput = forwardRef<IEditInputRef, IEditInputType>((props, ref) => {
     // console.log(e)
   }
 
-  // 输入框值变化
-  const editorInput = async (e) => {
-    // 防止文本为空，还不出现placeholder提示
-    if (e?.target?.innerHTML == '<br>') {
-      editRef.current.innerHTML = ''
-    } else {
-      handleInputChange(editRef.current)
+  /**
+   * @输入框值变化onChange事件
+   *  contentEditable的onChange事件默认是没有的，只要onInput事件。这里我们通过新旧值对比
+   * 如果最后一次记录的值，和现在的值，不一致。才触发onChange事件
+   * https://stackoverflow.com/questions/22677931/react-js-onchange-event-for-contenteditable/27255103#27255103
+   */
+  const editorInput = (e) => {
+    const curHtml = editRef.current.innerHTML || ''
+    if (curHtml !== lastHtml.current && !isFlag) {
+      lastHtml.current = curHtml
+      // 如果内容是匹配成功，代表无值
+      const iReg = /<br><i.*?(?:>|\/i>)/gi // <br><i id="editorFocusHack16667912636241tq31j96"></i>
+      // 输入框值
+      const _html = e?.target?.innerHTML
+      // 匹配成功？
+      const nullText = _html?.match(iReg)
+      // console.log(_html.match(iReg))
+      console.log(_html, nullText)
+      // 防止文本为空，还不出现placeholder提示
+      if (_html == '<br>' || nullText) {
+        editRef.current.innerHTML = ''
+        props?.onChange?.('')
+      } else {
+        isFlag = true
+        // 转换输入框的内容
+        handleInputChange(editRef.current, async () => {
+          // 转换完了，主动触发输入框值变化
+          const val = await handleEditValue(editRef.current)
+          props?.onChange?.(val)
+          isFlag = false
+        })
+      }
     }
   }
 
@@ -161,6 +192,9 @@ const EditInput = forwardRef<IEditInputRef, IEditInputType>((props, ref) => {
     node.scrollIntoView(false)
 
     await setRangeNodeFocus(node, 'after')
+
+    // 触发消息变化事件
+    props?.onChange(editRef?.current?.innerHTML)
   }
 
   // 粘贴事件
@@ -244,9 +278,9 @@ const EditInput = forwardRef<IEditInputRef, IEditInputType>((props, ref) => {
     // 滚动到对应的地方
     document.execCommand("insertHTML", !1, '<i id="' + t + '"></i>')
     const n = document.getElementById(t)
-    n.scrollIntoView(!0)
+    n?.scrollIntoView(!0)
     // 删除节点
-    n.remove()
+    n?.remove()
   }
 
   // 设置当前光标在某个节点的位置, 并获取焦点

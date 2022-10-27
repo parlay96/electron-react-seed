@@ -21,6 +21,7 @@ export interface IChatListRef {
 let pages = 1 // 页码
 const pageSize = 20 // 条数
 let timer = null // 定时器
+let opacityTimer = null // 显示动画定时器
 let isUpdateFlag = false // 是否收到消息
 let lastHeight = 0 // 当前聊天内容的高度，用来做加载下页，需要滚动到的位置
 
@@ -35,6 +36,7 @@ const ChatList = forwardRef<IChatListRef, IChatList>((props, ref) => {
   const [isNoMore, setNoMore] = useState<boolean>(false)
   // 加载状态：避免闪动，必须等到滚动完毕，才设置为true（特别的关键）
   const [isLoad, setLoad] = useState<boolean>(false)
+  const [isOpacity, setOpacity] = useState<boolean>(false)
 
   // 获取当前对话用户 || 群的历史消息
   const getHistoryMessages = async (info: Partial<IconvType>) => {
@@ -51,6 +53,7 @@ const ChatList = forwardRef<IChatListRef, IChatList>((props, ref) => {
     // 代表无数据，无数据直接结束 加载状态。 有数据必须等到滚动完毕，才设置为true
     if (pages == 1 && chatData.length == 0) {
       setLoad(true)
+      setOpacity(true)
     }
     // 代表无更多数据
     setNoMore(chatData?.length < pageSize)
@@ -63,6 +66,7 @@ const ChatList = forwardRef<IChatListRef, IChatList>((props, ref) => {
   useEffect(() => {
     const current = chatListBoxRef.current!
     if (current && chatListData.length) {
+      clearTimeout(opacityTimer)
       // 当前滚动内容的高度
       const scrollHeight = current.scrollHeight - current.clientHeight
       // 当前为第一也时：随便给个最大高度。否侧： 当前位置高度 - 上次的内容高值，做到很好的链接性
@@ -75,6 +79,10 @@ const ChatList = forwardRef<IChatListRef, IChatList>((props, ref) => {
       isUpdateFlag = false
       // 等待滚动完毕
       setLoad(true)
+      // 延迟展示
+      opacityTimer = setTimeout(() => {
+        setOpacity(true)
+      }, 20)
     }
   }, [chatListData])
 
@@ -126,12 +134,14 @@ const ChatList = forwardRef<IChatListRef, IChatList>((props, ref) => {
       // 置空聊天列表信息
       setChatList([])
       setLoad(true)
+      setOpacity(true)
       return
     }
     // 切换聊天时初始化
     pages = 1
     lastHeight = 0
     setLoad(false)
+    setOpacity(false)
     setNoMore(false)
     // 置空聊天列表信息
     setChatList([])
@@ -139,6 +149,7 @@ const ChatList = forwardRef<IChatListRef, IChatList>((props, ref) => {
     getConvRecord()
     return () => {
       clearTimeout(timer)
+      clearTimeout(opacityTimer)
     }
   }, [convId])
 
@@ -224,6 +235,7 @@ const ChatList = forwardRef<IChatListRef, IChatList>((props, ref) => {
         const info = await getConvInfo()
         // 主动触发正在加载动画，避免闪动
         setLoad(false)
+        setOpacity(false)
         info && getHistoryMessages(info)
       }
     }
@@ -233,7 +245,7 @@ const ChatList = forwardRef<IChatListRef, IChatList>((props, ref) => {
     <>
       {/* 消息列表 */}
       <div
-        className={styles['content-pannel-body']}
+        className={classNames(styles['content-pannel-body'], isLoad ? styles['show-box'] : '')}
         ref={chatListBoxRef}
         onScrollCapture={(e) => handleOnScroll()}
         style={{
@@ -242,7 +254,7 @@ const ChatList = forwardRef<IChatListRef, IChatList>((props, ref) => {
           // 等到结束滚动那一刻，我们在让这个消息列表显示出来
           visibility: isLoad ? 'visible' : 'hidden',
           // 加上视觉效果
-          opacity: isLoad ? 1 :  0
+          opacity: isOpacity ? 1 :  0
         }}>
         { chatListData.length == 0 && isLoad && <div>无数据</div> }
         { chatListData?.map(item =>
