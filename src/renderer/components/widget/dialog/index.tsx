@@ -1,13 +1,16 @@
 /*
- * @Date: 2022-07-05 09:25:02
- * @Description: 全局Dialog弹窗封装
+ * @Author: penglei
+ * @Date: 2022-05-26 00:09:33
+ * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2022-10-28 17:11:50
+ * @Description: Dialog弹窗
  */
 
-import React, { forwardRef, ReactNode } from "react"
+import React, { ReactNode } from "react"
 import classNames from "classnames"
 import { Icon, Visible } from "@/components"
 import FooterButton from './footer-button'
-import Mask, { MaskProps } from "./mask"
+import Mask, { IMaskProps } from "./mask"
 import { GetContainer } from "@/utils"
 import styles from "./index.module.scss"
 
@@ -27,21 +30,23 @@ export type DialogProps = {
   zIndex?: number
   /** 宽度 */
   width?: string | number
-  /** 点击遮罩是否关闭 默认不可关闭 */
-  maskClosable?: boolean
   /** 挂载容器 默认dom */
   getContainer?: GetContainer
+
+  /** 弹框层样式 */
+  containerStyle?: React.CSSProperties
+  /** 弹框层class */
+  containerClassName?: string
+
   /** wrap样式 */
   style?: React.CSSProperties
   wrapClassName?: string
-  /** 主容器样式 */
+
+  /** 内容区样式 */
   bodyStyle?: React.CSSProperties
-  /** 主容器class */
+  /** 内容区class */
   bodyClassName?: string
-  /** 弹框层样式 */
-  containerStyle?: React.CSSProperties
-  /** 遮罩层class */
-  maskClassName?: string
+
   /** 取消按钮自定义描述 */
   cancelButtonText?: string
   /** 确认按钮自定义描述 */
@@ -66,70 +71,66 @@ export type DialogProps = {
   footerLayout?: 'left' | 'right'
   /** 自定义内容区 默认为空 */
   children?: ReactNode
-  onClose?: (payload?: DialogCloseType) => any
-  onCancel?: () => void | Promise<void>
-  onConfirm?: (v: any) => void | Promise<void>
-  /** 关闭容器是否立即卸载 */
-  closeUnmount?: boolean
-} & MaskProps
 
-// 全局Dialog弹窗封装
-const Dialog = forwardRef((props: DialogProps, ref: any) => {
+  /** 点击底部按钮 || 点击顶部关闭图标按钮 是否立即卸载弹窗 */
+  closeUnmount?: boolean
+  // 点击底部按钮 || 点击顶部关闭图标按钮。会触发关闭弹窗，----afterClose是关闭弹窗消失事件
+  onClose?: (v?: DialogCloseType) => | Promise<void>
+  // 点击取消按钮事件，这个事件在底部按钮节点触发的，----afterClose是关闭弹窗消失事件
+  onCancel?: () => void | Promise<void>
+  // 点击确认按钮时事件，这个事件在底部按钮节点触发的，----afterClose是关闭弹窗消失事件
+  onConfirm?: (v: any) => void | Promise<void>
+} & IMaskProps
+
+// Dialog弹窗
+const Dialog = (props: DialogProps) => {
   const wrapStyle = { ...props?.style, width: `${props?.width}px` }
 
-  const onCloseIcon = async () => {
-    try {
-      await props.onClose?.()
-    } catch {}
-  }
-
   return (
-    <div className={styles[classPrefix]} ref={ref}>
-      <Mask
-        zIndex={props?.zIndex}
-        visible={props?.visible}
-        disableMouse={props?.disableMouse}
-        getContainer={props?.getContainer}
-        appear={props?.appear}
-        exit={props?.exit}
-        onMaskClick={props?.maskClosable ? props.onClose : undefined}
-        style={props?.containerStyle}
-        className={props?.maskClassName}
-      >
-        <div className={classNames(styles[`${classPrefix}-wrap`], props.wrapClassName)} style={wrapStyle}>
-          {/** 顶部 */}
-          <Visible visible={props.visibleHeader}>
-            <div className={styles[`${classPrefix}-header`]}>
-              <div className={styles[`${classPrefix}-header-title`]}>{ props.title }</div>
-            </div>
-          </Visible>
-          {/** 内容区 */}
-          <Visible visible={props.children}>
-            <div className={classNames(styles[`${classPrefix}-body`], props.bodyClassName)} style={props.bodyStyle}>
-              {props.children}
-            </div>
-          </Visible>
-          {/** 底部按钮 */}
-          <Visible visible={props.visibleFooter}>
-            <FooterButton {...props}/>
-          </Visible>
-          {/** close icon */}
-          <Visible visible={props.showCloseIcon}>
-            <div className={styles[`${classPrefix}-close`]} onClick={onCloseIcon}>
-              <Icon className={styles[`${classPrefix}-close-icon`]} type="yp-close" size={24} />
-            </div>
-          </Visible>
-        </div>
-      </Mask>
-    </div>
+    <Mask
+      zIndex={props?.zIndex}
+      visible={props?.visible}
+      disableMouse={props?.disableMouse}
+      getContainer={props?.getContainer}
+      appear={props?.appear}
+      exit={props?.exit}
+      maskClick={() => props?.maskClick?.()}
+      afterClose={() => props?.afterClose?.()}
+      style={props?.containerStyle}
+      className={props?.containerClassName}
+    >
+      <div className={classNames(styles[`${classPrefix}-wrap`], props.wrapClassName)} style={wrapStyle}>
+        {/** 顶部 */}
+        <Visible visible={props.visibleHeader}>
+          <div className={styles[`${classPrefix}-header`]}>
+            <div className={styles[`${classPrefix}-header-title`]}>{ props.title }</div>
+          </div>
+        </Visible>
+        {/** 内容区 */}
+        <Visible visible={props.children}>
+          <div className={classNames(styles[`${classPrefix}-body`], props.bodyClassName)} style={props.bodyStyle}>
+            {props.children}
+          </div>
+        </Visible>
+        {/** 底部按钮 */}
+        <Visible visible={props.visibleFooter}>
+          <FooterButton {...props}/>
+        </Visible>
+        {/** close icon */}
+        <Visible visible={props.showCloseIcon}>
+          <div className={styles[`${classPrefix}-close`]} onClick={() => props.onClose?.()}>
+            <Icon className={styles[`${classPrefix}-close-icon`]} type="yp-close" size={24} />
+          </div>
+        </Visible>
+      </div>
+    </Mask>
   )
-})
+}
 
 Dialog.defaultProps = {
   title: "温馨提示",
   cancelButtonText: "取消",
   confirmButtonText: "确定",
-  maskClosable: false,
   clickButtonClose: true,
   cancelButtonClose: true,
   confimButtonClose: true,

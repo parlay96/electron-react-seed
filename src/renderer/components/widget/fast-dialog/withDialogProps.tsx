@@ -1,7 +1,9 @@
 /*
- * @Author: pl
- * @LastEditTime: 2022-08-11 17:40:10
- * @Description: file content
+ * @Author: penglei
+ * @Date: 2022-05-26 00:09:33
+ * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2022-10-28 17:12:07
+ * @Description: Dialog弹窗封装
  */
 import React, { createRef, FC, forwardRef, RefObject, useEffect, ReactNode, useImperativeHandle, useState, useCallback } from 'react'
 import { renderToBody } from '@/utils'
@@ -45,7 +47,6 @@ function withDialog<T> (Component: FC<WrapperComponentProps & T>, props?: Partia
         })
       )
       const onClose = useCallback(async (payload?: DialogCloseType) => {
-        console.log('onClose', '关闭')
         await options?.onClose?.(payload)
         setVisibleState(false)
         if(props?.closeUnmount || options?.closeUnmount)  {

@@ -1,10 +1,10 @@
 /*
  * @Date: 2022-07-29 15:33:21
- * @Description:
+ * @Description: 获取验证码
  */
-import { isPhone, request } from '@/utils'
-import { message } from 'antd'
 import React, {useEffect, useState} from 'react'
+import { message } from 'antd'
+import { isPhone, request } from '@/utils'
 import styles from './index.module.scss'
 import classNames from "classnames"
 

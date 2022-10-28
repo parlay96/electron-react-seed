@@ -2,7 +2,7 @@
  * @Author: pl
  * @Date: 2022-05-30 11:05:10
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2022-06-25 10:43:50
+ * @LastEditTime: 2022-10-28 11:48:56
  * @Description: file content
  * @FilePath: \yp-electron\.script\renderer\webpack.prod.js
  */
@@ -13,6 +13,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin')
 
 const utils = require('../utils')
 const webpackConfig = require('./webpack.common')
+const config = require('../../config')
 
 const IsWeb = process.env.BABEL_ENV === 'web'
 
@@ -45,6 +46,12 @@ const optimizationConfig = IsWeb ? {
 // 发布路径，如果是桌面端publicPath不能配置，不然路径错误，文件引入失败项目启动不了
 const output = IsWeb ? { publicPath : '/' } : {}
 
+// 是否需要删除console， 如果打包后测试站需要调试，我们就不去掉console
+const compress = config.IsBuildTools ? {} : {
+  drop_console: true, // 去掉console
+  drop_debugger: true, // 去掉debugger
+}
+
 module.exports = merge(webpackConfig, {
   mode: 'production',
   output: {
@@ -59,10 +66,7 @@ module.exports = merge(webpackConfig, {
       new TerserPlugin({ // 压缩js
         test: /\.js($|\?)/i,
         terserOptions: {
-          compress: {
-            drop_console: true, // 去掉console
-            drop_debugger: true, // 去掉debugger
-          },
+          compress: compress,
         },
         parallel:  true,
       }),

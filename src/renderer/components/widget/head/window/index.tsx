@@ -12,6 +12,7 @@ import styles from './index.module.scss'
 const Window = memo(() => {
   const [user, setUser] = useState<any>({})
   const [showPersonalCenter, setShowPersonalCenter] = useState<boolean>(false)
+
   // 点击头像时
   const onPortraitClick = (event) => {
     event.stopPropagation()// 阻止冒泡
@@ -33,7 +34,7 @@ const Window = memo(() => {
 
   useEffect(() => {
     // 点击隐藏，弹窗
-    document.addEventListener('click',function (){
+    document.addEventListener('click',function () {
       setShowPersonalCenter(false)
     })
     // 监听webview点击时

@@ -1,8 +1,8 @@
 /*
  * @Author: penglei
  * @Date: 2022-09-09 14:54:35
- * @LastEditors: Please set LastEditors
- * @LastEditTime: 2022-10-26 21:36:35
+ * @LastEditors: penglei
+ * @LastEditTime: 2022-10-27 21:13:23
  * @Description: 输入框
  */
 import React, { useEffect, useRef, forwardRef, useImperativeHandle, useState } from "react"
@@ -131,15 +131,15 @@ const EditInput = forwardRef<IEditInputRef, IEditInputType>((props, ref) => {
     if (curHtml !== lastHtml.current && !isFlag) {
       lastHtml.current = curHtml
       // 如果内容是匹配成功，代表无值
-      const iReg = /<br><i.*?(?:>|\/i>)/gi // <br><i id="editorFocusHack16667912636241tq31j96"></i>
+      const iReg = /<br><i.*?(\/i>)/gi // <br><i id="editorFocusHack16667912636241tq31j96"></i>
       // 输入框值
       const _html = e?.target?.innerHTML
       // 匹配成功？
-      const nullText = _html?.match(iReg)
+      const nullText = _html?.replace(iReg, '')
       // console.log(_html.match(iReg))
-      console.log(_html, nullText)
-      // 防止文本为空，还不出现placeholder提示
-      if (_html == '<br>' || nullText) {
+      // console.log(_html, '-----', nullText == '')
+      // 防止文本为空，还不出现placeholder提示1
+      if (_html == '<br>' || nullText == '') {
         editRef.current.innerHTML = ''
         props?.onChange?.('')
       } else {

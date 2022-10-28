@@ -1,0 +1,61 @@
+.update-box {
+  width: 412px;
+  border-radius: 16px;
+  overflow: hidden;
+  background-color: #fff;
+  .head-box {
+    display: flex;
+    align-items: center;
+    height: 56px;
+    background: linear-gradient(180deg, rgba(219, 232, 255, 1) 0%, rgba(255, 255, 255, 1) 100%);
+    border-bottom: 1px solid rgba(237, 237, 237, 1);
+    font-size: 15px;
+    font-weight: 600;
+    color: rgba(50, 50, 51, 1);
+    padding-left: 24px;
+  }
+  .content-box {
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: 200px;
+    width: 100%;
+    font-size: 14px;
+    font-weight: 400;
+    color: rgba(50, 50, 51, 1);
+    border-bottom: 1px solid rgba(237, 237, 237, 1);
+    padding: 12px 24px;
+  }
+  .footer-box {
+    display: flex;
+    flex-direction: column;
+    padding: 12px 24px;
+    .bar-box {
+      width: 100%;
+      margin-bottom: 12px;
+    }
+    .btn-box {
+      display: flex;
+      align-items: center;
+      justify-content: end;
+    }
+  }
+  :global {
+    .ant-btn-default {
+      color: rgba(82, 144, 253, 1);
+      height: 36px !important;
+      border: 1px solid rgba(82, 144, 253, 1);
+      margin-right: 12px;
+      border-radius: 4px;
+    }
+    .ant-btn-primary {
+      height: 36px !important;
+      color: #fff;
+      border-radius: 4px;
+      background: rgba(82, 144, 253, 1);
+    }
+    .ant-progress-bg {
+      height: 14px !important;
+      background: rgba(82, 144, 253, 1);
+    }
+  }
+}

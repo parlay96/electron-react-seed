@@ -2,10 +2,10 @@
  * @Author: penglei
  * @Date: 2022-09-09 14:54:35
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2022-10-26 15:22:20
+ * @LastEditTime: 2022-10-27 11:57:20
  * @Description: 富文本组件
  */
-import React, { useState, useRef, useCallback, forwardRef, useImperativeHandle } from "react"
+import React, { useState, useRef, useCallback, forwardRef, useImperativeHandle, useEffect } from "react"
 import classNames from 'classnames'
 import { Tooltip } from 'antd'
 import { Icon, Image } from '@/components'
@@ -65,6 +65,20 @@ const Editor = forwardRef<IEditRef, IEditorProps>((props, ref) => {
     })
   )
 
+  // 设置表情弹窗显示隐藏
+  const setOpenEmojiState = () => {
+    setOpen(false)
+  }
+
+  useEffect(() => {
+    // 点击隐藏，弹窗
+    document.addEventListener('click', setOpenEmojiState)
+    return () => {
+      // 注销事件
+      document.removeEventListener('click', setOpenEmojiState)
+    }
+  }, [])
+
   // 点击回车事件，暴露给外面
   const enterDownClick = useCallback(() => {
     props?.enterDown?.()
@@ -81,9 +95,10 @@ const Editor = forwardRef<IEditRef, IEditorProps>((props, ref) => {
   return (
     <div className={classNames(styles['editor-box'], _className)}>
       {/* 功能区 */}
-      <ul className={styles['tool-bar']}>
+      <ul className={styles['tool-bar']} onClick={(e) => e.stopPropagation()}>
         <Tooltip title="表情" overlayClassName={'emote-tip unselectable'}>
-          <li className={classNames(styles['tool-item'], 'unselectable')} onClick={() => {
+          <li className={classNames(styles['tool-item'], 'unselectable')} onClick={(e) => {
+            e.stopPropagation()
             setOpen(!openEmoji)
           }}>
             <Icon type='yp-biaoqing-xue' size={18} className={styles['emote']}/>

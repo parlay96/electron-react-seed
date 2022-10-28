@@ -16,7 +16,7 @@
     "lint": "eslint --ext src",
     "lint-fix": "eslint --fix --ext .js,.jsx,.ts,.tsx src",
     "update:serve": "node server/index.js",
-    "s": "electron-builder --mac"
+    "builder-mac": "electron-builder --mac"
   },
   "build": {
     "extraFiles": [
@@ -25,7 +25,7 @@
     "publish": [
       {
         "provider": "generic",
-        "url": "http://192.168.28.28:8000"
+        "url": "http://192.168.28.13:8000"
       }
     ],
     "productName": "鱼泡工程云",

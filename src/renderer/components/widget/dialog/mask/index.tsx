@@ -1,6 +1,9 @@
 /*
- * @Date: 2022-07-05 09:25:02
- * @Description: file content
+ * @Author: penglei
+ * @Date: 2022-05-26 00:09:33
+ * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2022-10-28 17:11:19
+ * @Description: 弹窗蒙层组件
  */
 
 import React, { CSSProperties, FC, useEffect, useState, ReactNode } from "react"
@@ -10,19 +13,15 @@ import classNames from "classnames"
 import { GetContainer, getEleById, isIEBrowser } from "@/utils"
 import styles from "./index.module.scss"
 
-export type MaskProps = {
+export type IMaskProps = {
   children?: ReactNode
   /** 层级 */
   zIndex?: number
   /** 是否显示 */
   visible?: boolean
-  /** 点击事件回调 */
-  onMaskClick?: () => void
-  /** 背景颜色深度 */
-  opacity?: "default" | "dark" | number
-  /** 自定义样式 */
+  /** 自定义内部样式 */
   style?: CSSProperties
-  /** 自定义class */
+  /** 自定义内部的class */
   className?: string
   /** 挂载容器 默认dom */
   getContainer?: GetContainer
@@ -30,34 +29,48 @@ export type MaskProps = {
   duration?: number
   /** 是否禁用鼠标滚轮事件 */
   disableMouse?: boolean
-  /** 关闭的时候回调 */
-  afterClose?: () => void
   /** 打开弹框是否进入过渡动画 */
   appear?: boolean
   /** 关闭弹框是否进入过渡动画 */
   exit?: boolean
+  /** 是否显示遮罩 */
+  mask?: boolean
+  /** 点击遮罩是否关闭 默认不可关闭 */
+  maskClosable?: boolean
+  /** 关闭完成时回调 */
+  afterClose?: () => void
+  /** 点击朦层回调事件 */
+  maskClick?: () => void
 }
+
+let maskTimer = null
+let maskTimerTwo = null
 
 /**
  * @description 弹框遮罩
  * @param props
  * @returns
  */
-const Mask: FC<MaskProps> = props => {
-  let timer = 0
-  /** 是否显示遮罩 */
-  const [_visibleMask, setVisibleMaskState] = useState<boolean>(false)
-  /** 节点 */
-  //const maskRef = useRef()
+const Mask: FC<IMaskProps> = props => {
+  /** 显示外层 */
+  const [_visible, setVisible] = useState<boolean>(false)
+  /** 显示内容部分 */
+  const [_containerVisible, setContainerVisible] = useState<boolean>(false)
 
   /** 组件销毁后的事件 */
   const onExited = () => {
-    setVisibleMaskState(false)
+    setVisible(false)
+    props.afterClose?.()
   }
+
   /** 点击朦层回调事件 */
-  function handleClick (e: React.MouseEvent<HTMLDivElement, MouseEvent>) {
-    if (e.currentTarget === e.target) {
-      props.onMaskClick?.()
+  const handleMaskClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    if (props?.mask && e.currentTarget === e.target) {
+      // 点击蒙层是否关闭
+      if (props?.maskClosable) {
+        setContainerVisible(false)
+      }
+      props.maskClick?.()
       e.stopPropagation()
     }
   }
@@ -68,12 +81,13 @@ const Mask: FC<MaskProps> = props => {
     if (props.duration === 0 || !props.visible) {
       return
     }
-    timer = window.setTimeout(() => {
-      setVisibleMaskState(false)
-      props.afterClose?.()
+
+    maskTimer = setTimeout(() => {
+      setContainerVisible(false)
     }, props.duration)
+
     return () => {
-      window.clearTimeout(timer)
+      clearTimeout(maskTimer)
     }
   }, [])
 
@@ -99,58 +113,71 @@ const Mask: FC<MaskProps> = props => {
   }, [props.disableMouse, props.visible])
 
   useEffect(() => {
-    if (!props.visible) return
-    setVisibleMaskState(true)
+    clearTimeout(maskTimerTwo)
+    // 开启
+    if (props.visible) {
+      setVisible(true)
+      // 如果打开弹窗, 就先打开外层盒子，延迟打开内容部分的盒子，这样才能显示动画效果
+      maskTimerTwo = setTimeout(() => {
+        setContainerVisible(true)
+      }, 20)
+    } else {
+      // 如果是关闭，就先关闭内容部分的盒子，等待动画销毁事件onExited 再去执行关闭外层盒子
+      setContainerVisible(false)
+    }
+
+    return () => {
+      clearTimeout(maskTimerTwo)
+    }
   }, [props.visible])
 
-  const cls = classNames(styles.ypDialogMask, props.className, !_visibleMask && styles.ypDialogMaskHidden)
-
-  const opacity = props.opacity === "default" ? 0.45 : props.opacity === "dark" ? 0.55 : props.opacity
 
   const node =
-    <div
-      className={cls}
-      onClick={handleClick}
-      style={{
-        zIndex: props?.zIndex,
-        backgroundColor: `rgba(0, 0, 0, ${opacity})`,
-      }}
-    >
-      <div className={styles.ypDialogMaskContainer} style={{...props.style}}>
-        <CSSTransition
-          in={props.visible}
-          //nodeRef={maskRef}
-          appear={props.appear}
-          timeout={200}
-          classNames={{
-            enter: styles.ypDialogMaskEnter,
-            enterActive: styles.ypDialogMaskEnterActive,
-            exit: styles.ypDialogMaskExit,
-            exitActive: styles.ypDialogMaskExitActive
-          }}
-          exit={props.exit}
-          onExited={onExited}
-          unmountOnExit
-        >
-          {props.children}
-        </CSSTransition>
+    <div className={styles['yp-dialog']}>
+      {/* 蒙层部分  */}
+      { props?.mask && _visible && <div className={styles['mask-box']}
+        style={{ backgroundColor: `rgba(0, 0, 0, ${0.45})`, zIndex: props?.zIndex }}/> }
+      {/* 内部部分   */}
+      <div className={classNames(styles['dialog-wrap'], !_visible && styles.ypDialogHidden)}
+        onClick={ handleMaskClick }
+        style={{ zIndex: props?.zIndex }}>
+        <div className={classNames(styles['yp-dialog-container'], props.className)} style={{...props.style}}>
+          <CSSTransition
+            in={_containerVisible}
+            //nodeRef={maskRef}
+            appear={props.appear}
+            exit={props.exit}
+            timeout={200}
+            classNames={{
+              enter: styles.ypDialogEnter,
+              enterActive: styles.ypDialogEnterActive,
+              exit: styles.ypDialogExit,
+              exitActive: styles.ypDialogExitActive
+            }}
+            onExited={onExited}
+            unmountOnExit
+          >
+            {props.children}
+          </CSSTransition>
+        </div>
       </div>
     </div>
-
 
   if (props.getContainer) {
     const container = typeof props.getContainer === "function" ? props.getContainer() : props.getContainer
     return createPortal(node, container)
   }
+
   return node
 }
 
 Mask.defaultProps = {
   appear: true,
+  maskClosable: false,
+  mask: true,
   exit: true,
-  zIndex: 10005,
-  duration: 0,
-  opacity: "default",
+  zIndex: 901,
+  duration: 0
 }
 
 export default Mask

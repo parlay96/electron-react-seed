@@ -26,6 +26,7 @@ const ImagePreview: React.FC = () => {
       publicPublish.removeListener(publicSubscribe, 'pmage-preview')
     }
   }, [])
+
   return (
     <>
       <div style={{ display: 'none' }}>

@@ -2,7 +2,7 @@
  * @Author: penglei
  * @Date: 2022-05-26 00:09:33
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2022-08-10 15:32:56
+ * @LastEditTime: 2022-10-27 14:11:27
  * @Description:
  */
 
@@ -11,7 +11,7 @@ import { BrowserRouter, HashRouter } from "react-router-dom"
 import { createRoot } from 'react-dom/client'
 import { message } from 'antd'
 
-import "@/config/interceptor"
+import "@/utils/request/interceptor"
 import { Provider, store } from '@/store'
 import '@/assets/styles/globals.scss'
 import App from './App'

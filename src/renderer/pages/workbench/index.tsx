@@ -2,7 +2,7 @@
  * @Author: penglei
  * @Date: 2022-05-26 12:53:12
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2022-08-29 14:24:44
+ * @LastEditTime: 2022-10-27 14:01:01
  * @Description: 工作台页面
  */
 import React, { useState, useEffect } from "react"
@@ -34,18 +34,24 @@ const Workbench = () => {
     setCanGoBack(webviewRef?.canGoBack() || false)
     setCanGoForward(webviewRef.canGoForward() || false)
   }
+  // 设置切换企业的弹窗
+  const contactState = () => {
+    setShowContacts(false)
+  }
 
-  // 获取企业列表
   useEffect(() => {
+    // 获取企业列表
     getContactsList()
     // 点击隐藏，弹窗
-    document.addEventListener('click',function (){
-      setShowContacts(false)
-    })
+    document.addEventListener('click', contactState)
     // 监听webview点击时
     $ipc.on('on-webview-click', () => {
       setShowContacts(false)
     })
+    return () => {
+      // 注销事件
+      document.removeEventListener('click', contactState)
+    }
   }, [])
 
   const getContactsList = async () => {
@@ -67,6 +73,7 @@ const Workbench = () => {
       url: ifFlag ? '' : params?.state?.url
     })
   }
+
   useEffect(() => {
     createWebView()
     return () => {
