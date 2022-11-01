@@ -2,7 +2,7 @@
  * @Author: penglei
  * @Date: 2022-09-09 14:54:35
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2022-10-26 15:08:20
+ * @LastEditTime: 2022-11-01 16:54:29
  * @Description: 消息类型转换
  */
 
@@ -17,7 +17,7 @@ export const msgTypeDict = {
 }
 
 /**
- * 文本消息转换，批量替换方法
+ * 文本消息转换，批量替换方法, 别担心 耗时不足1ms
  * @strCont 消息字符串
  */
 export const regContent = (strCont?: string) => {

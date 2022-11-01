@@ -47,7 +47,7 @@ const Menu = memo(() => {
   }, [])
 
   return (
-    <div className={styles.menuBox} style={{width: menuWidth + 'px'}}>
+    <div className={classNames(styles.menuBox, 'unselectable')} style={{width: menuWidth + 'px'}}>
       {menuList?.map((item, index) =>
         <div key={`menu-item-${index}`} style={menuItemStyle}
           onClick={() => menuClick(item.url)}

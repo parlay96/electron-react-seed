@@ -1,8 +1,8 @@
 /*
  * @Author: penglei
  * @Date: 2022-09-09 14:54:35
- * @LastEditors: penglei
- * @LastEditTime: 2022-10-27 21:13:23
+ * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2022-11-01 15:46:50
  * @Description: 输入框
  */
 import React, { useEffect, useRef, forwardRef, useImperativeHandle, useState } from "react"
@@ -28,7 +28,7 @@ let currentSelection: {startContainer?: any, startOffset: number, endContainer?:
 }
 
 let isFlag = false // 输入框输入时的标志，用来判断的
-
+const flag = false
 // 消息输入框
 const EditInput = forwardRef<IEditInputRef, IEditInputType>((props, ref) => {
   // 用于操作聊天输入框元素
@@ -39,7 +39,9 @@ const EditInput = forwardRef<IEditInputRef, IEditInputType>((props, ref) => {
   const [tipHolder, setTipHolder] = useState<string>('请输入发送的消息')
 
   // 初始化
-  useEffect(() => { init() }, [])
+  useEffect(() => {
+    init()
+  }, [])
 
   // 暴露更新聊天记录的方法，给父组件调用
   useImperativeHandle(ref,
@@ -128,6 +130,8 @@ const EditInput = forwardRef<IEditInputRef, IEditInputType>((props, ref) => {
    */
   const editorInput = (e) => {
     const curHtml = editRef.current.innerHTML || ''
+    // console.log(3)
+    return
     if (curHtml !== lastHtml.current && !isFlag) {
       lastHtml.current = curHtml
       // 如果内容是匹配成功，代表无值
@@ -316,6 +320,12 @@ const EditInput = forwardRef<IEditInputRef, IEditInputType>((props, ref) => {
         onInput={editorInput}
         onCopy={handleCopyEvent}
         onKeyDown={editorKeydown}
+        onCompositionStart={(e) => {
+          // console.log(1, e)
+        }}
+        onCompositionEnd={(e) => {
+          //console.log(2)
+        }}
         onClick={(e) => {
           editorClick(e)
           props?.click?.()

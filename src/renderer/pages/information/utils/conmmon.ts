@@ -133,7 +133,7 @@ export const removeConv = async (info: IconvType) => {
   api.message.deleteSession({
     channel: info.id,
     chatType: info.type == 'account' ? 'singleChat' : 'groupChat',
-    deleteRoam: true // deleteRoam: true, // 是否同时删除服务端漫游消息。
+    deleteRoam: false // deleteRoam: true, // 是否同时删除服务端漫游消息。
   })
   // 更新对话
   publicPublish.publish('update-conv-list')
