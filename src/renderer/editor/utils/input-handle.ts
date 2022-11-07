@@ -2,7 +2,7 @@
  * @Date: 2022-10-22 10:31:08
  * @Description: 富文本输入框操作
  */
-let timer = null
+const timer = null
 
 import { emojiLabel, regContentImg, labelRep, getRandomWord } from '.'
 
@@ -79,7 +79,7 @@ export const handleEditValue = async (editNode) => {
  *  @处理输入框的值
  * 把输入的文字转换成图片
  */
-export const handleInputChange = (editNode, callBack: () => void) => {
+export const handleInputChange = (editNode, emojiSize: number, callBack: () => void) => {
   // 清除定时器
   clearTimeout(timer)
   // 获取全部子节点
@@ -100,7 +100,6 @@ export const handleInputChange = (editNode, callBack: () => void) => {
   // 没有找到  || 如果当前节点不存在文本内容，代表不是文本节点，直接返回
   if (rangeNodeIndex == -1 || !currContent.nodeValue) return callBack()
 
-
   // 根据当前光标位置，找到对应文本位置，因为这个位置代表新插入的内容结束位置
   // 然后再结束的位置，插入转义后需要焦点目前的标签I。因为我们需要插入后吧光标焦点到插入内容的后面。
   const start = selection.anchorOffset //开始位置
@@ -119,7 +118,6 @@ export const handleInputChange = (editNode, callBack: () => void) => {
   const newCurrentText = afterText + beforeText
   // console.log(currContent.nodeValue, afterText, beforeText, newCurrentText)
 
-
   // 构建新的html
   {
     let htmlNodeStr = '' // 新的节点字符串
@@ -135,7 +133,7 @@ export const handleInputChange = (editNode, callBack: () => void) => {
       // 光标节点索引，等于新节点，就替换内容
       if (index == rangeNodeIndex) {
         // 把表情文本转换为图片,
-        htmlNodeStr += regContentImg(newContent)
+        htmlNodeStr += regContentImg(newContent, emojiSize)
         // 防止插入I标签, 插入的时候可能会插入I标签。
       } else if (curr.nodeName !== 'I') {
         if (curr.nodeName == "IMG") {
@@ -144,40 +142,28 @@ export const handleInputChange = (editNode, callBack: () => void) => {
           // 把文本再次转义
           const transfNode = labelRep(curr.data)
           // 转换图片
-          htmlNodeStr += regContentImg(transfNode)
+          htmlNodeStr += regContentImg(transfNode, emojiSize)
         }
       }
     })
 
-    // 把新的内容重新给dom (onInput事件特殊字符输入，会触发2次事件。我们这里延迟赋值下，不然有bug)
-    // 不加延迟中文输入框，输入域特殊字符：【 】 ； ‘ 、 ，。 、 都会触发2次onInput事件，
-    // 导致 editNode.innerHTML = htmlNodeStr 设置完值，会出现重复问题。
-
-    // editNode.innerHTML = htmlNodeStr
-    // callBack()
-
-    timer = setTimeout(() => {
-      // 把转换后的html，重新设置给输入框内容
-      editNode.innerHTML = htmlNodeStr
-
-      // 当设置当前光标
-      const selection = window.getSelection()
-      const range = document.createRange()
-      // 获取光标节点
-      const focusNode = document.getElementById(keyId)
-      // 滚动
-      focusNode?.scrollIntoView(!0)
-      // 设置光标为当前节点
-      range.setStartAfter(focusNode)
-      range.collapse(true)
-      // 删除全部光标
-      selection.removeAllRanges()
-      // 添加新光标
-      selection.addRange(range)
-      // 执行回调，一切全部完成
-      callBack()
-
-    }, 0)
+    // 把转换后的html，重新设置给输入框内容
+    editNode.innerHTML = htmlNodeStr
+    // 当设置当前光标
+    const selection = window.getSelection()
+    const range = document.createRange()
+    // 获取光标节点
+    const focusNode = document.getElementById(keyId)
+    // 滚动
+    focusNode?.scrollIntoView(!0)
+    // 设置光标为当前节点
+    range.setStartAfter(focusNode)
+    range.collapse(true)
+    // 删除全部光标
+    selection.removeAllRanges()
+    // 添加新光标
+    selection.addRange(range)
+    // 执行回调，一切全部完成
+    callBack()
   }
-
 }

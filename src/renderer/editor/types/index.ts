@@ -25,4 +25,8 @@ export interface IEditInputRef {
    * @设置提示文本
    */
   setPlaceholder: (placeholder: string) => Promise<any>
+  /**
+   * @设置输入框值
+   */
+  setValue: (val: string) => Promise<any>
 }

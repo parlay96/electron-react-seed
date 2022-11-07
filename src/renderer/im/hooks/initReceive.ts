@@ -1,6 +1,7 @@
 import WebIM from "./webIm"
 import { handleMsg } from '../utils'
 
+// 接收消息
 export default () => {
   // 接收消息
   WebIM.conn.listen({

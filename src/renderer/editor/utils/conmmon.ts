@@ -41,15 +41,16 @@ export const getRandomWord = (min: number) => {
 /**
  * @文本转换批量图片替换方法
  * @strCont 消息字符串
- * @imgSize 表情图片的大小
+ * @imgSize 表情图片的大小 默认为16px
  */
 export const regContentImg = (strCont?: string, imgSize?: number) => {
   if (!strCont) return ''
   // 把字符串替换表情图片
   for (const i in emoji) {
     const reg= new RegExp("\\"+ i, "g")
-    // 给当前替换的图片给一个位置的值，防止过滤匹配图片的时候出现问题
+    // 替换
     strCont = strCont?.replace(reg, function () {
+      // 给当前替换的图片给一个位置的值，防止过滤匹配图片的时候出现问题
       const t = "emoji-" + getRandomWord(5)
       // 替换表情
       const strimg= `<img src="${emojiPath(emoji[i])}" width="${imgSize || 16}px" height="${imgSize || 16}px" ${emojiLabel.key}="${i}" data-key="${t}"/>`

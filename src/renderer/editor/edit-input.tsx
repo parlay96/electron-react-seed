@@ -2,16 +2,18 @@
  * @Author: penglei
  * @Date: 2022-09-09 14:54:35
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2022-11-01 15:46:50
+ * @LastEditTime: 2022-11-07 20:28:43
  * @Description: 输入框
  */
 import React, { useEffect, useRef, forwardRef, useImperativeHandle, useState } from "react"
 import type { ItemType, IEditInputRef } from './types'
-import { handleCopyEvent, handleEditValue, handleInputChange, emojiLabel, labelRep } from './utils'
+import { handleCopyEvent, handleEditValue, handleInputChange, emojiLabel, labelRep, regContentImg } from './utils'
 
 import styles from './index.module.scss'
 
 interface IEditInputType {
+  // 输入框里面默认的表情图片大小
+  emojiSize?: number
   // 输入框点击事件
   click?: () => void
   // 键盘回车事件
@@ -28,13 +30,22 @@ let currentSelection: {startContainer?: any, startOffset: number, endContainer?:
 }
 
 let isFlag = false // 输入框输入时的标志，用来判断的
-const flag = false
+let isPasteFlag = false // 标记我是粘贴时 | 或者是我手动更改输入框值得时候，用来判断的
+/**
+ * https://blog.csdn.net/weixin_45936690/article/details/121654517
+ * @contentEditable输入框，遇见的问题：
+ * 1.有些输入法输入中文 || 输入特殊字符时我还在输入拼音时，输入还没结束；会不停的触发onInput事件。导致onInput事件方法里面出现bug
+ * 2. 而有些输入框中文时不会触发onInput：如搜狗输入法
+ * 3. 我们需要做个判断 1.onCompositionStart： 启动新的合成会话时，会触发该事件。 例如，可以在用户开始使用拼音IME 输入中文字符后触发此事件
+ * 4. 2. onCompositionEnd 完成或取消当前合成会话时，将触发该事件。例如，可以在用户使用拼音IME 完成输入中文字符后触发此事件
+ * 我们在onCompositionStart：是标记正在输入中，必须等onCompositionEnd结束后主动去触发onInput
+ */
+let isLock = false
+
 // 消息输入框
 const EditInput = forwardRef<IEditInputRef, IEditInputType>((props, ref) => {
   // 用于操作聊天输入框元素
   const editRef = useRef(null)
-  // 最后一次输入框的内容
-  const lastHtml = useRef<string>('')
   // 提示文本
   const [tipHolder, setTipHolder] = useState<string>('请输入发送的消息')
 
@@ -55,6 +66,14 @@ const EditInput = forwardRef<IEditInputRef, IEditInputType>((props, ref) => {
         // 返回输入框信息
         return isFlags ? null : msgValue
       },
+      setValue: async (val) => {
+        if (!val || !editRef.current) return
+        // 把文本标签转义：如<div>[爱心]</div> 把这个文本转义为"&lt;div&lt;", newCurrentText 当前光标的节点元素的值
+        const repContent = labelRep(val)
+        // 把表情文本转换为图片,
+        const htmlNodeStr = regContentImg(repContent, props?.emojiSize)
+        editRef.current.innerHTML = htmlNodeStr
+      },
       clear: async () => { editRef.current.innerHTML = '' },
       focus: async () => await init(),
       setPlaceholder: async (val) => setTipHolder(val || '请输入发送的消息'),
@@ -73,12 +92,8 @@ const EditInput = forwardRef<IEditInputRef, IEditInputType>((props, ref) => {
       endContainer: editor,
       endOffset: 0
     }
-    // 设置光标位置
-    restorerange()
-  }
 
-  // 设置光标位置
-  const restorerange = () => {
+    // 设置光标位置
     if (currentSelection) {
       // 用户选择的文本范围或光标的当前位置
       const selection = window.getSelection()
@@ -124,38 +139,50 @@ const EditInput = forwardRef<IEditInputRef, IEditInputType>((props, ref) => {
 
   /**
    * @输入框值变化onChange事件
-   *  contentEditable的onChange事件默认是没有的，只要onInput事件。这里我们通过新旧值对比
-   * 如果最后一次记录的值，和现在的值，不一致。才触发onChange事件
-   * https://stackoverflow.com/questions/22677931/react-js-onchange-event-for-contenteditable/27255103#27255103
    */
   const editorInput = (e) => {
-    const curHtml = editRef.current.innerHTML || ''
-    // console.log(3)
-    return
-    if (curHtml !== lastHtml.current && !isFlag) {
-      lastHtml.current = curHtml
-      // 如果内容是匹配成功，代表无值
-      const iReg = /<br><i.*?(\/i>)/gi // <br><i id="editorFocusHack16667912636241tq31j96"></i>
-      // 输入框值
-      const _html = e?.target?.innerHTML
-      // 匹配成功？
-      const nullText = _html?.replace(iReg, '')
-      // console.log(_html.match(iReg))
-      // console.log(_html, '-----', nullText == '')
-      // 防止文本为空，还不出现placeholder提示1
-      if (_html == '<br>' || nullText == '') {
-        editRef.current.innerHTML = ''
-        props?.onChange?.('')
-      } else {
-        isFlag = true
-        // 转换输入框的内容
-        handleInputChange(editRef.current, async () => {
-          // 转换完了，主动触发输入框值变化
-          const val = await handleEditValue(editRef.current)
-          props?.onChange?.(val)
-          isFlag = false
-        })
-      }
+    // 表示正在输入中文，还没输入完毕，不能执行下面逻辑  ||  必须等到转换完成，才继续执行
+    if (isLock || isFlag) return
+
+    // 如果内容是匹配成功，代表无值
+    const iReg = /<br><i.*?(\/i>)/gi // <br><i id="editorFocusHack16667912636241tq31j96"></i>
+    // 输入框值
+    const _html = e?.target?.innerHTML
+    // 匹配成功？
+    const nullText = _html?.replace(iReg, '')
+    // console.log(_html.match(iReg))
+    // console.log(_html, '-----', nullText == '')
+    // 防止文本为空，还不出现placeholder提示
+    if (_html == '<br>' || nullText == '') {
+      editRef.current.innerHTML = ''
+      props?.onChange?.('')
+      return
+    // 如果是粘贴事件，粘贴完毕会触发，这个输入框变化事件。
+    } else if (isPasteFlag) {
+      // 标记必须等到转换完成，才继续开启状态
+      isFlag = true
+      // 1.如果是粘贴事件，粘贴完毕会触发，这个输入框变化事件。
+      // 2.粘贴就不执行下面else的逻辑，去匹配替换字符串的逻辑，因为这一步我们在editorPaste时解决了。
+      // 3.我们主动改变会状态，变为不是粘贴时
+      // 获取值
+      handleEditValue(editRef.current).then(data => {
+        props?.onChange?.(data)
+        isPasteFlag = false
+        // 必须等到转换完成，才继续开启状态
+        isFlag = false
+      })
+      return
+    } else {
+      // 标记正在输入转换，必须等到转换完成，才继续开启状态
+      isFlag = true
+      // 转换输入框的内容
+      handleInputChange(editRef.current, props?.emojiSize, async () => {
+        // 获取输入框的值，主动触发输入框值变化
+        const val = await handleEditValue(editRef.current)
+        props?.onChange?.(val)
+        // 必须等到转换完成，才继续开启状态
+        isFlag = false
+      })
     }
   }
 
@@ -163,11 +190,11 @@ const EditInput = forwardRef<IEditInputRef, IEditInputType>((props, ref) => {
   const addEmoji = async (item: ItemType) => {
     const node = new Image()
     node.src = item.url
-    node.setAttribute('style', `width: ${item.width}px;height:${item.height}px`)
+    node.setAttribute('style', `width: ${props?.emojiSize}px;height:${props?.emojiSize}px`)
     // 插入表情的时候，加上唯一标识。然后再复制（onCopy事件）的时候处理图片。
     node.setAttribute(emojiLabel.key, item.name)
 
-    if(currentSelection.startContainer.nodeType == 3){
+    if (currentSelection.startContainer?.nodeType == 3) {
       // 如果是文本节点，拆分文字
       const newNode = currentSelection.startContainer?.splitText(currentSelection.startOffset)
       // 设置光标开始节点为拆分之后节点的父级节点
@@ -176,14 +203,14 @@ const EditInput = forwardRef<IEditInputRef, IEditInputType>((props, ref) => {
       currentSelection.startContainer.insertBefore(node, newNode)
     } else {
       // 非文本节点
-      if(currentSelection.startContainer.childNodes.length){
+      if(currentSelection.startContainer?.childNodes.length){
         // 如果光标开始节点下有子级，获取到光标位置的节点
         const beforeNode = currentSelection.startContainer.childNodes[currentSelection.startOffset]
         // 插入
         currentSelection.startContainer.insertBefore(node, beforeNode)
-      }else{
+      } else {
         // 如果光标开始节点下没有子级，直接插入
-        currentSelection.startContainer.appendChild(node)
+        currentSelection.startContainer?.appendChild(node)
       }
     }
 
@@ -194,11 +221,11 @@ const EditInput = forwardRef<IEditInputRef, IEditInputType>((props, ref) => {
 
     // 视图滚动带完全显示出来
     node.scrollIntoView(false)
-
+    // 设置焦点
     await setRangeNodeFocus(node, 'after')
-
-    // 触发消息变化事件
-    props?.onChange(editRef?.current?.innerHTML)
+    // 转换完了，主动触发输入框值变化
+    const val = await handleEditValue(editRef.current)
+    props?.onChange?.(val)
   }
 
   // 粘贴事件
@@ -219,8 +246,14 @@ const EditInput = forwardRef<IEditInputRef, IEditInputType>((props, ref) => {
       content = clp.getData('text/plain')
     }
     if (content) {
+      // 把文本标签转义：如<div>[爱心]</div> 把这个文本转义为"&lt;div&lt;", newCurrentText 当前光标的节点元素的值
+      const repContent = labelRep(content)
+      // 把表情文本转换为图片,
+      const htmlNodeStr = regContentImg(repContent, props?.emojiSize)
+      // 标记我是粘贴时，不能触发输入框变化事件（editorInput）
+      isPasteFlag = true
       // 解析内容替换, labelRep -> 字符串标签特殊字符转换
-      document.execCommand("insertHTML", !1, labelRep(content))
+      document.execCommand("insertHTML", !1, htmlNodeStr)
       // 滚动到对应的地方
       scrollRangSite()
     }
@@ -276,9 +309,11 @@ const EditInput = forwardRef<IEditInputRef, IEditInputType>((props, ref) => {
     }
   }
 
-  // 滚动插入内容后的最新光标位置
+  // 滚动插入内容后的最新光标位置12
   const scrollRangSite = () => {
     const t = "editorFocusHackSpan" + (new Date).getTime()
+    // 标记我是粘贴时 | 或者是我手动更改输入框值得时候，不能触发输入框变化事件（editorInput）
+    isPasteFlag = true
     // 滚动到对应的地方
     document.execCommand("insertHTML", !1, '<i id="' + t + '"></i>')
     const n = document.getElementById(t)
@@ -321,10 +356,14 @@ const EditInput = forwardRef<IEditInputRef, IEditInputType>((props, ref) => {
         onCopy={handleCopyEvent}
         onKeyDown={editorKeydown}
         onCompositionStart={(e) => {
-          // console.log(1, e)
+          // 标记正在输入中文
+          isLock = true
         }}
         onCompositionEnd={(e) => {
-          //console.log(2)
+          // 标记正在输入中文, 结束以后再去触发onInput
+          isLock = false
+          // 在调用
+          editorInput(e)
         }}
         onClick={(e) => {
           editorClick(e)
@@ -344,5 +383,9 @@ const EditInput = forwardRef<IEditInputRef, IEditInputType>((props, ref) => {
     </div>
   )
 })
+
+EditInput.defaultProps = {
+  emojiSize: 18
+}
 
 export default EditInput

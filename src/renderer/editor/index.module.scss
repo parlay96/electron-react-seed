@@ -121,6 +121,9 @@
     // -div 可编辑时按回车键会出现<div><br></div>的问题。解决：让 contenteditable 元素粘贴时自动过滤样式：
     // 给div的css添加 （这行代码还可以使得该contenteditable的div获取innerText时保留换行），但该方法只适用于webkit内核浏览器，比如chrome浏览器
     // -webkit-user-modify: read-write-plaintext-only;
+    img {
+      margin-top: -2px;
+    }
   }
 }
 
