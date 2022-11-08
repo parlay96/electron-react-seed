@@ -2,7 +2,7 @@
  * @Author: penglei
  * @Date: 2022-09-09 14:54:35
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2022-11-07 20:28:43
+ * @LastEditTime: 2022-11-08 10:33:47
  * @Description: 输入框
  */
 import React, { useEffect, useRef, forwardRef, useImperativeHandle, useState } from "react"
@@ -29,7 +29,7 @@ let currentSelection: {startContainer?: any, startOffset: number, endContainer?:
   endOffset: 0
 }
 
-let isFlag = false // 输入框输入时的标志，用来判断的
+let isFlag = false // 输入框值变化时，我需要对内容进行转换，必须等转换结束才可以在执行，用来判断的
 let isPasteFlag = false // 标记我是粘贴时 | 或者是我手动更改输入框值得时候，用来判断的
 /**
  * https://blog.csdn.net/weixin_45936690/article/details/121654517
@@ -50,9 +50,7 @@ const EditInput = forwardRef<IEditInputRef, IEditInputType>((props, ref) => {
   const [tipHolder, setTipHolder] = useState<string>('请输入发送的消息')
 
   // 初始化
-  useEffect(() => {
-    init()
-  }, [])
+  useEffect(() => { init() }, [])
 
   // 暴露更新聊天记录的方法，给父组件调用
   useImperativeHandle(ref,
@@ -84,6 +82,7 @@ const EditInput = forwardRef<IEditInputRef, IEditInputType>((props, ref) => {
   const init = async () => {
     const editor = editRef.current
     if (!editor) return
+    // 清空内容
     editRef.current.innerHTML = ''
     // 光标位置为开头
     currentSelection = {
@@ -92,7 +91,6 @@ const EditInput = forwardRef<IEditInputRef, IEditInputType>((props, ref) => {
       endContainer: editor,
       endOffset: 0
     }
-
     // 设置光标位置
     if (currentSelection) {
       // 用户选择的文本范围或光标的当前位置
@@ -143,14 +141,12 @@ const EditInput = forwardRef<IEditInputRef, IEditInputType>((props, ref) => {
   const editorInput = (e) => {
     // 表示正在输入中文，还没输入完毕，不能执行下面逻辑  ||  必须等到转换完成，才继续执行
     if (isLock || isFlag) return
-
     // 如果内容是匹配成功，代表无值
     const iReg = /<br><i.*?(\/i>)/gi // <br><i id="editorFocusHack16667912636241tq31j96"></i>
     // 输入框值
     const _html = e?.target?.innerHTML
     // 匹配成功？
     const nullText = _html?.replace(iReg, '')
-    // console.log(_html.match(iReg))
     // console.log(_html, '-----', nullText == '')
     // 防止文本为空，还不出现placeholder提示
     if (_html == '<br>' || nullText == '') {
@@ -160,13 +156,16 @@ const EditInput = forwardRef<IEditInputRef, IEditInputType>((props, ref) => {
     // 如果是粘贴事件，粘贴完毕会触发，这个输入框变化事件。
     } else if (isPasteFlag) {
       // 标记必须等到转换完成，才继续开启状态
+      // 粘贴的时候，会触发2次editorInput这里搞个变量来标识，粘贴只执行一次。因为粘贴的时候，我们插入了2次html。
+      // 第一次是粘贴内容，第二次是粘贴的滚动标签I，具体查看粘贴方法
       isFlag = true
       // 1.如果是粘贴事件，粘贴完毕会触发，这个输入框变化事件。
-      // 2.粘贴就不执行下面else的逻辑，去匹配替换字符串的逻辑，因为这一步我们在editorPaste时解决了。
+      // 2.粘贴就不执行下面else的逻辑，去匹配替换字符串的逻辑；因为这一步我们在editorPaste时解决了。
       // 3.我们主动改变会状态，变为不是粘贴时
       // 获取值
       handleEditValue(editRef.current).then(data => {
         props?.onChange?.(data)
+        // 标记粘贴完成了， isPasteFlag主要就是用来做，不去触发下面的else
         isPasteFlag = false
         // 必须等到转换完成，才继续开启状态
         isFlag = false
@@ -175,7 +174,7 @@ const EditInput = forwardRef<IEditInputRef, IEditInputType>((props, ref) => {
     } else {
       // 标记正在输入转换，必须等到转换完成，才继续开启状态
       isFlag = true
-      // 转换输入框的内容
+      // 转换输入框的内容，比如[爱心]转为表情图片
       handleInputChange(editRef.current, props?.emojiSize, async () => {
         // 获取输入框的值，主动触发输入框值变化
         const val = await handleEditValue(editRef.current)
@@ -214,11 +213,6 @@ const EditInput = forwardRef<IEditInputRef, IEditInputType>((props, ref) => {
       }
     }
 
-    // 获取插入的节点所在父级下的位置
-    // const index = Array.from(currentSelection.startContainer.childNodes).indexOf(node)
-    // currentSelection.startOffset = index + 1
-    // currentSelection.endOffset = index + 1
-
     // 视图滚动带完全显示出来
     node.scrollIntoView(false)
     // 设置焦点
@@ -240,7 +234,7 @@ const EditInput = forwardRef<IEditInputRef, IEditInputType>((props, ref) => {
     let content = ''
     // 如果是粘贴的是文件
     if (isFile && !isHtml && !isPlain) {
-      // console.log(clp.types)
+      console.error('暂不支持粘贴文件 clp.types')
     } else if ((isHtml || isPlain) && !isFile) {
       // 如果是粘贴的是文本
       content = clp.getData('text/plain')
@@ -252,7 +246,7 @@ const EditInput = forwardRef<IEditInputRef, IEditInputType>((props, ref) => {
       const htmlNodeStr = regContentImg(repContent, props?.emojiSize)
       // 标记我是粘贴时，不能触发输入框变化事件（editorInput）
       isPasteFlag = true
-      // 解析内容替换, labelRep -> 字符串标签特殊字符转换
+      // 内容插入
       document.execCommand("insertHTML", !1, htmlNodeStr)
       // 滚动到对应的地方
       scrollRangSite()
@@ -309,7 +303,7 @@ const EditInput = forwardRef<IEditInputRef, IEditInputType>((props, ref) => {
     }
   }
 
-  // 滚动插入内容后的最新光标位置12
+  // 滚动插入内容后的最新光标位置
   const scrollRangSite = () => {
     const t = "editorFocusHackSpan" + (new Date).getTime()
     // 标记我是粘贴时 | 或者是我手动更改输入框值得时候，不能触发输入框变化事件（editorInput）

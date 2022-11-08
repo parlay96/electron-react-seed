@@ -1,5 +1,8 @@
 /*
- * @Date: 2022-10-22 10:31:08
+ * @Author: penglei
+ * @Date: 2022-09-09 14:54:35
+ * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2022-11-08 10:43:46
  * @Description: 富文本输入框操作
  */
 const timer = null
@@ -29,15 +32,6 @@ export const handleCopyEvent = (event) => {
         // 如果是图片就取节点上面的属性字段， 取出表情图片对呀的文本
       } else if (item.nodeType == 1 && item.nodeName == 'IMG' && emojiImgName) {
         content += emojiImgName
-        // 如果是DIV，那就换行（基本不可能出现这个情况，输入框只可能出现文本节点。和img节点）
-      } else if (item.nodeType == 1 && item.nodeName == "DIV" && item.innerHTML) {
-      // 如果输入的内容去除所有空格，还是个空，代表没输入东西
-        const reg = /\s+/g
-        const isFlags = item.innerHTML.replace(reg,'') == ''
-        // 因为可能是个空DIV
-        if (!isFlags) {
-          content += '\n ' + item.innerHTML
-        }
       }
     })
     // 手动重新设置复制的内容
@@ -52,7 +46,6 @@ export const handleEditValue = async (editNode) => {
   let content = ''
   if (!editNode) return ''
   // 获取当前子节点集合，找出输入的内容, 且过滤
-  // console.log(editNode?.childNodes)
   editNode?.childNodes?.forEach(item => {
     const emojiImgName = item?.dataset?.[emojiLabel.value] || { [emojiLabel.value]: ''}
     // 如果是文本节点
@@ -61,15 +54,6 @@ export const handleEditValue = async (editNode) => {
       // 如果是图片就取节点上面的属性字段, 取出表情图片对呀的文本
     } else if (item.nodeType == 1 && item.nodeName == 'IMG' && emojiImgName) {
       content += emojiImgName
-      // 如果是DIV，那就换行（基本不可能出现这个情况，输入框只可能出现文本节点。和img节点）
-    } else if (item.nodeType == 1 && item.nodeName == "DIV" && item.innerHTML) {
-      // 如果输入的内容去除所有空格，还是个空，代表没输入东西
-      const reg = /\s+/g
-      const isFlags = item.innerHTML.replace(reg,'') == ''
-      // 因为可能是个空DIV
-      if (!isFlags) {
-        content += '\n ' + item.innerHTML
-      }
     }
   })
   return content
@@ -117,7 +101,6 @@ export const handleInputChange = (editNode, emojiSize: number, callBack: () => v
   // 新的文本内容（下面用这个新的去转义）这一步非常的重要
   const newCurrentText = afterText + beforeText
   // console.log(currContent.nodeValue, afterText, beforeText, newCurrentText)
-
   // 构建新的html
   {
     let htmlNodeStr = '' // 新的节点字符串
@@ -126,7 +109,6 @@ export const handleInputChange = (editNode, emojiSize: number, callBack: () => v
     // 把上面的id唯一标识的字符串转换为 I 标签
     const newContent = repContent.replace(`id=${keyId}`, '<i id="' + keyId + '"></i>')
     // console.log(newContent)
-    // debugger
 
     // 遍历节点，重新组装新的html
     childNodes.forEach((curr, index) => {
@@ -136,6 +118,7 @@ export const handleInputChange = (editNode, emojiSize: number, callBack: () => v
         htmlNodeStr += regContentImg(newContent, emojiSize)
         // 防止插入I标签, 插入的时候可能会插入I标签。
       } else if (curr.nodeName !== 'I') {
+        // 如果是图片
         if (curr.nodeName == "IMG") {
           htmlNodeStr += curr.outerHTML
         } else {
@@ -163,6 +146,8 @@ export const handleInputChange = (editNode, emojiSize: number, callBack: () => v
     selection.removeAllRanges()
     // 添加新光标
     selection.addRange(range)
+    // 删除节点
+    focusNode?.remove()
     // 执行回调，一切全部完成
     callBack()
   }

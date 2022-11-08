@@ -1,5 +1,8 @@
 /*
- * @Date: 2022-10-25 18:15:32
+ * @Author: penglei
+ * @Date: 2022-09-09 14:54:35
+ * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2022-11-08 10:12:51
  * @Description: file content
  */
 import emoji from '../config/emoji'
@@ -17,7 +20,7 @@ export const emojiPath = (url) => {
 /** 字符串标签转换 */
 export const labelRep = (str: string, reversal?: boolean) => {
   if (!str) return ''
-  // 反正回去
+  // 反转回去
   if (reversal) {
     return str.replace(/&amp;/g, "&").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&quot;/g, '"').replace(/&#039;/g, "'")
   }
