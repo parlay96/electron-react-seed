@@ -6,7 +6,7 @@
  * @Description: 
 -->
 
-## 工程electron
+## electron
 
 ```
 .script  // 打包配置
